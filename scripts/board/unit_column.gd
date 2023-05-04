@@ -35,7 +35,6 @@ func load_from_resource(data: UnitColumnData) -> void:
 			child.queue_free()
 			
 	for slot_data in column_data.slot_datas:
-		
 		add_slot(slot_data)
 			
 	# set pivot point for proper rotation

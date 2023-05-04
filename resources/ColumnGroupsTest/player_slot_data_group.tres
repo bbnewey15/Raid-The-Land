@@ -1,8 +1,17 @@
-[gd_resource type="Resource" script_class="SlotDataGroup" load_steps=2 format=3 uid="uid://cmsqg2ih4hgrm"]
+[gd_resource type="Resource" script_class="SlotDataGroup" load_steps=5 format=3 uid="uid://cmsqg2ih4hgrm"]
 
 [ext_resource type="Script" path="res://datatypes/slot_data_group.gd" id="1_c0af3"]
+[ext_resource type="Script" path="res://datatypes/slot_data.gd" id="2_ff2sj"]
+[ext_resource type="Resource" uid="uid://pyymubqqcjt7" path="res://scripts/units/infantry/spearman.tres" id="4_ebkeb"]
+
+[sub_resource type="Resource" id="Resource_cp4ha"]
+script = ExtResource("2_ff2sj")
+unit_data = ExtResource("4_ebkeb")
+isEnemyUnit = false
+column_name = 2
+slotIndex = 0
 
 [resource]
 script = ExtResource("1_c0af3")
-slot_datas = Array[Resource("res://datatypes/slot_data.gd")]([])
+slot_datas = Array[ExtResource("2_ff2sj")]([SubResource("Resource_cp4ha")])
 isEnemy = false

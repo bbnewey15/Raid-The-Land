@@ -14,4 +14,4 @@ slotIndex = 0
 [resource]
 script = ExtResource("1_uwmqi")
 slot_datas = Array[ExtResource("2_lw0ye")]([SubResource("Resource_rti2d")])
-isEnemy = false
+isEnemy = true

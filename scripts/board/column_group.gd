@@ -10,6 +10,8 @@ const RangedColumnScene = preload("res://scenes/board/columns/infantry_column.ts
 var column_dict : Dictionary
 var isEnemy: bool
 var loading: bool = true
+var playerSlotDatas : Array[SlotData]
+var enemySlotDatas : Array[SlotData]
 
 var active_slot_data : SlotData
 
@@ -33,7 +35,8 @@ func _ready():
 		GameData.ENEMY_INFANTRY_COL : InfantryColumnScene.instantiate().init(true, GameData.COLUMN_TYPE.INFANTRY)
 	}
 	
-	
+	# Add signals
+	EncounterBus.fight_action_started.connect(self.on_fight_action_started)
 
 	
 #	# Connect to Encounter State Machine signals
@@ -50,6 +53,12 @@ func load_from_resource(data: Resource) -> void:
 		#column_dict[column].column_data.column_interact.connect(on_column_interact)
 		
 func load_from_slot_data_group(data: SlotDataGroup) -> void:
+	# Save reference to Slot Data Arrays
+	if data.isEnemy:
+		enemySlotDatas = data.slot_datas
+	else:
+		playerSlotDatas = data.slot_datas
+		
 	for slot_data in data.slot_datas:
 		print("slot_data.column_name:  %s"  % slot_data.column_name)
 		print(GameData[GameData.COLUMN_STRING.keys()[slot_data.column_name]])
@@ -82,23 +91,37 @@ func fight() -> void:
 	#UnitColumnGroup on state: "fight"
 	#
 	#put units in order by attack order and turn priority
+	var full_slot_array : Array[SlotData] 
+	full_slot_array.append_array(playerSlotDatas)
+	full_slot_array.append_array(enemySlotDatas)
+	full_slot_array.sort_custom(Callable(self,"attackOrderComparison") )
 	#
 	#unit_data
 	#for unit in units:
+	for slot_data in full_slot_array:
+		if slot_data.can_attack && slot_data.attack_order:
+			# target = get_attack_target(unit)
 	#
-	# target = get_attack_target(unit)
+	# 		unit.attack(target)
+	# 		//show animation, sound, update in data
 	#
-	# unit.attack(target)
-	# //show animation, sound, update in data
-	#
-	# is target dead?
-	# is unit dead?
-	# //show animation, sound, update in data
-
+	# 		is target dead? // move this to slot, they should check themselves?
+	# 		is unit dead? // move this to slot, they should check themselves?
+	# 		//show animation, sound, update in data
+			pass
  
 	EncounterBus.fight_action_stopped.emit()
 	
-
+func attackOrderComparison(a : SlotData, b : SlotData):
+	if !a.can_attack:
+		return true
+	if !b.can_attack:
+		return false
+		
+	if typeof(a.attack_order) != typeof(b.attack_order):
+		return typeof(a.attack_order) < typeof(b.attack_order)
+	else:
+		return a.attack_order < b.attack_order
 
 func on_encounter_state_changed(state_name : String) -> void:
 	print("Signaled to on_encounter_state_changed %s" % state_name)

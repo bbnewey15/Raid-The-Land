@@ -20,7 +20,7 @@ func update(delta: float) -> void:
 	#check here to prevent the last tick to hit after await
 	if state_machine.state.name == self.name:
 		EncounterBus.fight_action_started.emit()
-		print("start wait on fight")
+#		print("start wait on fight")
 		await EncounterBus.fight_action_stopped
 		print("waited on fight to stop")
 #		print("continue %s"  % delta)

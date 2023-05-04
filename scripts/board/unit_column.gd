@@ -52,6 +52,10 @@ func add_slot(data: SlotData) -> void:
 	slot_text_rect.set_pivot_offset(slot.size/2)
 	slot_text_rect.set_rotation_degrees(-self.get_rotation_degrees())
 	
+	
+	slot.set_slot_data(data)
+	column_data.slot_datas.append(data)
+	
 	# Add slot clicked signal
 	slot.slot_clicked.connect(column_data.on_slot_clicked)
 #		print("is valid %s" %  column_data.on_slot_clicked.is_valid())
@@ -63,7 +67,6 @@ func add_slot(data: SlotData) -> void:
 	
 	#slot.slot_clicked.connect(parent.)
 	
-	if data:
-		slot.set_slot_data(data)
+	
 
 	

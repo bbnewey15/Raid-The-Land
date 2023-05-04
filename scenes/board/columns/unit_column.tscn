@@ -1,0 +1,22 @@
+[gd_scene load_steps=2 format=3 uid="uid://wjtj13m1p6ev"]
+
+[ext_resource type="Script" path="res://scripts/board/unit_column.gd" id="1_yst5t"]
+
+[node name="UnitColumn" type="PanelContainer"]
+self_modulate = Color(1, 1, 1, 0)
+offset_right = 150.0
+offset_bottom = 614.0
+script = ExtResource("1_yst5t")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="UnitGrid" type="GridContainer" parent="MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4

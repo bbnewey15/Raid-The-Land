@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="SlotDataGroup" load_steps=2 format=3 uid="uid://cmsqg2ih4hgrm"]
+
+[ext_resource type="Script" path="res://datatypes/slot_data_group.gd" id="1_c0af3"]
+
+[resource]
+script = ExtResource("1_c0af3")
+slot_datas = Array[Resource("res://datatypes/slot_data.gd")]([])
+isEnemy = false

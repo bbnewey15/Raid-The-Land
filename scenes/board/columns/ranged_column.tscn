@@ -1,0 +1,7 @@
+[gd_scene load_steps=3 format=3 uid="uid://cua066koebawt"]
+
+[ext_resource type="PackedScene" uid="uid://wjtj13m1p6ev" path="res://scenes/board/columns/unit_column.tscn" id="1_v32w1"]
+[ext_resource type="Script" path="res://scripts/board/columns/ranged_column.gd" id="2_fmg1m"]
+
+[node name="RangedColumn" instance=ExtResource("1_v32w1")]
+script = ExtResource("2_fmg1m")

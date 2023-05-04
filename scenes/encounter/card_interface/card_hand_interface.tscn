@@ -1,0 +1,51 @@
+[gd_scene load_steps=2 format=3 uid="uid://p46rby3d6qhj"]
+
+[ext_resource type="Script" path="res://scripts/encounter/card_interface/card_hand_interface.gd" id="1_iljyn"]
+
+[node name="CardHandInterface" type="Control"]
+modulate = Color(1, 1, 1, 0)
+self_modulate = Color(1, 1, 1, 0)
+custom_minimum_size = Vector2(1370, 150)
+layout_mode = 3
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -685.0
+offset_top = -40.0
+offset_right = 685.0
+grow_horizontal = 2
+grow_vertical = 0
+script = ExtResource("1_iljyn")
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+modulate = Color(0.647059, 0.25098, 0.341176, 1)
+self_modulate = Color(0.945098, 0.529412, 0.396078, 1)
+top_level = true
+custom_minimum_size = Vector2(1370, 150)
+layout_mode = 2
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -685.0
+offset_top = -150.0
+offset_right = 685.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer"]
+modulate = Color(0.964706, 0.517647, 0.584314, 1)
+self_modulate = Color(0.811765, 0.435294, 0.737255, 1)
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="CardGrid" type="GridContainer" parent="PanelContainer/MarginContainer"]
+unique_name_in_owner = true
+modulate = Color(1, 1, 1, 0.501961)
+self_modulate = Color(1, 1, 1, 0.337255)
+layout_mode = 2

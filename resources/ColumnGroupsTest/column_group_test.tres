@@ -1,0 +1,54 @@
+[gd_resource type="Resource" script_class="UnitColumnGroupData" load_steps=9 format=3 uid="uid://cto0r8xyw6eq0"]
+
+[ext_resource type="Script" path="res://datatypes/unit_col_data.gd" id="1_fafn7"]
+[ext_resource type="Script" path="res://datatypes/unit_col_group_data.gd" id="1_x1k23"]
+
+[sub_resource type="Resource" id="Resource_28ar5"]
+resource_local_to_scene = true
+script = ExtResource("1_fafn7")
+slot_datas = Array[Resource("res://datatypes/slot_data.gd")]([])
+column_type = 2
+colIndex = 3
+
+[sub_resource type="Resource" id="Resource_youag"]
+resource_local_to_scene = true
+script = ExtResource("1_fafn7")
+slot_datas = Array[Resource("res://datatypes/slot_data.gd")]([])
+column_type = 1
+colIndex = 4
+
+[sub_resource type="Resource" id="Resource_elnh1"]
+resource_local_to_scene = true
+script = ExtResource("1_fafn7")
+slot_datas = Array[Resource("res://datatypes/slot_data.gd")]([])
+column_type = 0
+colIndex = 5
+
+[sub_resource type="Resource" id="Resource_b50q1"]
+resource_local_to_scene = true
+script = ExtResource("1_fafn7")
+slot_datas = Array[Resource("res://datatypes/slot_data.gd")]([])
+column_type = 2
+colIndex = 2
+
+[sub_resource type="Resource" id="Resource_wrh3h"]
+script = ExtResource("1_fafn7")
+slot_datas = Array[Resource("res://datatypes/slot_data.gd")]([])
+column_type = 1
+colIndex = 1
+
+[sub_resource type="Resource" id="Resource_1u1iv"]
+resource_local_to_scene = true
+script = ExtResource("1_fafn7")
+slot_datas = Array[Resource("res://datatypes/slot_data.gd")]([])
+column_type = 0
+colIndex = 0
+
+[resource]
+script = ExtResource("1_x1k23")
+playerSiegeCol = SubResource("Resource_1u1iv")
+playerRangedCol = SubResource("Resource_wrh3h")
+playerInfantryCol = SubResource("Resource_b50q1")
+enemySiegeCol = SubResource("Resource_elnh1")
+enemyRangedCol = SubResource("Resource_youag")
+enemyInfantryCol = SubResource("Resource_28ar5")

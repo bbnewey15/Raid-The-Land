@@ -45,14 +45,15 @@ func load_from_resource(data: Resource) -> void:
 	for column in column_dict:
 		# Add to tree
 		add_child(column_dict[column])
-		if data[column].slot_datas.size() > 0:
-			column_dict[column].load_from_resource(data[column])
+		column_dict[column].load_from_resource(data[column])
 		# Connect to signals
 		#column_dict[column].column_data.column_interact.connect(on_column_interact)
 		
 func load_from_slot_data_group(data: SlotDataGroup) -> void:
 	for slot_data in data.slot_datas:
-		column_dict[slot_data.column_name].add_slot(slot_data)
+		print("slot_data.column_name:  %s"  % slot_data.column_name)
+		print(GameData[GameData.COLUMN_STRING.keys()[slot_data.column_name]])
+		column_dict[GameData[GameData.COLUMN_STRING.keys()[slot_data.column_name]]].add_slot(slot_data)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):

@@ -1,0 +1,1 @@
+5/4 - Split data resource so that board data was separate from slot data. Slot data now is 1 array for player slots and 1 array for enemy slots so its easier to loop through

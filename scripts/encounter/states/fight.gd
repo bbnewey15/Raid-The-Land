@@ -2,32 +2,29 @@ extends State
 
 # use 'state_machine' to access state machine
 # use 'state_machine.encounter_manager' to access Encounter Manager
-
+var action_started : bool = false
 
 func enter(_msg := {}) -> void:
 #	state_machine.encounter_manager.add_child(encounter_message)
 	print("Entered Fight")
 	EncounterBus.fight_state_started.emit(state_machine.encounter_manager.columnGroupData)
-	EncounterBus.connect("fight_state_stopped",Callable(self, "on_fight_state_stop") )
 	pass
 	
 func update(delta: float) -> void:
 	
 
-	#state_machine.transition_to("Draft")
-	#print("end fight %s" % delta)
-	
-	#check here to prevent the last tick to hit after await
-	if state_machine.state.name == self.name:
+	if action_started == false:
+		action_started = true
 		EncounterBus.fight_action_started.emit()
 #		print("start wait on fight")
 		await EncounterBus.fight_action_stopped
-		print("waited on fight to stop")
-#		print("continue %s"  % delta)
-
-func on_fight_state_stop() -> void:
-	state_machine.transition_to("PostFight")
-	
+		state_machine.transition_to("PostFight")
+		print("fight stopped")
+		
+	#check here to prevent the last tick to hit after await
+	if state_machine.state.name == self.name:
+		# Stuff that still needs to run
+		pass
 	
 func exit() -> void:
 	print("leaving fight state")

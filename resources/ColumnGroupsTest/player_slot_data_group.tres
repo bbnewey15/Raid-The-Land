@@ -10,6 +10,7 @@ unit_data = ExtResource("4_ebkeb")
 isEnemyUnit = false
 column_name = 2
 slotIndex = 0
+attack_order = 1
 
 [resource]
 script = ExtResource("1_c0af3")

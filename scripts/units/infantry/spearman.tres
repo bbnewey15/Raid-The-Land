@@ -9,4 +9,5 @@ script = ExtResource("1_urgia")
 name = "Spearman"
 description = "A simple minded infantry unit."
 texture = ExtResource("2_bk65b")
+unit_node_path = "res://scenes/units/spearman.tscn"
 column_type = 2

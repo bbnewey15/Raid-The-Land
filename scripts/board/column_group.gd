@@ -62,7 +62,7 @@ func load_from_slot_data_group(data: SlotDataGroup) -> void:
 	for slot_data in data.slot_datas:
 		print("slot_data.column_name:  %s"  % slot_data.column_name)
 		print(GameData[GameData.COLUMN_STRING.keys()[slot_data.column_name]])
-		column_dict[GameData[GameData.COLUMN_STRING.keys()[slot_data.column_name]]].add_slot(slot_data)
+		column_dict[GameData.getColumnStringByIndex(slot_data.column_name)].add_slot(slot_data)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -101,14 +101,11 @@ func fight() -> void:
 	for slot_data in full_slot_array:
 		if slot_data.can_attack && slot_data.attack_order:
 			# target = get_attack_target(unit)
-	#
-	# 		unit.attack(target)
-	# 		//show animation, sound, update in data
-	#
-	# 		is target dead? // move this to slot, they should check themselves?
-	# 		is unit dead? // move this to slot, they should check themselves?
-	# 		//show animation, sound, update in data
-			pass
+			var target_array = get_attack_target(slot_data)
+			for target in target_array:
+				slot_data.current_slot.attack(target)
+				print("Unit: %s attacked Column: %s" % [slot_data.unit_data.name, GameData.getColumnStringByIndex(target.column_data.colIndex)])
+	# 		
  
 	EncounterBus.fight_action_stopped.emit()
 	
@@ -122,6 +119,53 @@ func attackOrderComparison(a : SlotData, b : SlotData):
 		return typeof(a.attack_order) < typeof(b.attack_order)
 	else:
 		return a.attack_order < b.attack_order
+
+func get_attack_target(slot_data: SlotData) -> Array[UnitColumn]:
+	var slot = slot_data.current_slot
+	assert(slot, "No slot found for slot_data")
+	
+	var isEnemy = slot_data.isEnemyUnit
+	
+	var attacking_column : UnitColumn = slot.get_node("../../../")
+	
+	var targeted_columns : Array[UnitColumn] = []
+	var range: Array
+	# What kind of unit is this ? 
+	match slot_data.unit_data.column_type:
+		GameData.COLUMN_TYPE.INFANTRY:
+			# Targets Adjacent Columns
+			range = [1]
+		GameData.COLUMN_TYPE.RANGED:
+			# Targets Range 2 from Column
+			range = [2]
+		GameData.COLUMN_TYPE.SIEGE:
+			# Targets up to 2 range
+			range = range(1,2)
+	
+	assert(range, "No Range set")
+	
+	var atk_col_index = attacking_column.column_data.colIndex
+	
+	for distance in range:
+		# If enemy attacking at left end
+		if isEnemy && atk_col_index - distance >= 0:
+			var tmp_index =atk_col_index - distance
+			
+			var tmp = column_dict[GameData.getColumnStringByIndex(tmp_index)]
+			if !tmp.isEnemy:
+				targeted_columns.append(tmp)
+			
+		# If player attacking at right end
+		if !isEnemy && atk_col_index + distance <= 5:
+			var tmp_index =atk_col_index + distance
+			
+			var tmp = column_dict[GameData.getColumnStringByIndex(tmp_index)]
+			if tmp.isEnemy:
+				targeted_columns.append(tmp)
+	
+	
+	return targeted_columns
+			
 
 func on_encounter_state_changed(state_name : String) -> void:
 	print("Signaled to on_encounter_state_changed %s" % state_name)

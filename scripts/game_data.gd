@@ -20,7 +20,7 @@ const infantryEnemyColumnRotation: float = -3.6
 const rangedEnemyColumnLocation: Vector2 = Vector2(602, 20)
 const rangedEnemyColumnRotation: float = -.8
 
-enum COLUMN_STRING {PLAYER_SIEGE_COL, PLAYER_RANGED_COL, PLAYER_INFANTRY_COL,ENEMY_SIEGE_COL, ENEMY_RANGED_COL, ENEMY_INFANTRY_COL }
+enum COLUMN_STRING {PLAYER_SIEGE_COL, PLAYER_RANGED_COL, PLAYER_INFANTRY_COL,ENEMY_INFANTRY_COL, ENEMY_RANGED_COL,ENEMY_SIEGE_COL  }
 const PLAYER_SIEGE_COL = "playerSiegeCol"
 const PLAYER_RANGED_COL = "playerRangedCol"
 const PLAYER_INFANTRY_COL = "playerInfantryCol"
@@ -28,6 +28,9 @@ const ENEMY_SIEGE_COL = "enemySiegeCol"
 const ENEMY_RANGED_COL ="enemyRangedCol"
 const ENEMY_INFANTRY_COL ="enemyInfantryCol"
 
+static func getColumnStringByIndex(index : int) -> String:
+	return GameData[GameData.COLUMN_STRING.keys()[index]]
+	
 
 enum COLUMN_TYPE {SIEGE,RANGED,INFANTRY}
 const SIEGE = "siege"

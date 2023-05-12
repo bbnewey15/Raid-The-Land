@@ -48,9 +48,8 @@ func add_slot(data: SlotData) -> void:
 	unit_grid.add_child(slot)
 	
 	# Rotate slot so it is on the right angle
-	var slot_text_rect : TextureRect = slot.get_node("MarginContainer/Control/%TextureRect")
-	slot_text_rect.set_pivot_offset(slot.size/2)
-	slot_text_rect.set_rotation_degrees(-self.get_rotation_degrees())
+	slot.set_pivot_offset(slot.size/2)
+	slot.set_rotation_degrees(-self.get_rotation_degrees())
 	
 	
 	slot.set_slot_data(data)

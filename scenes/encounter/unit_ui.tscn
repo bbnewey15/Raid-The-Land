@@ -15,8 +15,9 @@ fill_to = Vector2(0.396396, 0)
 [node name="UnitUi" type="Control"]
 layout_mode = 3
 anchors_preset = 0
-offset_right = 110.0
-offset_bottom = 110.0
+offset_right = 150.0
+offset_bottom = 150.0
+mouse_filter = 2
 script = ExtResource("1_y42an")
 
 [node name="HealthBar" type="Control" parent="."]

@@ -80,3 +80,4 @@ func defend(attackingUnit : SlotData) -> void:
 	self.slot_data.unit_data.update_health(self.slot_data.unit_data.health - damage_done)
 	var health = self.slot_data.unit_data.health
 	unit_ui.set_unit_data(self.slot_data.unit_data)
+	

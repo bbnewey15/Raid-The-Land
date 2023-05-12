@@ -78,4 +78,9 @@ signal column_attacked(unit_column: UnitColumn, unit_attacking: SlotData)
 # warning-ignore:unused_signal
 signal unit_attack_finished(unit_attacking: SlotData)
 # warning-ignore:unused_signal
+signal post_fight_state_started(units_data : UnitColumnData)
+# warning-ignore:unused_signal
+signal post_fight_state_stopped
+# warning-ignore:unused_signal
+
 signal unit_selected(unit_col_data: UnitColumnData, index: int, colIndex: int, button: int)

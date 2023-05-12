@@ -12,14 +12,32 @@ func _ready():
 func move_unit(direction: GameData.MOVE_DIRECTION ):
 	print("direction" )
 	print(direction)
+	var slot = active_slot_data.current_slot
+	var moving_slot_column : UnitColumn = slot.get_node("../../../")
+	var move_to_column_index
 	match direction:
 		GameData.LEFT:
 			print("LEFT")
+			
+			move_to_column_index = moving_slot_column.column_data.colIndex - 1
+			
 		GameData.RIGHT:
 			print("RIGHT")
+			move_to_column_index = moving_slot_column.column_data.colIndex + 1
 			
-	#currentUnit.move_unit(direction)
+	assert(move_to_column_index != null)
 	
+	if move_to_column_index >= 0 && move_to_column_index <= 5:
+		moving_slot_column.unit_grid.remove_child(slot)
+		
+		#Add to new column
+		var column_moved_to: UnitColumn = encounter_manager.columnGroup.column_dict[GameData.getColumnStringByIndex(move_to_column_index)]
+		column_moved_to.add_slot(active_slot_data)
+		update_actionUI()
+		#Remove from old column
+		slot.queue_free()
+	else:
+		return
 
 
 func _on_move_gui_input(event, left_or_right):

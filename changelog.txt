@@ -2,3 +2,5 @@
 5/4 - Add Fight to Column Group to loop through; Next: Add attack signals to slot and Add an animation?
 5/5 - Add Attack signals to slots and connect to UnitColumns
 5/12 - Added animations to fight; Next: Add visible health bars and other stats to units
+5/12 - Added health bar/ health / dmg to unit_data -- also used unit_data as template; ToDo - add moving units in post
+5/12 - Added basic movement from column to column

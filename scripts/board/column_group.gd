@@ -96,6 +96,7 @@ func fight() -> void:
 	full_slot_array.append_array(enemySlotDatas)
 	full_slot_array.sort_custom(Callable(self,"attackOrderComparison") )
 	#
+	
 	#unit_data
 	#for unit in units:
 	for slot_data in full_slot_array:
@@ -105,7 +106,7 @@ func fight() -> void:
 			for target in target_array:
 				slot_data.current_slot.attack(target)
 				print("Unit: %s attacked Column: %s" % [slot_data.unit_data.name, GameData.getColumnStringByIndex(target.column_data.colIndex)])
-	# 		
+				await EncounterBus.unit_attack_finished
  
 	EncounterBus.fight_action_stopped.emit()
 	

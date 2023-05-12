@@ -3,7 +3,7 @@ extends Node
 class_name EncounterManager
 
 
-const ActionUIScene = preload("res://scenes/action_ui.tscn")
+const ActionUIScene = preload("res://scenes/encounter/action_ui.tscn")
 @export var columnGroupDataResourcePath: String
 @export var playerSlotDatasResourcePath: String
 @export var enemySlotDatasResourcePath: String

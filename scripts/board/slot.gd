@@ -4,19 +4,20 @@ class_name Slot
 signal slot_clicked(index: int, button: int)
 @onready var texture_rect = $MarginContainer/Control/%TextureRect
 @onready var control_node = $MarginContainer/Control
-
+@onready var unit_ui = $UnitUi
 var slot_data : SlotData 
 var unit_node : Node2D
 
-func set_slot_data(slot_data: SlotData) -> void:
+func set_slot_data(data: SlotData) -> void:
 	if unit_node:
 		unit_node.queue_free()
 		
-	self.slot_data = slot_data
+	self.slot_data = data
 	self.slot_data.current_slot = self
-	var unit_data = slot_data.unit_data
+	
+	slot_data.init_unit_data(slot_data.unit_data)
 	#texture_rect.texture = unit_data.texture
-	var unit_node_scene = load(unit_data.unit_node_path)
+	var unit_node_scene = load(slot_data.unit_data.unit_node_path)
 	unit_node = unit_node_scene.instantiate()
 	control_node.add_child(unit_node)
 	if slot_data.isEnemyUnit:
@@ -24,8 +25,11 @@ func set_slot_data(slot_data: SlotData) -> void:
 		unit_node.apply_scale(Vector2(-1,1))
 		#adjust for my shitty placement of anchor to unit
 		unit_node.set_position(Vector2(unit_node.get_position().x + self.size.x, unit_node.get_position().y))
-	tooltip_text = "%s\n%s" % [unit_data.name, unit_data.description]
+	tooltip_text = "%s\n%s" % [slot_data.unit_data.name, slot_data.unit_data.description]
 	slot_data.set_slot_position(get_global_position() + size/2)
+	
+	# Update Unit UI
+	unit_ui.set_unit_data(self.slot_data.unit_data)
 
 	
 func _process(delta):
@@ -62,3 +66,17 @@ func attack(targetColumn : UnitColumn):
 	
 	# let EncounterBus know that we are done attacking
 	EncounterBus.unit_attack_finished.emit(slot_data)
+
+func defend(attackingUnit : SlotData) -> void:
+	assert(attackingUnit)
+	
+	# Attacked animation
+	var tween: Tween = create_tween()
+	tween.tween_property(unit_node, "modulate:v", 1, 0.25).from(15)
+	await tween.finished
+	
+	var damage_done = attackingUnit.unit_data.damage
+	print("self.slot_data.unit_data.health - damage_done %s" % str(self.slot_data.unit_data.health - damage_done))
+	self.slot_data.unit_data.update_health(self.slot_data.unit_data.health - damage_done)
+	var health = self.slot_data.unit_data.health
+	unit_ui.set_unit_data(self.slot_data.unit_data)

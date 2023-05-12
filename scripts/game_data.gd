@@ -2,7 +2,7 @@ extends Node
 
 
 # Encounter Data
-
+const UNIT_SIZE = Vector2(110,110)
 const COLUMN_SIZE = Vector2(150,614)
 ## Player
 const siegeColumnLocation: Vector2 = Vector2(99, 20)

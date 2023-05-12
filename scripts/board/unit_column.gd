@@ -11,7 +11,7 @@ var column_data: UnitColumnData
 func init(isEnemyParam: bool, column_type: GameData.COLUMN_TYPE) -> UnitColumn:
 	self.isEnemy = isEnemyParam
 	self.column_type = column_type
-	
+	EncounterBus.column_attacked.connect(Callable(self, "on_column_attacked"))
 	return self
 	
 func _ready():
@@ -67,6 +67,12 @@ func add_slot(data: SlotData) -> void:
 	
 	#slot.slot_clicked.connect(parent.)
 	
-	
-
+func on_column_attacked(unit_column: UnitColumn, unit_attacking: SlotData)-> void:
+	# Check if this is the column:
+	if self.column_data.colIndex != unit_column.column_data.colIndex:
+		return
+		
+	# Get slots in column
+	for child in unit_column.unit_grid.get_children():
+		child.defend(unit_attacking)
 	

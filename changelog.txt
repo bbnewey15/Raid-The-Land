@@ -1,3 +1,4 @@
 5/4 - Split data resource so that board data was separate from slot data. Slot data now is 1 array for player slots and 1 array for enemy slots so its easier to loop through
 5/4 - Add Fight to Column Group to loop through; Next: Add attack signals to slot and Add an animation?
 5/5 - Add Attack signals to slots and connect to UnitColumns
+5/12 - Added animations to fight; Next: Add visible health bars and other stats to units

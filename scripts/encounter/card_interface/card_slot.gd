@@ -1,6 +1,6 @@
 class_name CardSlot extends PanelContainer
 
-@onready var texture_rect = $MarginContainer/Control/%TextureRect
+@onready var card_image = %CardImage
 @onready var hand_ui = $CardUi
 var unit_node : Node2D
 var slot_data : CardSlotData 
@@ -13,7 +13,7 @@ func set_slot_data(data: CardSlotData) -> void:
 	self.slot_data = data
 	
 #	slot_data.init_unit_data(slot_data.unit_data)
-	texture_rect.texture = slot_data.unit_data.texture
+	card_image.texture = slot_data.unit_data.texture
 #	var unit_node_scene = load(slot_data.unit_data.unit_node_path)
 #	unit_node = unit_node_scene.instantiate()
 #	control_node.add_child(unit_node)

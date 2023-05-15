@@ -34,9 +34,6 @@ columnGroupDataResourcePath = "res://resources/ColumnGroupsTest/column_group_tes
 playerSlotDatasResourcePath = "res://resources/ColumnGroupsTest/player_slot_data_group.tres"
 enemySlotDatasResourcePath = "res://resources/ColumnGroupsTest/enemy_slot_data_group.tres"
 
-[node name="CardHandInterface" parent="GUI/EncounterManager" instance=ExtResource("6_4bypg")]
-top_level = true
-
 [node name="PlayerColumnGroup" parent="GUI/EncounterManager" instance=ExtResource("5_acetr")]
 unique_name_in_owner = true
 top_level = true
@@ -44,3 +41,7 @@ offset_left = 363.0
 offset_top = 360.0
 offset_right = -366.0
 offset_bottom = -50.0
+
+[node name="CardHandInterface" parent="GUI/EncounterManager" instance=ExtResource("6_4bypg")]
+top_level = true
+offset_top = -150.0

@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://b8sbk48j0lfst"]
+[gd_scene load_steps=5 format=3 uid="uid://b8sbk48j0lfst"]
 
 [ext_resource type="Script" path="res://scripts/encounter/card_interface/card_slot.gd" id="1_fv3bu"]
 [ext_resource type="Texture2D" uid="uid://nisxvn7f7y5h" path="res://assets/card.png" id="2_h7ffd"]
+[ext_resource type="Texture2D" uid="uid://cntmgxfgw1gmc" path="res://assets/spear_stolen.PNG" id="3_1im7e"]
 [ext_resource type="PackedScene" uid="uid://b16awbxhk3pot" path="res://scenes/encounter/card_interface/card_ui.tscn" id="3_xe7ye"]
 
 [node name="CardSlot" type="PanelContainer"]
@@ -9,7 +10,7 @@ self_modulate = Color(1, 1, 1, 0)
 custom_minimum_size = Vector2(140, 192)
 offset_right = 4.0
 offset_bottom = 4.0
-mouse_default_cursor_shape = 6
+mouse_default_cursor_shape = 3
 script = ExtResource("1_fv3bu")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
@@ -35,5 +36,24 @@ texture = ExtResource("2_h7ffd")
 expand_mode = 1
 stretch_mode = 5
 
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/Control/TextureRect"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_right = 20.0
+offset_bottom = 40.0
+grow_horizontal = 2
+theme_override_constants/margin_top = 10
+
+[node name="CardImage" type="TextureRect" parent="MarginContainer/Control/TextureRect/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+texture = ExtResource("3_1im7e")
+expand_mode = 5
+
 [node name="CardUi" parent="." instance=ExtResource("3_xe7ye")]
 layout_mode = 2
+mouse_filter = 2

@@ -5,9 +5,9 @@ signal slot_clicked(index: int, button: int)
 
 var slot_data : SlotData 
 
-func set_slot_data(slot_data: SlotData) -> void:
-	self.slot_data = slot_data
-	var unit_data = slot_data.unit_data
+func set_slot_data(data: SlotData) -> void:
+	self.slot_data = data
+	var unit_data = data.unit_data
 	texture_rect.texture = unit_data.texture
 	tooltip_text = "%s\n%s" % [unit_data.name, unit_data.description]
 	slot_data.set_slot_position(get_global_position() + size/2)

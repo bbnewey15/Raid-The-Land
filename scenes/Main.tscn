@@ -19,7 +19,7 @@ one_shot = true
 z_index = -1
 script = ExtResource("2_arvqx")
 
-[node name="Background" parent="World" instance=ExtResource("2_uouqs")]
+[node name="CanvasLayerBackground" parent="World" instance=ExtResource("2_uouqs")]
 
 [node name="GUI" type="Control" parent="."]
 layout_mode = 3

@@ -5,7 +5,7 @@
 
 [sub_resource type="Resource" id="Resource_ueit6"]
 script = ExtResource("2_xj8kk")
-unit_data_path = "res://scripts/units/infantry/spearman.tres"
+unit_data_path = ""
 isEnemyUnit = true
 column_name = 3
 slotIndex = 0
@@ -13,7 +13,7 @@ attack_order = 1
 
 [sub_resource type="Resource" id="Resource_e1ksr"]
 script = ExtResource("2_xj8kk")
-unit_data_path = "res://scripts/units/infantry/spearman.tres"
+unit_data_path = ""
 isEnemyUnit = true
 column_name = 4
 slotIndex = 0
@@ -21,7 +21,7 @@ attack_order = 2
 
 [sub_resource type="Resource" id="Resource_0oyn6"]
 script = ExtResource("2_xj8kk")
-unit_data_path = "res://scripts/units/infantry/spearman.tres"
+unit_data_path = ""
 isEnemyUnit = true
 column_name = 3
 slotIndex = 1

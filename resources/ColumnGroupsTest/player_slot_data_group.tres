@@ -5,7 +5,7 @@
 
 [sub_resource type="Resource" id="Resource_cp4ha"]
 script = ExtResource("2_ff2sj")
-unit_data_path = "res://scripts/units/infantry/spearman.tres"
+unit_data_path = "res://scripts/units/unit_data.gd"
 isEnemyUnit = false
 column_name = 2
 slotIndex = 0
@@ -13,7 +13,7 @@ attack_order = 1
 
 [sub_resource type="Resource" id="Resource_a8yci"]
 script = ExtResource("2_ff2sj")
-unit_data_path = "res://scripts/units/infantry/spearman.tres"
+unit_data_path = ""
 isEnemyUnit = false
 column_name = 2
 slotIndex = 1

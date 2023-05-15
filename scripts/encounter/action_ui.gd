@@ -1,7 +1,7 @@
 extends PanelContainer
 class_name ActionUI
 
-var currentUnit: UnitData
+var currentUnit: UnitDataTest
 var active_slot_data : SlotData
 var encounter_manager : EncounterManager
 

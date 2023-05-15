@@ -4,7 +4,7 @@ class_name SlotData
 
 
 @export var unit_data_path :String
-@export var unit_data: UnitData
+@export var unit_data: UnitDataTest
 @export var isEnemyUnit: bool
 @export var column_name: GameData.COLUMN_STRING
 @export var slotIndex: int
@@ -13,7 +13,7 @@ var slot_position: Vector2
 var can_attack : bool = true
 var current_slot : Slot
 
-func init_unit_data(data: UnitData):
+func init_unit_data(data: UnitDataTest):
 	if data:
 		unit_data = data
 	else:

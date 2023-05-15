@@ -1,5 +1,4 @@
-extends Resource
-class_name UnitData
+class_name UnitDataTest extends Resource
 
 @export var name: String = ""
 @export_multiline var description: String = ""

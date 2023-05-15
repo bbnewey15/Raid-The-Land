@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="UnitData" load_steps=3 format=3 uid="uid://64txq7mr6x06"]
+[gd_resource type="Resource" script_class="UnitData" load_steps=3 format=3]
 
 [ext_resource type="Script" path="res://scripts/units/unit_data.gd" id="1_5o8el"]
 [ext_resource type="Texture2D" uid="uid://buu6ko7yo5qjr" path="res://assets/torch_stolen.PNG" id="2_2y3td"]

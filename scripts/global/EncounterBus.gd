@@ -65,6 +65,12 @@ signal cards_fused(card)
 # warning-ignore:unused_signal
 signal card_drafted(card)
 
+signal card_slot_clicked(card_slot: CardSlot, index: int, button: int)
+# warning-ignore:unused_signal
+signal place_unit
+# warning-ignore:unused_signal
+signal place_finished
+
 # warning-ignore:unused_signal
 signal fight_state_started(units_data : UnitColumnData)
 # warning-ignore:unused_signal

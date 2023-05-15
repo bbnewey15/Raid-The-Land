@@ -1,8 +1,13 @@
-extends Resource
+class_name CardSlotData extends Resource
 
-class_name CardSlotData
+@export var unit_data:  UnitDataTest
 
-@export var card_data:  CardData
+func init_unit_data(data: UnitDataTest):
+	if data:
+		unit_data = data
+	else:
+		unit_data = unit_data.duplicate(true)
+
 var slot_position: Vector2
 
 func set_slot_position(pos: Vector2)->void:

@@ -4,3 +4,9 @@
 5/12 - Added animations to fight; Next: Add visible health bars and other stats to units
 5/12 - Added health bar/ health / dmg to unit_data -- also used unit_data as template; ToDo - add moving units in post
 5/12 - Added basic movement from column to column
+5/15 - Changed background image
+
+
+TODO:
+	Place State:
+		

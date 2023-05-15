@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://b8sbk48j0lfst"]
+[gd_scene load_steps=4 format=3 uid="uid://b8sbk48j0lfst"]
 
 [ext_resource type="Script" path="res://scripts/encounter/card_interface/card_slot.gd" id="1_fv3bu"]
 [ext_resource type="Texture2D" uid="uid://nisxvn7f7y5h" path="res://assets/card.png" id="2_h7ffd"]
+[ext_resource type="PackedScene" uid="uid://b16awbxhk3pot" path="res://scenes/encounter/card_interface/card_ui.tscn" id="3_xe7ye"]
 
 [node name="CardSlot" type="PanelContainer"]
 self_modulate = Color(1, 1, 1, 0)
@@ -33,3 +34,6 @@ mouse_filter = 2
 texture = ExtResource("2_h7ffd")
 expand_mode = 1
 stretch_mode = 5
+
+[node name="CardUi" parent="." instance=ExtResource("3_xe7ye")]
+layout_mode = 2

@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://p46rby3d6qhj"]
+[gd_scene load_steps=3 format=3 uid="uid://p46rby3d6qhj"]
 
 [ext_resource type="Script" path="res://scripts/encounter/card_interface/card_hand_interface.gd" id="1_iljyn"]
+[ext_resource type="PackedScene" uid="uid://b8sbk48j0lfst" path="res://scenes/encounter/card_interface/card_slot.tscn" id="2_eteuo"]
 
 [node name="CardHandInterface" type="Control"]
 modulate = Color(1, 1, 1, 0)
@@ -44,8 +45,15 @@ theme_override_constants/margin_top = 5
 theme_override_constants/margin_right = 5
 theme_override_constants/margin_bottom = 5
 
-[node name="CardGrid" type="GridContainer" parent="PanelContainer/MarginContainer"]
+[node name="CardGrid" type="HBoxContainer" parent="PanelContainer/MarginContainer"]
 unique_name_in_owner = true
 modulate = Color(1, 1, 1, 0.501961)
 self_modulate = Color(1, 1, 1, 0.337255)
+layout_mode = 2
+alignment = 1
+
+[node name="CardSlot" parent="PanelContainer/MarginContainer/CardGrid" instance=ExtResource("2_eteuo")]
+layout_mode = 2
+
+[node name="CardSlot2" parent="PanelContainer/MarginContainer/CardGrid" instance=ExtResource("2_eteuo")]
 layout_mode = 2

@@ -1,6 +1,8 @@
 extends Resource
 class_name CardData
 
+# WE ARE USING UNIT_DATA INSTEAD FOR NOW
+
 @export var name: String = ""
 @export_multiline var description: String = ""
 @export var texture: Texture

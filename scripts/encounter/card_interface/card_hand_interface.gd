@@ -6,8 +6,8 @@ const CardSlot = preload("res://scenes/encounter/card_interface/card_slot.tscn")
 
 @onready var unit_grid = $PanelContainer/MarginContainer/%CardGrid
 var card_hand_data: CardHandData
-
-	
+var active_slot : CardSlotData
+var encounter_manager: EncounterManager
 	
 	
 func _ready():
@@ -36,24 +36,11 @@ func load_from_resource(data: CardHandData) -> void:
 		
 		unit_grid.add_child(slot)
 		
-		# Rotate slot so it is on the right angle
-		var slot_text_rect : TextureRect = slot.get_node("MarginContainer/Control/%TextureRect")
-		slot_text_rect.set_pivot_offset(slot.size/2)
-		slot_text_rect.set_rotation_degrees(-self.get_rotation_degrees())
-		
-		# Add slot clicked signal
-		slot.slot_clicked.connect(card_hand_data.on_slot_clicked)
-#		print("is valid %s" %  column_data.on_slot_clicked.is_valid())
-#		print("is connected? %s" % slot.is_connected("slot_clicked", column_data.on_slot_clicked))
-#		print("has signal %s" % slot.has_signal("slot_clicked"))
-#		print(slot.slot_clicked.get_connections())
+		EncounterBus.card_slot_clicked.connect(Callable(self, "on_card_slot_clicked"))
 		
 		var parent  = get_parent_control()
 		
-		#slot.slot_clicked.connect(parent.)
-		
-		if slot_data:
-			slot.set_slot_data(slot_data)
+		slot.set_slot_data(slot_data)
 			
 	# set pivot point for proper rotation
 	self.set_pivot_offset(size/2)
@@ -61,4 +48,29 @@ func load_from_resource(data: CardHandData) -> void:
 	self.set_size(GameData.COLUMN_SIZE)
 	
 
+func on_card_slot_clicked(slot: CardSlot, index: int, button: int):
+	print("Card selected %s \n index: %s\n button: %s" % [slot, index, button])
+	active_slot = null
+	match [active_slot, button]:
+		[null, MOUSE_BUTTON_LEFT]:
+			if active_slot:
+				active_slot.setHighlight(false)
+				
+			active_slot = slot.slot_data
 	
+	match encounter_manager.encounterStateMachine.get_state_name():
+		"Start":
+			pass
+		"Fight":
+			pass
+		"Place":
+			update_hand_ui()
+		_:
+			print("default")
+			
+
+func update_hand_ui() -> void:
+	print("HAND UI")
+	if active_slot:
+		# Highlight Card
+		active_slot.setHighlight(true)

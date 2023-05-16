@@ -43,7 +43,6 @@ signal counter_modified(card,details)
 # warning-ignore:unused_signal
 signal shuffle_completed(card_container,details)
 
-signal card_played(card,details)
 # warning-ignore:unused_signal
 signal card_removed(card,details)
 # warning-ignore:unused_signal
@@ -65,7 +64,10 @@ signal cards_fused(card)
 # warning-ignore:unused_signal
 signal card_drafted(card)
 
-signal card_slot_clicked(card_slot: CardSlot, index: int, button: int)
+# warning-ignore:unused_signal
+signal card_slot_clicked(card_slot: CardSlot, column_type: GameData.COLUMN_TYPE, index: int, button: int)
+# warning-ignore:unused_signal
+signal card_played(card_slot: CardSlot, column_type: GameData.COLUMN_TYPE, index: int, button: int)
 # warning-ignore:unused_signal
 signal place_unit
 # warning-ignore:unused_signal

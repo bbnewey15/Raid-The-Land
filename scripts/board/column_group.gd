@@ -39,6 +39,7 @@ func _ready():
 	EncounterBus.fight_action_started.connect(self.on_fight_action_started)
 
 	
+	EncounterBus.card_slot_clicked.connect(Callable(self, "on_card_slot_clicked"))
 #	# Connect to Encounter State Machine signals
 #	encounterStateMachine.encounter_state_changed.connect(self.on_encounter_state_changed)
 	
@@ -176,4 +177,37 @@ func on_encounter_state_changed(state_name : String) -> void:
 ##	for column in column_dict:
 ##		column_dict[column].column_data.slot_datas
 #	pass
+	
+func on_card_slot_clicked(card_slot: CardSlot, column_type: GameData.COLUMN_TYPE, index: int, button: int)->void:
+	var encounter_manager = get_node("../")
+	
+	
+	match encounter_manager.encounterStateMachine.get_state_name():
+		"Start":
+			pass
+		"Fight":
+			pass
+		"Place":
+			if card_slot.highlighted:
+				# Add to card appropriate column
+				var column_to_add : UnitColumn = column_dict[GameData.getColumnStringByColumnType(column_type)]
+				
+				# Create slot_data from card_slot_data
+				var slot_data = SlotData.new()
+				slot_data.init_unit_data(card_slot.slot_data.unit_data)
+				slot_data.isEnemyUnit = false
+				slot_data.column_name = GameData.getColumnStringByColumnType(column_type)
+				
+				
+				var slot : Slot = column_to_add.add_slot(slot_data)
+				slot_data.current_slot = slot
+				# Emit signal to update CardHandInterface
+				EncounterBus.card_played.emit(card_slot, column_type, index, button)
+				
+				pass
+			else:
+				# Highlight the appropriate column
+				pass
+		_:
+			print("default")
 	

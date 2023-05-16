@@ -6,6 +6,7 @@
 5/12 - Added basic movement from column to column
 5/15 - Changed background image
 
+TODO: add_slot by unit_data instead of by slot data -- or handle the data better?
 
 TODO:
 	Place State:

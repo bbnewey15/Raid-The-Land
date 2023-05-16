@@ -7,6 +7,7 @@ const Slot = preload("res://scenes/slot.tscn")
 var isEnemy: bool
 @onready var unit_grid = $MarginContainer/%UnitGrid
 var column_data: UnitColumnData
+var encounter_manager : EncounterManager = null
 
 func init(isEnemyParam: bool, column_type: GameData.COLUMN_TYPE) -> UnitColumn:
 	self.isEnemy = isEnemyParam
@@ -15,6 +16,7 @@ func init(isEnemyParam: bool, column_type: GameData.COLUMN_TYPE) -> UnitColumn:
 	return self
 	
 func _ready():
+	encounter_manager = get_node("../..")
 	pass
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -42,10 +44,12 @@ func load_from_resource(data: UnitColumnData) -> void:
 	# set size to all column
 	self.set_size(GameData.COLUMN_SIZE)
 	
-func add_slot(data: SlotData) -> void:
+func add_slot(data: SlotData) -> Slot:
 	var slot = Slot.instantiate()
 		
 	unit_grid.add_child(slot)
+	
+	data.slotIndex = slot.get_index()
 	
 	# Rotate slot so it is on the right angle
 	slot.set_pivot_offset(slot.size/2)
@@ -64,7 +68,9 @@ func add_slot(data: SlotData) -> void:
 	
 	var parent  = get_parent_control()
 	
+	
 	#slot.slot_clicked.connect(parent.)
+	return slot
 	
 func on_column_attacked(unit_column: UnitColumn, unit_attacking: SlotData)-> void:
 	# Check if this is the column:
@@ -74,4 +80,6 @@ func on_column_attacked(unit_column: UnitColumn, unit_attacking: SlotData)-> voi
 	# Get slots in column
 	for child in unit_column.unit_grid.get_children():
 		child.defend(unit_attacking)
+	
+
 	

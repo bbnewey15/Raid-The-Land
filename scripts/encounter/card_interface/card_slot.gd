@@ -4,7 +4,7 @@ class_name CardSlot extends PanelContainer
 @onready var hand_ui = $CardUi
 var unit_node : Node2D
 var slot_data : CardSlotData 
-
+var highlighted : bool = false
 
 func set_slot_data(data: CardSlotData) -> void:
 	if unit_node:
@@ -35,7 +35,7 @@ func _on_gui_input(event):
 			print("Card Slot Clicked %s" % event )
 			# Have to update position
 			slot_data.set_slot_position(get_global_position() + size/2)
-			EncounterBus.card_slot_clicked.emit(self, get_index(), event.button_index)
+			EncounterBus.card_slot_clicked.emit(self, slot_data.unit_data.column_type, get_index(), event.button_index)
 #			print(slot_clicked.get_connections())
 
 func _on_mouse_entered():
@@ -44,8 +44,10 @@ func _on_mouse_entered():
 
 func setHighlight(shouldHighlight: bool)-> void:
 	if shouldHighlight:
+		highlighted = true
 		set_position(Vector2(position.x, position.y - 15))
 	else:
+		highlighted = false
 		set_position(Vector2(position.x, position.y + 15))
 
 	

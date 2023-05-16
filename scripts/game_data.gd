@@ -31,11 +31,34 @@ const ENEMY_INFANTRY_COL ="enemyInfantryCol"
 static func getColumnStringByIndex(index : int) -> String:
 	return GameData[GameData.COLUMN_STRING.keys()[index]]
 	
+func getColumnStringByColumnType(column_type: COLUMN_TYPE, isEnemy: bool =false)-> String:
+	var return_value = null
+	var test = COLUMN_TYPE.keys()[column_type]
+	
+	if isEnemy:
+		match GameData[COLUMN_TYPE.keys()[column_type]]:
+			SIEGE:
+				return_value = ENEMY_SIEGE_COL
+			RANGED:
+				return_value = ENEMY_RANGED_COL
+			INFANTRY:
+				return_value = ENEMY_INFANTRY_COL
+	else:
+		match GameData[COLUMN_TYPE.keys()[column_type]]:
+			SIEGE:
+				return_value = PLAYER_SIEGE_COL
+			RANGED:
+				return_value = PLAYER_RANGED_COL
+			INFANTRY:
+				return_value = PLAYER_INFANTRY_COL
+				
+	assert(return_value)
+	return return_value
 
 enum COLUMN_TYPE {SIEGE,RANGED,INFANTRY}
 const SIEGE = "siege"
 const RANGED = "ranged"
-const INFRANTRY = "infantry"
+const INFANTRY = "infantry"
 
 enum MOVE_DIRECTION {LEFT, RIGHT}
 const LEFT = 0

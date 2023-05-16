@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="CardHandData" load_steps=6 format=3 uid="uid://bsm1gcnbg5jtt"]
+[gd_resource type="Resource" script_class="CardHandData" load_steps=7 format=3 uid="uid://bsm1gcnbg5jtt"]
 
 [ext_resource type="Script" path="res://datatypes/card_hand_data.gd" id="1_5kuwp"]
 [ext_resource type="Script" path="res://datatypes/card_slot_data.gd" id="2_j4hxe"]
@@ -12,7 +12,11 @@ unit_data = ExtResource("3_o261w")
 script = ExtResource("2_j4hxe")
 unit_data = ExtResource("3_o261w")
 
+[sub_resource type="Resource" id="Resource_dlst6"]
+script = ExtResource("2_j4hxe")
+unit_data = ExtResource("3_o261w")
+
 [resource]
 script = ExtResource("1_5kuwp")
-slot_datas = Array[ExtResource("2_j4hxe")]([SubResource("Resource_7yfix"), SubResource("Resource_gwsf7")])
+slot_datas = Array[ExtResource("2_j4hxe")]([SubResource("Resource_7yfix"), SubResource("Resource_gwsf7"), SubResource("Resource_dlst6")])
 is_player = true

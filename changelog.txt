@@ -9,4 +9,4 @@
 
 TODO:
 	Place State:
-		
+		Click a card to set it as active - Wait for click on a column for placement

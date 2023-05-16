@@ -29,7 +29,6 @@ func _process(delta):
 	pass
 	
 func _on_gui_input(event):
-	
 	if event is InputEventMouseButton \
 		and (event.button_index == MOUSE_BUTTON_LEFT) \
 		and event.is_pressed():
@@ -44,5 +43,10 @@ func _on_mouse_entered():
 	pass # Replace with function body.
 
 func setHighlight(shouldHighlight: bool)-> void:
-	print("Highlight card")
-	pass
+	if shouldHighlight:
+		set_position(Vector2(position.x, position.y - 15))
+	else:
+		set_position(Vector2(position.x, position.y + 15))
+
+	
+

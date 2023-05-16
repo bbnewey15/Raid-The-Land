@@ -6,12 +6,12 @@ const CardSlot = preload("res://scenes/encounter/card_interface/card_slot.tscn")
 
 @onready var unit_grid = $PanelContainer/MarginContainer/%CardGrid
 var card_hand_data: CardHandData
-var active_slot : CardSlotData
+var active_slot : CardSlot
 var encounter_manager: EncounterManager
 	
 	
 func _ready():
-	pass
+	EncounterBus.card_slot_clicked.connect(Callable(self, "on_card_slot_clicked"))
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -36,7 +36,7 @@ func load_from_resource(data: CardHandData) -> void:
 		
 		unit_grid.add_child(slot)
 		
-		EncounterBus.card_slot_clicked.connect(Callable(self, "on_card_slot_clicked"))
+		
 		
 		var parent  = get_parent_control()
 		
@@ -50,13 +50,8 @@ func load_from_resource(data: CardHandData) -> void:
 
 func on_card_slot_clicked(slot: CardSlot, index: int, button: int):
 	print("Card selected %s \n index: %s\n button: %s" % [slot, index, button])
-	active_slot = null
-	match [active_slot, button]:
-		[null, MOUSE_BUTTON_LEFT]:
-			if active_slot:
-				active_slot.setHighlight(false)
-				
-			active_slot = slot.slot_data
+	var old_active_slot : CardSlot = null
+	
 	
 	match encounter_manager.encounterStateMachine.get_state_name():
 		"Start":
@@ -64,13 +59,21 @@ func on_card_slot_clicked(slot: CardSlot, index: int, button: int):
 		"Fight":
 			pass
 		"Place":
-			update_hand_ui()
+			old_active_slot = active_slot
+			active_slot = null
+			match [active_slot, button]:
+				[null, MOUSE_BUTTON_LEFT]:
+					active_slot = slot
+			update_hand_ui(old_active_slot)
 		_:
 			print("default")
 			
 
-func update_hand_ui() -> void:
+func update_hand_ui(old_active_slot: CardSlot) -> void:
 	print("HAND UI")
+	if old_active_slot:
+				old_active_slot.setHighlight(false)
+				
 	if active_slot:
 		# Highlight Card
 		active_slot.setHighlight(true)

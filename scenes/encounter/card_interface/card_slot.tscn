@@ -57,3 +57,5 @@ expand_mode = 5
 [node name="CardUi" parent="." instance=ExtResource("3_xe7ye")]
 layout_mode = 2
 mouse_filter = 2
+
+[connection signal="gui_input" from="." to="." method="_on_gui_input"]

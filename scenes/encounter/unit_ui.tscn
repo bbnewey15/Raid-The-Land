@@ -29,6 +29,7 @@ offset_left = -45.0
 offset_right = 45.0
 offset_bottom = 20.0
 grow_horizontal = 2
+scale = Vector2(1, 0.559999)
 
 [node name="HealthBarTexture" type="TextureProgressBar" parent="HealthBar"]
 layout_mode = 0

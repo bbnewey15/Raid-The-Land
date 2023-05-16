@@ -1,7 +1,9 @@
 [gd_scene load_steps=3 format=3 uid="uid://dvtdj06b21lkw"]
 
-[ext_resource type="Texture2D" uid="uid://cgh1r2g6cmoip" path="res://assets/background_beach.png" id="1_2p351"]
 [ext_resource type="Texture2D" uid="uid://cixfrsud0wdve" path="res://assets/board_outline.png" id="1_e3vbb"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_34bbi"]
+load_path = "res://.godot/imported/background_beach.png-8ce3fae750e50a82c4f26510b40f2744.ctex"
 
 [node name="CanvasLayerBackground" type="Control"]
 layout_mode = 3
@@ -12,9 +14,10 @@ layout_mode = 0
 offset_right = 2560.0
 offset_bottom = 1440.0
 scale = Vector2(0.75, 0.75)
-texture = ExtResource("1_2p351")
+texture = SubResource("CompressedTexture2D_34bbi")
 
 [node name="BoardOutline" type="TextureRect" parent="."]
+visible = false
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5

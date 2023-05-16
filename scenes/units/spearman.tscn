@@ -497,6 +497,7 @@ _data = {
 }
 
 [node name="Spearman" type="Node2D"]
+position = Vector2(-6, 43)
 scale = Vector2(0.302, 0.302)
 
 [node name="Polygons" type="Node2D" parent="."]

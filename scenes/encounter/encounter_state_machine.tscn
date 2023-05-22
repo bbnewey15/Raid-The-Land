@@ -1,10 +1,11 @@
-[gd_scene load_steps=7 format=3 uid="uid://kwunmiwowkh6"]
+[gd_scene load_steps=8 format=3 uid="uid://kwunmiwowkh6"]
 
 [ext_resource type="Script" path="res://scripts/utils/finite_state_machine.gd" id="1_nvr34"]
 [ext_resource type="Script" path="res://scripts/encounter/states/start.gd" id="2_cvm08"]
 [ext_resource type="Script" path="res://scripts/encounter/states/draft.gd" id="3_2ctnn"]
 [ext_resource type="Script" path="res://scripts/encounter/states/place.gd" id="4_asnt5"]
 [ext_resource type="Script" path="res://scripts/encounter/states/fight.gd" id="5_2ewpb"]
+[ext_resource type="Script" path="res://scripts/encounter/states/order.gd" id="5_gv1ko"]
 [ext_resource type="Script" path="res://scripts/encounter/states/post_fight.gd" id="6_oxafh"]
 
 [node name="EncounterStateMachine" type="Node"]
@@ -20,7 +21,7 @@ script = ExtResource("3_2ctnn")
 script = ExtResource("4_asnt5")
 
 [node name="Order" type="Node" parent="."]
-script = ExtResource("4_asnt5")
+script = ExtResource("5_gv1ko")
 
 [node name="Fight" type="Node" parent="."]
 script = ExtResource("5_2ewpb")

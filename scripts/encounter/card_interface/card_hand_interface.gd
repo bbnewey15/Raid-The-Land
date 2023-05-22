@@ -3,6 +3,7 @@ extends Control
 
 
 const CardSlot = preload("res://scenes/encounter/card_interface/card_slot.tscn")
+@onready var place_button_container = %PlaceButtonContainer
 
 @onready var unit_grid = $PanelContainer/MarginContainer/%CardGrid
 var card_hand_data: CardHandData
@@ -86,3 +87,9 @@ func on_card_played(card_slot: CardSlot, column_type: GameData.COLUMN_TYPE, inde
 	card_slot.queue_free()
 	active_slot = null
 	
+
+
+func _on_end_turn_button_pressed():
+	if encounter_manager.encounterStateMachine.get_state_name() == "Place":
+		place_button_container.hide()
+		EncounterBus.player_place_ended_turn.emit()

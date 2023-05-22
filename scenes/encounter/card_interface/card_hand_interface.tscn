@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://p46rby3d6qhj"]
+[gd_scene load_steps=4 format=3 uid="uid://p46rby3d6qhj"]
 
 [ext_resource type="Script" path="res://scripts/encounter/card_interface/card_hand_interface.gd" id="1_iljyn"]
 [ext_resource type="PackedScene" uid="uid://b8sbk48j0lfst" path="res://scenes/encounter/card_interface/card_slot.tscn" id="2_eteuo"]
+[ext_resource type="Theme" uid="uid://dl8v06n638p0x" path="res://new_theme.tres" id="3_rpmg6"]
 
 [node name="CardHandInterface" type="Control"]
 custom_minimum_size = Vector2(1370, 150)
@@ -19,7 +20,7 @@ grow_vertical = 0
 mouse_filter = 2
 script = ExtResource("1_iljyn")
 
-[node name="PanelContainer" type="PanelContainer" parent="."]
+[node name="PanelContainer" type="HBoxContainer" parent="."]
 self_modulate = Color(1, 1, 1, 0)
 top_level = true
 custom_minimum_size = Vector2(1370, 150)
@@ -37,6 +38,7 @@ mouse_filter = 2
 
 [node name="MarginContainer" type="MarginContainer" parent="PanelContainer"]
 layout_mode = 2
+size_flags_horizontal = 3
 mouse_filter = 2
 theme_override_constants/margin_left = 5
 theme_override_constants/margin_top = 5
@@ -54,3 +56,19 @@ layout_mode = 2
 
 [node name="CardSlot2" parent="PanelContainer/MarginContainer/CardGrid" instance=ExtResource("2_eteuo")]
 layout_mode = 2
+
+[node name="PlaceButtonContainer" type="MarginContainer" parent="PanelContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/PlaceButtonContainer"]
+layout_mode = 2
+
+[node name="EndTurnButton" type="Button" parent="PanelContainer/PlaceButtonContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme = ExtResource("3_rpmg6")
+text = "END TURN"
+
+[connection signal="pressed" from="PanelContainer/PlaceButtonContainer/VBoxContainer/EndTurnButton" to="." method="_on_end_turn_button_pressed"]

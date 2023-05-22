@@ -12,7 +12,9 @@ func enter(_msg := {}) -> void:
 func update(delta: float) -> void:
 	
 
-	#state_machine.transition_to("Draft")
+	# On 1 side's turn end 
+	await EncounterBus.order_state_ended
+	state_machine.transition_to("Fight")
 	print("end order %s" % delta)
 	
 	#check here to prevent the last tick to hit after await

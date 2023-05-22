@@ -37,7 +37,7 @@ func _ready():
 	
 	# Add signals
 	EncounterBus.fight_action_started.connect(self.on_fight_action_started)
-
+	EncounterBus.player_place_ended_turn.connect(Callable(self, "on_player_place_ended_turn"))
 	
 	EncounterBus.card_slot_clicked.connect(Callable(self, "on_card_slot_clicked"))
 #	# Connect to Encounter State Machine signals
@@ -211,3 +211,9 @@ func on_card_slot_clicked(card_slot: CardSlot, column_type: GameData.COLUMN_TYPE
 		_:
 			print("default")
 	
+
+func on_player_place_ended_turn()-> void:
+	var encounter_manager = get_node("../")
+	if encounter_manager.encounterStateMachine.get_state_name() == "Place":
+		# Handle any clean up before going to Attack Order state
+		EncounterBus.place_state_ended.emit()

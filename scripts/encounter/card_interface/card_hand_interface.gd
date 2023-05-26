@@ -4,6 +4,8 @@ extends Control
 
 const CardSlot = preload("res://scenes/encounter/card_interface/card_slot.tscn")
 @onready var place_button_container = %PlaceButtonContainer
+@onready var end_turn_button = %EndTurnButton
+@onready var end_order_button = %EndOrderButton
 
 @onready var unit_grid = $PanelContainer/MarginContainer/%CardGrid
 var card_hand_data: CardHandData
@@ -12,6 +14,10 @@ var encounter_manager: EncounterManager
 	
 	
 func _ready():
+	self.hide()
+	end_turn_button.hide()
+	end_order_button.hide()
+	EncounterBus.encounter_state_changed.connect(Callable(self,"on_encounter_state_changed"))
 	EncounterBus.card_slot_clicked.connect(Callable(self, "on_card_slot_clicked"))
 	EncounterBus.card_played.connect(Callable(self,"on_card_played"))
 
@@ -88,8 +94,36 @@ func on_card_played(card_slot: CardSlot, column_type: GameData.COLUMN_TYPE, inde
 	active_slot = null
 	
 
+func on_encounter_state_changed(state_name):
+	match state_name:
+		"Start":
+			self.hide()
+			place_button_container.hide()
+			pass
+		"Fight":
+			self.hide()
+			place_button_container.hide()
+			pass
+		"Place":
+			self.show()
+			place_button_container.show()
+			end_turn_button.show()
+		"Order":
+			self.show()
+			place_button_container.show()
+			end_order_button.show()
+	
 
 func _on_end_turn_button_pressed():
 	if encounter_manager.encounterStateMachine.get_state_name() == "Place":
 		place_button_container.hide()
+		end_turn_button.hide()
 		EncounterBus.player_place_ended_turn.emit()
+
+
+func _on_end_order_button_pressed():
+	if encounter_manager.encounterStateMachine.get_state_name() == "Order":
+		place_button_container.hide()
+		end_order_button.hide()
+		EncounterBus.order_state_ended.emit()
+	pass # Replace with function body.

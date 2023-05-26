@@ -4,7 +4,7 @@ class_name StateMachine
 extends Node
 
 # Emitted when transitioning to a new state.
-signal encounter_state_changed(state_name : String)
+
 
 # Path to the initial active state. We export it to be able to pick the initial state in the inspector.
 #@export var initial_state := NodePath()
@@ -50,7 +50,7 @@ func transition_to(target_state_name: String, msg: Dictionary = {}) -> void:
 	state.exit()
 	state = get_node(target_state_name)
 	state.enter(msg)
-	encounter_state_changed.emit(state.name)
+	EncounterBus.encounter_state_changed.emit(state.name)
 
 func get_state_name():
 	return self.state.name

@@ -73,3 +73,15 @@ const UNIT = 1
 ## State 
 
 const START_STATE_INTRO_TIMEOUT : float = 3.0
+
+
+func attackOrderComparison(a : SlotData, b : SlotData):
+	if !a.can_attack:
+		return true
+	if !b.can_attack:
+		return false
+		
+	if typeof(a.attack_order) != typeof(b.attack_order):
+		return typeof(a.attack_order) < typeof(b.attack_order)
+	else:
+		return a.attack_order < b.attack_order

@@ -71,4 +71,11 @@ layout_mode = 2
 theme = ExtResource("3_rpmg6")
 text = "END TURN"
 
+[node name="EndOrderButton" type="Button" parent="PanelContainer/PlaceButtonContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme = ExtResource("3_rpmg6")
+text = "END TURN"
+
 [connection signal="pressed" from="PanelContainer/PlaceButtonContainer/VBoxContainer/EndTurnButton" to="." method="_on_end_turn_button_pressed"]
+[connection signal="pressed" from="PanelContainer/PlaceButtonContainer/VBoxContainer/EndOrderButton" to="." method="_on_end_order_button_pressed"]

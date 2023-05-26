@@ -36,6 +36,7 @@ func _ready():
 	}
 	
 	# Add signals
+	EncounterBus.slot_data_changed.connect(self.on_slot_data_changed)
 	EncounterBus.fight_action_started.connect(self.on_fight_action_started)
 	EncounterBus.player_place_ended_turn.connect(Callable(self, "on_player_place_ended_turn"))
 	
@@ -111,16 +112,7 @@ func fight() -> void:
  
 	EncounterBus.fight_action_stopped.emit()
 	
-func attackOrderComparison(a : SlotData, b : SlotData):
-	if !a.can_attack:
-		return true
-	if !b.can_attack:
-		return false
-		
-	if typeof(a.attack_order) != typeof(b.attack_order):
-		return typeof(a.attack_order) < typeof(b.attack_order)
-	else:
-		return a.attack_order < b.attack_order
+
 
 func get_attack_target(slot_data: SlotData) -> Array[UnitColumn]:
 	var slot = slot_data.current_slot
@@ -217,3 +209,7 @@ func on_player_place_ended_turn()-> void:
 	if encounter_manager.encounterStateMachine.get_state_name() == "Place":
 		# Handle any clean up before going to Attack Order state
 		EncounterBus.place_state_ended.emit()
+
+func on_slot_data_changed():
+	# Current way to update ui
+	pass

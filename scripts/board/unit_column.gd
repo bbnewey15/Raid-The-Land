@@ -44,6 +44,8 @@ func load_from_resource(data: UnitColumnData) -> void:
 	# set size to all column
 	self.set_size(GameData.COLUMN_SIZE)
 	
+	
+	
 func add_slot(data: SlotData) -> Slot:
 	var slot = Slot.instantiate()
 		

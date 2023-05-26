@@ -10,6 +10,7 @@ const ActionUIScene = preload("res://scenes/encounter/action_ui.tscn")
 const playerHandData : CardHandData = preload("res://resources/hand/player_hand.tres")
 const FiniteStateMachine = preload("res://scenes/encounter/encounter_state_machine.tscn")
 @onready var cardHandInterface = $CardHandInterface
+@onready var order_ui = $OrderUi
 
 var actionUI: ActionUI
 var loading: bool = true
@@ -51,11 +52,13 @@ func _ready():
 	cardHandInterface.encounter_manager = self as EncounterManager
 	cardHandInterface.load_from_resource(playerHandData)
 	
+	order_ui.load_from_slot_data_group(playerSlotDatas)
+	
 	# Connect to Encounter State Machine signals
-	encounterStateMachine.encounter_state_changed.connect(self.on_encounter_state_changed)
+	EncounterBus.encounter_state_changed.connect(self.on_encounter_state_changed)
 	
 	loading = false
-	
+		
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):

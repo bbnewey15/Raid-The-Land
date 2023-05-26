@@ -1,6 +1,9 @@
 extends Node
 
-
+# warning-ignore:unused_signal
+signal encounter_state_changed(state_name : String)
+# warning-ignore:unused_signal
+signal slot_data_changed
 # warning-ignore:unused_signal
 signal place_state_started
 # warning-ignore:unused_signal

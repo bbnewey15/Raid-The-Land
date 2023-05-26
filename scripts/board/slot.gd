@@ -8,6 +8,9 @@ signal slot_clicked(index: int, button: int)
 var slot_data : SlotData 
 var unit_node : Node2D
 
+func _ready():
+	EncounterBus.slot_data_changed.connect(self.on_slot_data_changed)
+
 func set_slot_data(data: SlotData) -> void:
 	if unit_node:
 		unit_node.queue_free()
@@ -30,6 +33,11 @@ func set_slot_data(data: SlotData) -> void:
 	
 	# Update Unit UI
 	unit_ui.set_unit_data(self.slot_data.unit_data)
+	unit_ui.set_slot_data(self.slot_data)
+
+func on_slot_data_changed():
+	# Current way to update ui
+	set_slot_data(slot_data)
 
 	
 func _process(delta):

@@ -96,7 +96,7 @@ func fight() -> void:
 	var full_slot_array : Array[SlotData] 
 	full_slot_array.append_array(playerSlotDatas)
 	full_slot_array.append_array(enemySlotDatas)
-	full_slot_array.sort_custom(Callable(self,"attackOrderComparison") )
+	full_slot_array.sort_custom(Callable(GameData,"attackOrderComparison") )
 	#
 	
 	#unit_data
@@ -213,3 +213,16 @@ func on_player_place_ended_turn()-> void:
 func on_slot_data_changed():
 	# Current way to update ui
 	pass
+
+func get_next_attack_order(isEnemy: bool) -> int:
+	var data_to_check : Array[SlotData]
+
+	data_to_check = enemySlotDatas if isEnemy else playerSlotDatas
+	
+	var next_attack_order : int = 1
+	for slot_data in data_to_check:
+		# Get highest attack order
+		if slot_data.attack_order >= next_attack_order:
+			next_attack_order = slot_data.attack_order+1
+	
+	return next_attack_order

@@ -48,11 +48,11 @@ func load_from_resource(data: UnitColumnData) -> void:
 	
 func add_slot(data: SlotData) -> Slot:
 	var slot = Slot.instantiate()
-		
+	
 	unit_grid.add_child(slot)
 	
 	data.slotIndex = slot.get_index()
-	
+	data.attack_order = encounter_manager.columnGroup.get_next_attack_order(data.isEnemyUnit)
 	# Rotate slot so it is on the right angle
 	slot.set_pivot_offset(slot.size/2)
 	slot.set_rotation_degrees(-self.get_rotation_degrees())

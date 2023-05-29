@@ -6,7 +6,7 @@ var order_ui_panel = preload("res://scenes/encounter/order_ui_panel.tscn")
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	# Connect to Encounter State Machine signals
-	self.hide()
+	#self.hide()
 	EncounterBus.encounter_state_changed.connect(self.on_encounter_state_changed)
 	EncounterBus.slot_data_changed.connect(self.on_slot_data_changed)
 
@@ -16,6 +16,7 @@ func _process(delta):
 	pass
 	
 func load_from_slot_data_group(data: SlotDataGroup):
+	
 	saved_data = data
 	# TODO: Dont reinstance every time
 	for child in v_box_container.get_children():
@@ -39,7 +40,7 @@ func on_encounter_state_changed(state: String):
 		"Order":
 			self.show()
 		_:
-			self.hide()
+			pass#self.hide()
 
 func move_panel_up_or_down(panel: Panel, up_or_down: String, slot_data: SlotData):
 	var panel_to_switch

@@ -32,7 +32,7 @@ func move_unit(direction: GameData.MOVE_DIRECTION ):
 		
 		#Add to new column
 		var column_moved_to: UnitColumn = encounter_manager.columnGroup.column_dict[GameData.getColumnStringByIndex(move_to_column_index)]
-		column_moved_to.add_slot(active_slot_data)
+		column_moved_to.add_slot(active_slot_data, false)
 		update_actionUI()
 		#Remove from old column
 		slot.queue_free()

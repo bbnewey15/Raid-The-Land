@@ -64,7 +64,7 @@ func load_from_slot_data_group(data: SlotDataGroup) -> void:
 	for slot_data in data.slot_datas:
 		print("slot_data.column_name:  %s"  % slot_data.column_name)
 		print(GameData[GameData.COLUMN_STRING.keys()[slot_data.column_name]])
-		column_dict[GameData.getColumnStringByIndex(slot_data.column_name)].add_slot(slot_data)
+		column_dict[GameData.getColumnStringByIndex(slot_data.column_name)].add_slot(slot_data, false)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -190,9 +190,13 @@ func on_card_slot_clicked(card_slot: CardSlot, column_type: GameData.COLUMN_TYPE
 				slot_data.isEnemyUnit = false
 				slot_data.column_name = GameData.getColumnStringByColumnType(column_type)
 				
-				
 				var slot : Slot = column_to_add.add_slot(slot_data)
 				slot_data.current_slot = slot
+				
+				#Update the shared data
+				encounter_manager.columnGroup.playerSlotDatas.append(slot.slot_data)
+				EncounterBus.slot_data_changed.emit()
+				
 				# Emit signal to update CardHandInterface
 				EncounterBus.card_played.emit(card_slot, column_type, index, button)
 				

@@ -37,7 +37,7 @@ func load_from_resource(data: UnitColumnData) -> void:
 			child.queue_free()
 			
 	for slot_data in column_data.slot_datas:
-		add_slot(slot_data)
+		add_slot(slot_data, false)
 			
 	# set pivot point for proper rotation
 	self.set_pivot_offset(size/2)
@@ -46,7 +46,7 @@ func load_from_resource(data: UnitColumnData) -> void:
 	
 	
 	
-func add_slot(data: SlotData) -> Slot:
+func add_slot(data: SlotData, shouldUpdateUI: bool = true) -> Slot:
 	var slot = Slot.instantiate()
 	
 	unit_grid.add_child(slot)
@@ -69,7 +69,7 @@ func add_slot(data: SlotData) -> Slot:
 #		print(slot.slot_clicked.get_connections())
 	
 	var parent  = get_parent_control()
-	
+		
 	
 	#slot.slot_clicked.connect(parent.)
 	return slot

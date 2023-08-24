@@ -8,10 +8,10 @@ func _ready():
 	# set position
 	if isEnemy:
 		self.set_position(GameData.siegeEnemyColumnLocation)
-		self.set_rotation(deg_to_rad(GameData.siegeEnemyColumnRotation))
+		#self.set_rotation(deg_to_rad(GameData.siegeEnemyColumnRotation))
 	else:
 		self.set_position(GameData.siegeColumnLocation)
-		self.set_rotation(deg_to_rad(GameData.siegeColumnRotation))
+		#self.set_rotation(deg_to_rad(GameData.siegeColumnRotation))
 		
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

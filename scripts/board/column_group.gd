@@ -230,3 +230,4 @@ func get_next_attack_order(isEnemy: bool) -> int:
 			next_attack_order = slot_data.attack_order+1
 	
 	return next_attack_order
+

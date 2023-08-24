@@ -14,5 +14,6 @@ func _unhandled_key_input(event) -> void:
 		print("quitting")
 		get_tree().quit()
 		
-
+	if event.is_action_pressed("debug_ui"):
+		EncounterBus.debug_ui.emit(true)
 

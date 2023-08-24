@@ -40,4 +40,8 @@ signal post_fight_state_started(units_data : UnitColumnData)
 signal post_fight_state_stopped
 # warning-ignore:unused_signal
 
+# warning-ignore:unused_signal
 signal unit_selected(unit_col_data: UnitColumnData, index: int, colIndex: int, button: int)
+
+# warning-ignore:unused_signal
+signal debug_ui(debug: bool)

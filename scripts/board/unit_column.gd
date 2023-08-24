@@ -13,6 +13,7 @@ func init(isEnemyParam: bool, column_type: GameData.COLUMN_TYPE) -> UnitColumn:
 	self.isEnemy = isEnemyParam
 	self.column_type = column_type
 	EncounterBus.column_attacked.connect(Callable(self, "on_column_attacked"))
+	EncounterBus.debug_ui.connect(self.debug_column_ui)
 	return self
 	
 func _ready():
@@ -55,7 +56,7 @@ func add_slot(data: SlotData, shouldUpdateUI: bool = true) -> Slot:
 	data.attack_order = encounter_manager.columnGroup.get_next_attack_order(data.isEnemyUnit)
 	# Rotate slot so it is on the right angle
 	slot.set_pivot_offset(slot.size/2)
-	slot.set_rotation_degrees(-self.get_rotation_degrees())
+	#slot.set_rotation_degrees(-self.get_rotation_degrees())
 	
 	
 	slot.set_slot_data(data)
@@ -83,5 +84,8 @@ func on_column_attacked(unit_column: UnitColumn, unit_attacking: SlotData)-> voi
 	for child in unit_column.unit_grid.get_children():
 		child.defend(unit_attacking)
 	
-
+func highlight_column():
+	self.set_self_modulate(Color(.3,.6, .7, .4))
 	
+func debug_column_ui(debug: bool)-> void:
+	self.highlight_column()

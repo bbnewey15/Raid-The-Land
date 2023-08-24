@@ -10,11 +10,11 @@ func _ready():
 	if isEnemy:
 		print("GameData.rangedEnemyColumnLocation %s" % GameData.rangedEnemyColumnLocation)
 		self.set_position(GameData.rangedEnemyColumnLocation)
-		self.set_rotation(deg_to_rad(GameData.rangedEnemyColumnRotation))
+		#self.set_rotation(deg_to_rad(GameData.rangedEnemyColumnRotation))
 	else:
 		print("GameData.rangedColumnLocation %s" % GameData.rangedColumnLocation)
 		self.set_position(GameData.rangedColumnLocation)
-		self.set_rotation(deg_to_rad(GameData.rangedColumnRotation))
+		#self.set_rotation(deg_to_rad(GameData.rangedColumnRotation))
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

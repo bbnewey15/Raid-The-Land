@@ -8,12 +8,14 @@ var isEnemy: bool
 @onready var unit_grid = $MarginContainer/%UnitGrid
 var column_data: UnitColumnData
 var encounter_manager : EncounterManager = null
+var highlighted : bool = false
 
 func init(isEnemyParam: bool, column_type: GameData.COLUMN_TYPE) -> UnitColumn:
 	self.isEnemy = isEnemyParam
 	self.column_type = column_type
 	EncounterBus.column_attacked.connect(Callable(self, "on_column_attacked"))
 	EncounterBus.debug_ui.connect(self.debug_column_ui)
+	EncounterBus.encounter_state_changed.connect(Callable(self,"on_encounter_state_changed"))
 	return self
 	
 func _ready():
@@ -75,6 +77,26 @@ func add_slot(data: SlotData, shouldUpdateUI: bool = true) -> Slot:
 	#slot.slot_clicked.connect(parent.)
 	return slot
 	
+func _on_gui_input(event):
+	if event is InputEventMouseButton \
+		and (event.button_index == MOUSE_BUTTON_LEFT) \
+		and event.is_pressed():
+			print("Card Slot Clicked %s" % event )
+			# Have to update position
+			if highlighted:
+				EncounterBus.column_clicked.emit(self, get_index(), event.button_index)
+
+	
+func on_encounter_state_changed(state_name):
+	match state_name:
+#		"Start":
+#		"Fight":
+#		"Place":
+#		"Order":
+		_:
+			self.unhighlight_column()
+			pass
+	
 func on_column_attacked(unit_column: UnitColumn, unit_attacking: SlotData)-> void:
 	# Check if this is the column:
 	if self.column_data.colIndex != unit_column.column_data.colIndex:
@@ -85,7 +107,13 @@ func on_column_attacked(unit_column: UnitColumn, unit_attacking: SlotData)-> voi
 		child.defend(unit_attacking)
 	
 func highlight_column():
+	highlighted = true
 	self.set_self_modulate(Color(.3,.6, .7, .4))
+	
+func unhighlight_column():
+	highlighted = false
+	self.set_self_modulate(Color(1, 1, 1, 0))
+	
 	
 func debug_column_ui(debug: bool)-> void:
 	self.highlight_column()

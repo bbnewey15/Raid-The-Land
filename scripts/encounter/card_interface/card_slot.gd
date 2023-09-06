@@ -35,7 +35,10 @@ func _on_gui_input(event):
 			print("Card Slot Clicked %s" % event )
 			# Have to update position
 			slot_data.set_slot_position(get_global_position() + size/2)
-			EncounterBus.card_slot_clicked.emit(self, slot_data.unit_data.column_type, get_index(), event.button_index)
+			if highlighted:
+				EncounterBus.card_played.emit(self, slot_data.unit_data.column_type, get_index(), event.button_index)
+			else:
+				EncounterBus.card_slot_clicked.emit(self, slot_data.unit_data.column_type, get_index(), event.button_index)
 #			print(slot_clicked.get_connections())
 
 func _on_mouse_entered():

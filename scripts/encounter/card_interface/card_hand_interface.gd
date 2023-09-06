@@ -19,7 +19,8 @@ func _ready():
 	end_order_button.hide()
 	EncounterBus.encounter_state_changed.connect(Callable(self,"on_encounter_state_changed"))
 	EncounterBus.card_slot_clicked.connect(Callable(self, "on_card_slot_clicked"))
-	EncounterBus.card_played.connect(Callable(self,"on_card_played"))
+	EncounterBus.card_post_play.connect(Callable(self,"on_card_post_play"))
+	EncounterBus.column_clicked.connect(Callable(self,"on_column_clicked"))
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -82,12 +83,16 @@ func on_card_slot_clicked(slot: CardSlot, column_type: GameData.COLUMN_TYPE, ind
 			print("default")
 			
 
+
 func update_hand_ui(old_active_slot: CardSlot) -> void:
 	print("HAND UI")
 	
+func on_column_clicked(column: UnitColumn, index: int, button: int):
+	if active_slot and active_slot.highlighted:
+		# Play the card:
+		EncounterBus.card_played.emit(active_slot, active_slot.slot_data.unit_data.column_type, index, button)
 
-
-func on_card_played(card_slot: CardSlot, column_type: GameData.COLUMN_TYPE, index: int, button: int):
+func on_card_post_play(card_slot: CardSlot, column_type: GameData.COLUMN_TYPE, index: int, button: int):
 	#Remove card from hand and free resources
 	unit_grid.remove_child(card_slot)
 	card_slot.queue_free()

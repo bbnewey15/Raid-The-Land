@@ -41,6 +41,7 @@ func _ready():
 	EncounterBus.player_place_ended_turn.connect(Callable(self, "on_player_place_ended_turn"))
 	
 	EncounterBus.card_slot_clicked.connect(Callable(self, "on_card_slot_clicked"))
+	EncounterBus.card_played.connect(Callable(self, "on_card_played"))
 #	# Connect to Encounter State Machine signals
 #	encounterStateMachine.encounter_state_changed.connect(self.on_encounter_state_changed)
 	
@@ -134,7 +135,7 @@ func get_attack_target(slot_data: SlotData) -> Array[UnitColumn]:
 			range = [2]
 		GameData.COLUMN_TYPE.SIEGE:
 			# Targets up to 2 range
-			range = range(1,2)
+			range = [1,2]
 	
 	assert(range, "No Range set")
 	
@@ -180,33 +181,55 @@ func on_card_slot_clicked(card_slot: CardSlot, column_type: GameData.COLUMN_TYPE
 		"Fight":
 			pass
 		"Place":
-			if card_slot.highlighted:
-				# Add to card appropriate column
-				var column_to_add : UnitColumn = column_dict[GameData.getColumnStringByColumnType(column_type)]
-				
-				# Create slot_data from card_slot_data
-				var slot_data = SlotData.new()
-				slot_data.init_unit_data(card_slot.slot_data.unit_data)
-				slot_data.isEnemyUnit = false
-				slot_data.column_name = GameData.getColumnStringByColumnType(column_type)
-				
-				var slot : Slot = column_to_add.add_slot(slot_data)
-				slot_data.current_slot = slot
-				
-				#Update the shared data
-				encounter_manager.columnGroup.playerSlotDatas.append(slot.slot_data)
-				EncounterBus.slot_data_changed.emit()
-				
-				# Emit signal to update CardHandInterface
-				EncounterBus.card_played.emit(card_slot, column_type, index, button)
-				
-				pass
-			else:
-				# Highlight the appropriate column
-				pass
+
+			if not card_slot.slot_data.abstract_card:
+				# Find available columns to add to
+				var columns_available = self.find_available_columns_to_add_to(card_slot)
+				# Highlight the columns
+				for column in columns_available:
+					column_dict[column].highlight_column()
+			
 		_:
 			print("default")
 	
+func on_card_played(card_slot: CardSlot, column_type: GameData.COLUMN_TYPE, index: int, button: int)->void:
+	var encounter_manager = get_node("../")
+	
+	
+	match encounter_manager.encounterStateMachine.get_state_name():
+		"Start":
+			pass
+		"Fight":
+			pass
+		"Place":
+				if not card_slot.slot_data.abstract_card:
+					# Add to card appropriate column
+					var column_to_add : UnitColumn = column_dict[GameData.getColumnStringByIndex(index)]
+					
+					# Create slot_data from card_slot_data
+					var slot_data = SlotData.new()
+					slot_data.init_unit_data(card_slot.slot_data.unit_data)
+					slot_data.isEnemyUnit = false
+					slot_data.column_name = GameData.getColumnStringByColumnType(column_type)
+					
+					var slot : Slot = column_to_add.add_slot(slot_data)
+					slot_data.current_slot = slot
+					
+					#Update the shared data
+					encounter_manager.columnGroup.playerSlotDatas.append(slot.slot_data)
+					EncounterBus.slot_data_changed.emit()
+					
+					# Emit signal to update CardHandInterface
+					EncounterBus.card_post_play.emit(card_slot, column_type, index, button)
+					
+					# Remove any highlights from columns
+					for column in column_dict:
+						column_dict[column].unhighlight_column()
+				else:
+					# Play it abstractly
+					pass
+		_:
+			print("default")
 
 func on_player_place_ended_turn()-> void:
 	var encounter_manager = get_node("../")
@@ -231,3 +254,9 @@ func get_next_attack_order(isEnemy: bool) -> int:
 	
 	return next_attack_order
 
+func find_available_columns_to_add_to(cardSlot: CardSlot, isEnemy: bool = false):
+	var columns_available = []
+	for column in column_dict:
+		if column_dict[column].isEnemy == isEnemy:
+			columns_available.append(column)
+	return columns_available

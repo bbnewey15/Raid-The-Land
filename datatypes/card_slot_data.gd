@@ -1,6 +1,8 @@
 class_name CardSlotData extends Resource
 
 @export var unit_data:  UnitDataTest
+# Abstract card means does the card physically play a unit or does it abstractly affect the game?
+@export var abstract_card: bool
 
 func init_unit_data(data: UnitDataTest):
 	if data:

@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="UnitData" load_steps=3 format=3]
+[gd_resource type="Resource" script_class="UnitDataTest" load_steps=3 format=3 uid="uid://bn0gbeagab3wg"]
 
 [ext_resource type="Script" path="res://scripts/units/unit_data.gd" id="1_oygbk"]
 [ext_resource type="Texture2D" uid="uid://cjjaq0ehia3qr" path="res://assets/stone_stolen.PNG" id="2_2l8b6"]
@@ -8,4 +8,8 @@ script = ExtResource("1_oygbk")
 name = "Stone Tosser"
 description = "A simple minded ranged unit."
 texture = ExtResource("2_2l8b6")
+unit_node_path = "res://scenes/units/archer.tscn"
 column_type = 1
+max_health = 70
+damage = 20
+health = 70

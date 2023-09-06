@@ -15,6 +15,10 @@ signal card_slot_clicked(card_slot: CardSlot, column_type: GameData.COLUMN_TYPE,
 # warning-ignore:unused_signal
 signal card_played(card_slot: CardSlot, column_type: GameData.COLUMN_TYPE, index: int, button: int)
 # warning-ignore:unused_signal
+signal card_post_play(card_slot: CardSlot, column_type: GameData.COLUMN_TYPE, index: int, button: int)
+# warning-ignore:unused_signal
+signal column_clicked(column: UnitColumn, index: int, button:int)
+# warning-ignore:unused_signal
 signal place_unit
 
 # warning-ignore:unused_signal

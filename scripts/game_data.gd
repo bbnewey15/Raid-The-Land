@@ -64,6 +64,10 @@ enum MOVE_DIRECTION {LEFT, RIGHT}
 const LEFT = 0
 const RIGHT = 1
 
+enum UNIT_ACTIONS {ATTACK, DEFEND, SUPPORT}
+const ATTACK = 0
+const DEFEND = 1
+const SUPPORT = 2
 
 ## Cards
 enum CARD_TYPE {SKILL,UNIT}
@@ -76,9 +80,9 @@ const START_STATE_INTRO_TIMEOUT : float = 3.0
 
 
 func attackOrderComparison(a : SlotData, b : SlotData):
-	if !a.can_attack:
+	if !a.can_attack():
 		return true
-	if !b.can_attack:
+	if !b.can_attack():
 		return false
 		
 	if typeof(a.attack_order) != typeof(b.attack_order):

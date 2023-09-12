@@ -10,7 +10,8 @@ class_name SlotData
 @export var slotIndex: int
 var slot_position: Vector2
 @export var attack_order: int = 0
-var can_attack : bool = true
+var attack_targets : Array[SlotData]
+var action : GameData.UNIT_ACTIONS
 var current_slot : Slot
 
 func init_unit_data(data: UnitDataTest):
@@ -23,3 +24,11 @@ func init_unit_data(data: UnitDataTest):
 func set_slot_position(pos: Vector2)->void:
 	slot_position = pos
 
+func can_attack() -> bool:
+	var will_attack = true
+	if unit_data.health <= 0:
+		will_attack = false
+	if action != GameData.UNIT_ACTIONS["ATTACK"]:
+		will_attack = false
+	
+	return will_attack

@@ -18,7 +18,8 @@ func _ready():
 func set_unit_data(data: UnitDataTest)-> void:
 	self.unit_data = data
 	var new_health = clamp(data.health, 0.0, unit_data.max_health)
-	health_bar_texture.value = new_health
+	
+	health_bar_texture.value= ( float(new_health) / unit_data.max_health ) * 100
 	health_label.text = str(new_health)
 	
 func set_slot_data(data: SlotData)->void:

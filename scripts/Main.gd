@@ -16,4 +16,5 @@ func _unhandled_key_input(event) -> void:
 		
 	if event.is_action_pressed("debug_ui"):
 		EncounterBus.debug_ui.emit(true)
-
+		
+	

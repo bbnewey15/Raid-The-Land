@@ -7,6 +7,7 @@ class_name UnitDataTest extends Resource
 @export var column_type: GameData.COLUMN_TYPE
 @export var max_health: int = 100
 @export var damage: int = 35
+@export var status: String = "ALIVE"
 
 @export var health = max_health
 

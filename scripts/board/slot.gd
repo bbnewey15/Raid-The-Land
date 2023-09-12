@@ -7,6 +7,7 @@ signal slot_clicked(index: int, button: int)
 @onready var unit_ui = $UnitUi
 var slot_data : SlotData 
 var unit_node : Node2D
+var highlighted : bool = false
 
 func _ready():
 	EncounterBus.slot_data_changed.connect(self.on_slot_data_changed)
@@ -34,6 +35,7 @@ func set_slot_data(data: SlotData) -> void:
 	# Update Unit UI
 	unit_ui.set_unit_data(self.slot_data.unit_data)
 	unit_ui.set_slot_data(self.slot_data)
+	
 
 func on_slot_data_changed():
 	# Current way to update ui
@@ -57,6 +59,16 @@ func _on_gui_input(event):
 func _on_mouse_entered():
 	print("Entered")
 	pass # Replace with function body.
+	
+	
+func highlight_slot():
+	highlighted = true
+	self.set_self_modulate(Color(.3,.6, .7, .4))
+	
+func unhighlight_slot():
+	highlighted = false
+	self.set_self_modulate(Color(1, 1, 1, 0))
+	
 
 func attack(targetColumn : UnitColumn):
 	# show animation, sound, update in data
@@ -85,7 +97,30 @@ func defend(attackingUnit : SlotData) -> void:
 	
 	var damage_done = attackingUnit.unit_data.damage
 	print("self.slot_data.unit_data.health - damage_done %s" % str(self.slot_data.unit_data.health - damage_done))
-	self.slot_data.unit_data.update_health(self.slot_data.unit_data.health - damage_done)
-	var health = self.slot_data.unit_data.health
-	unit_ui.set_unit_data(self.slot_data.unit_data)
+	var new_health = self.slot_data.unit_data.health - damage_done
+	# Update unit datas new health
+	self.slot_data.unit_data.update_health(new_health)
+	# Update UI to show new health
+	EncounterBus.slot_data_changed.emit()
 	
+	if new_health <= 0:
+		self.die()
+	
+
+func die() -> void:
+	
+	
+	# Attacked animation
+	var tween: Tween = create_tween()
+
+	# Add the animation to the Tween
+	tween.tween_property(unit_node, "rotation_degrees", 90, 1)
+	await tween.finished
+
+func highlight_unit() -> void:
+	print("highlighting")
+	var tween: Tween = create_tween()
+	tween.tween_property(unit_node, "modulate:v", 1, 0.25).from(15)
+	await tween.finished
+
+

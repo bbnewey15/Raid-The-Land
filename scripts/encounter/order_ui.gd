@@ -34,6 +34,8 @@ func load_from_slot_data_group(data: SlotDataGroup):
 		panel.get_node("%UnitImage").texture = slot_data.unit_data.texture
 		panel.get_node("%NameLabel").text = str(slot_data.unit_data.name)
 		panel.get_node("%OrderLabel").text = str(slot_data.attack_order)
+		panel.get_node("HBoxContainer/VBoxContainer/HealthBar").update(slot_data.unit_data)
+		
 		v_box_container.add_child(panel)
 
 func on_encounter_state_changed(state: String):

@@ -28,6 +28,7 @@ func update(delta: float) -> void:
 	
 func exit() -> void:
 	print("leaving fight state")
+	action_started = false
 
 
 #

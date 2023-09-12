@@ -1,16 +1,19 @@
-[gd_scene load_steps=4 format=3 uid="uid://cj2sokxjbe72j"]
+[gd_scene load_steps=5 format=3 uid="uid://cj2sokxjbe72j"]
 
 [ext_resource type="Script" path="res://scripts/encounter/unit_ui.gd" id="1_y42an"]
+[ext_resource type="FontFile" uid="uid://bux2d6r2ckfem" path="res://assets/fonts/vikingsquad/vikingsquadbold.ttf" id="2_ucouw"]
 
-[sub_resource type="Gradient" id="Gradient_7am5v"]
-offsets = PackedFloat32Array(0, 0.465409, 1)
-colors = PackedColorArray(0.52549, 0, 0, 1, 0.465409, 0.465409, 0.465409, 1, 0.576405, 1, 0.611035, 1)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_f5ygy"]
+bg_color = Color(0.168627, 0.00784314, 0.00784314, 0.431373)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
 
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_1mijl"]
-gradient = SubResource("Gradient_7am5v")
-width = 90
-height = 20
-fill_to = Vector2(0.396396, 0)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bw8q1"]
+bg_color = Color(0.352941, 0.878431, 0.258824, 1)
+corner_radius_top_left = 3
+corner_radius_bottom_left = 3
 
 [node name="UnitUi" type="Control"]
 layout_mode = 3
@@ -31,12 +34,14 @@ offset_bottom = 20.0
 grow_horizontal = 2
 scale = Vector2(1, 0.559999)
 
-[node name="HealthBarTexture" type="TextureProgressBar" parent="HealthBar"]
+[node name="HealthBarTexture" type="ProgressBar" parent="HealthBar"]
 layout_mode = 0
-offset_right = 200.0
-offset_bottom = 20.0
-value = 100.0
-texture_progress = SubResource("GradientTexture2D_1mijl")
+offset_right = 92.0
+offset_bottom = 23.0
+theme_override_styles/background = SubResource("StyleBoxFlat_f5ygy")
+theme_override_styles/fill = SubResource("StyleBoxFlat_bw8q1")
+value = 50.0
+show_percentage = false
 
 [node name="HealthLabel" type="Label" parent="HealthBar"]
 layout_mode = 1
@@ -46,39 +51,35 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -20.0
-offset_top = -12.0
+offset_top = -13.0
 offset_right = 20.0
-offset_bottom = 13.0
+offset_bottom = 15.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 2
-theme_override_font_sizes/font_size = 19
+theme_override_constants/outline_size = 3
+theme_override_fonts/font = ExtResource("2_ucouw")
+theme_override_font_sizes/font_size = 34
 text = "100"
 horizontal_alignment = 1
 
 [node name="OrderControl" type="Control" parent="."]
 unique_name_in_owner = true
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -20.0
-offset_right = 20.0
-offset_bottom = 20.0
-grow_horizontal = 2
-grow_vertical = 2
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
 mouse_filter = 2
 
 [node name="Label" type="Label" parent="OrderControl"]
 layout_mode = 0
-offset_right = 40.0
-offset_bottom = 23.0
+offset_left = -7.0
+offset_top = -12.0
+offset_right = 33.0
+offset_bottom = 27.0
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 5
-theme_override_font_sizes/font_size = 24
+theme_override_fonts/font = ExtResource("2_ucouw")
+theme_override_font_sizes/font_size = 50
 text = "1"
 horizontal_alignment = 1

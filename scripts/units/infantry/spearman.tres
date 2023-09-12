@@ -12,4 +12,5 @@ unit_node_path = "res://scenes/units/spearman.tscn"
 column_type = 2
 max_health = 100
 damage = 35
+status = "ALIVE"
 health = 100

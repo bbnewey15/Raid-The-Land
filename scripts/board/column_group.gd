@@ -12,6 +12,7 @@ var isEnemy: bool
 var loading: bool = true
 var playerSlotDatas : Array[SlotData]
 var enemySlotDatas : Array[SlotData]
+var full_slot_array : Array[SlotData]
 
 var active_slot_data : SlotData
 
@@ -92,20 +93,14 @@ func on_fight_action_started() -> void:
 
 func fight() -> void:
 	#UnitColumnGroup on state: "fight"
-	#
-	#put units in order by attack order and turn priority
-	var full_slot_array : Array[SlotData] 
-	full_slot_array.append_array(playerSlotDatas)
-	full_slot_array.append_array(enemySlotDatas)
-	full_slot_array.sort_custom(Callable(GameData,"attackOrderComparison") )
-	#
+
 	
 	#unit_data
 	#for unit in units:
-	for slot_data in full_slot_array:
-		if slot_data.can_attack && slot_data.attack_order:
-			# target = get_attack_target(unit)
-			var target_array = get_attack_target(slot_data)
+	for slot_data in self.full_slot_array:
+		if slot_data.can_attack() && slot_data.attack_order:
+			
+			var target_array = slot_data.attack_targets
 			for target in target_array:
 				slot_data.current_slot.attack(target)
 				print("Unit: %s attacked Column: %s" % [slot_data.unit_data.name, GameData.getColumnStringByIndex(target.column_data.colIndex)])
@@ -113,15 +108,27 @@ func fight() -> void:
  
 	EncounterBus.fight_action_stopped.emit()
 	
+func on_order_action_started()-> void:
+	self.check_and_request_unit_action()
+	
+func check_and_request_unit_action() -> void:
+	# Get First in attack order
+	for slot_data in self.full_slot_array:
+		if slot_data.action != null:
+			continue
+			
+		var slot = slot_data.current_slot
+		EncounterBus.action_request_ui.emit()
+	
+	
 
-
-func get_attack_target(slot_data: SlotData) -> Array[UnitColumn]:
-	var slot = slot_data.current_slot
-	assert(slot, "No slot found for slot_data")
+func get_potential_attack_targets(slot_data: SlotData) -> Array[SlotData]:
+	var slot_attacking = slot_data.current_slot
+	assert(slot_attacking, "No slot found for slot_data")
 	
 	var isEnemy = slot_data.isEnemyUnit
 	
-	var attacking_column : UnitColumn = slot.get_node("../../../")
+	var attacking_column : UnitColumn = slot_attacking.get_node("../../../")
 	
 	var targeted_columns : Array[UnitColumn] = []
 	var range: Array
@@ -158,8 +165,12 @@ func get_attack_target(slot_data: SlotData) -> Array[UnitColumn]:
 			if tmp.isEnemy:
 				targeted_columns.append(tmp)
 	
+	var attackable_slots: Array[SlotData] = []
+	for column in targeted_columns:
+		for slot in column.get_children():
+			attackable_slots.append(slot.slot_data)
 	
-	return targeted_columns
+	return attackable_slots
 			
 
 func on_encounter_state_changed(state_name : String) -> void:
@@ -239,7 +250,26 @@ func on_player_place_ended_turn()-> void:
 
 func on_slot_data_changed():
 	# Current way to update ui
-	pass
+	var tmp_slot_array : Array[SlotData] 
+	tmp_slot_array.append_array(playerSlotDatas)
+	tmp_slot_array.append_array(enemySlotDatas)
+	tmp_slot_array.sort_custom(Callable(GameData,"attackOrderComparison") )
+	self.full_slot_array = tmp_slot_array
+	
+	var encounter_manager = get_node("../")
+	
+	
+	match encounter_manager.encounterStateMachine.get_state_name():
+		"Start":
+			pass
+		"Fight":
+			pass
+		"Place":
+			pass
+		"Order":
+			self.check_and_request_unit_action()
+
+	
 
 func get_next_attack_order(isEnemy: bool) -> int:
 	var data_to_check : Array[SlotData]

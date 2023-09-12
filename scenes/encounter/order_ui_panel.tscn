@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://ckx857ocp38pj"]
+[gd_scene load_steps=4 format=3 uid="uid://ckx857ocp38pj"]
 
 [ext_resource type="Script" path="res://scripts/encounter/order_ui_panel.gd" id="1_8jljq"]
 [ext_resource type="Texture2D" uid="uid://d2d85xlrugfyf" path="res://assets/spearman_ref.png" id="1_jyggg"]
+[ext_resource type="PackedScene" uid="uid://feysoru1scpe" path="res://health_bar.tscn" id="3_hiom0"]
 
 [node name="OrderUiPanel" type="Panel"]
 custom_minimum_size = Vector2(400, 72)
@@ -36,6 +37,10 @@ theme_override_font_sizes/font_size = 18
 text = "Spearman 1"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="HealthBar" parent="HBoxContainer/VBoxContainer" instance=ExtResource("3_hiom0")]
+unique_name_in_owner = true
+layout_mode = 2
 
 [node name="Panel" type="Panel" parent="HBoxContainer"]
 custom_minimum_size = Vector2(50, 0)

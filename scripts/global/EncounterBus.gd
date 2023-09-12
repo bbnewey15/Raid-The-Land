@@ -25,6 +25,8 @@ signal place_unit
 signal order_state_started
 # warning-ignore:unused_signal
 signal order_state_ended
+# warning-ignore:unused_signal
+signal action_request_ui(slot: Slot)
 
 # warning-ignore:unused_signal
 signal fight_state_started(units_data : UnitColumnData)

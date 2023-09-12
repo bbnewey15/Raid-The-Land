@@ -249,7 +249,7 @@ tracks/19/keys = {
 
 [sub_resource type="Animation" id="Animation_2ndg0"]
 resource_name = "attack"
-length = 3.0
+length = 1.5
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -257,7 +257,7 @@ tracks/0/path = NodePath("Skeleton2D/hip:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 1, 2, 3),
+"times": PackedFloat32Array(0, 0.5, 1, 1.5),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 0,
 "values": [Vector2(-2, -125), Vector2(-2, -125), Vector2(-2, -125), Vector2(-2, -125)]
@@ -269,7 +269,7 @@ tracks/1/path = NodePath("Skeleton2D/hip:rotation")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 1, 2, 3),
+"times": PackedFloat32Array(0, 0.5, 1, 1.5),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 0,
 "values": [0.0, 0.0, 0.0, 0.0]
@@ -281,7 +281,7 @@ tracks/2/path = NodePath("Skeleton2D/hip/chest:position")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(0, 1, 1.7, 2, 3),
+"times": PackedFloat32Array(0, 0.5, 0.85, 1, 1.5),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1),
 "update": 0,
 "values": [Vector2(3, -84), Vector2(2.00044, -93.5432), Vector2(3, -76.9869), Vector2(3, -84), Vector2(3, -84)]
@@ -293,7 +293,7 @@ tracks/3/path = NodePath("Skeleton2D/hip/chest:rotation")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
-"times": PackedFloat32Array(0, 1, 1.7, 2, 3),
+"times": PackedFloat32Array(0, 0.5, 0.85, 1, 1.5),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1),
 "update": 0,
 "values": [0.0, 0.0, 0.0, 0.0, 0.0]
@@ -305,7 +305,7 @@ tracks/4/path = NodePath("Skeleton2D/hip/chest/head:position")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
-"times": PackedFloat32Array(0, 1, 2, 3),
+"times": PackedFloat32Array(0, 0.5, 1, 1.5),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 0,
 "values": [Vector2(0, -91), Vector2(0, -92.7152), Vector2(0, -92.7152), Vector2(0, -91)]
@@ -317,7 +317,7 @@ tracks/5/path = NodePath("Skeleton2D/hip/chest/head:rotation")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
-"times": PackedFloat32Array(0, 1, 2, 3),
+"times": PackedFloat32Array(0, 0.5, 1, 1.5),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 0,
 "values": [0.0, 0.0, 0.0, 0.0]
@@ -329,7 +329,7 @@ tracks/6/path = NodePath("Skeleton2D/hip/chest/armR:position")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/keys = {
-"times": PackedFloat32Array(0, 1, 2, 3),
+"times": PackedFloat32Array(0, 0.5, 1, 1.5),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 0,
 "values": [Vector2(110, -43), Vector2(110, -43), Vector2(110, -43), Vector2(110, -43)]
@@ -341,7 +341,7 @@ tracks/7/path = NodePath("Skeleton2D/hip/chest/armR:rotation")
 tracks/7/interp = 1
 tracks/7/loop_wrap = true
 tracks/7/keys = {
-"times": PackedFloat32Array(0, 1, 2, 3),
+"times": PackedFloat32Array(0, 0.5, 1, 1.5),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 0,
 "values": [0.0104178, 0.0930897, -0.0286687, 0.0104178]
@@ -353,7 +353,7 @@ tracks/8/path = NodePath("Skeleton2D/hip/chest/armR/handR:position")
 tracks/8/interp = 1
 tracks/8/loop_wrap = true
 tracks/8/keys = {
-"times": PackedFloat32Array(0, 1, 2, 3),
+"times": PackedFloat32Array(0, 0.5, 1, 1.5),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 0,
 "values": [Vector2(36, 78), Vector2(36, 78), Vector2(36, 78), Vector2(36, 78)]
@@ -365,7 +365,7 @@ tracks/9/path = NodePath("Skeleton2D/hip/chest/armR/handR:rotation")
 tracks/9/interp = 1
 tracks/9/loop_wrap = true
 tracks/9/keys = {
-"times": PackedFloat32Array(0, 1, 2, 3),
+"times": PackedFloat32Array(0, 0.5, 1, 1.5),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 0,
 "values": [2.83001, 2.83001, 2.83001, 2.83001]
@@ -377,7 +377,7 @@ tracks/10/path = NodePath("Skeleton2D/hip/chest/armR/handR/crossbow:position")
 tracks/10/interp = 1
 tracks/10/loop_wrap = true
 tracks/10/keys = {
-"times": PackedFloat32Array(0, 1, 2, 3),
+"times": PackedFloat32Array(0, 0.5, 1, 1.5),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 0,
 "values": [Vector2(45.7404, 21.9256), Vector2(45.7404, 21.9256), Vector2(-14.8322, 12.7715), Vector2(45.7404, 21.9256)]
@@ -389,7 +389,7 @@ tracks/11/path = NodePath("Skeleton2D/hip/chest/armR/handR/crossbow:rotation")
 tracks/11/interp = 1
 tracks/11/loop_wrap = true
 tracks/11/keys = {
-"times": PackedFloat32Array(0, 1, 2, 3),
+"times": PackedFloat32Array(0, 0.5, 1, 1.5),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 0,
 "values": [0.0, 0.0, 0.0, 0.0]
@@ -401,7 +401,7 @@ tracks/12/path = NodePath("Skeleton2D/hip/chest/armL:position")
 tracks/12/interp = 1
 tracks/12/loop_wrap = true
 tracks/12/keys = {
-"times": PackedFloat32Array(0, 1, 2, 3),
+"times": PackedFloat32Array(0, 0.5, 1, 1.5),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 0,
 "values": [Vector2(-104, -54), Vector2(-104, -54), Vector2(-104, -54), Vector2(-104, -54)]
@@ -413,7 +413,7 @@ tracks/13/path = NodePath("Skeleton2D/hip/chest/armL:rotation")
 tracks/13/interp = 1
 tracks/13/loop_wrap = true
 tracks/13/keys = {
-"times": PackedFloat32Array(0, 1, 2, 3),
+"times": PackedFloat32Array(0, 0.5, 1, 1.5),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 0,
 "values": [0.0, 0.0826719, -0.374878, 0.0]
@@ -425,7 +425,7 @@ tracks/14/path = NodePath("Skeleton2D/hip/chest/armL/handL:position")
 tracks/14/interp = 1
 tracks/14/loop_wrap = true
 tracks/14/keys = {
-"times": PackedFloat32Array(0, 1, 2, 3),
+"times": PackedFloat32Array(0, 0.5, 1, 1.5),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 0,
 "values": [Vector2(-69, 109), Vector2(-69.7593, 99.8366), Vector2(-69.7593, 99.8366), Vector2(-69, 109)]
@@ -437,7 +437,7 @@ tracks/15/path = NodePath("Skeleton2D/hip/chest/armL/handL:rotation")
 tracks/15/interp = 1
 tracks/15/loop_wrap = true
 tracks/15/keys = {
-"times": PackedFloat32Array(0, 1, 2, 3),
+"times": PackedFloat32Array(0, 0.5, 1, 1.5),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 0,
 "values": [2.95658, 2.95658, 2.95658, 2.95658]
@@ -449,7 +449,7 @@ tracks/16/path = NodePath("Skeleton2D/hip/legL:position")
 tracks/16/interp = 1
 tracks/16/loop_wrap = true
 tracks/16/keys = {
-"times": PackedFloat32Array(0, 1, 2, 3),
+"times": PackedFloat32Array(0, 0.5, 1, 1.5),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 0,
 "values": [Vector2(-61, 24), Vector2(-61, 24), Vector2(-61, 24), Vector2(-61, 24)]
@@ -461,7 +461,7 @@ tracks/17/path = NodePath("Skeleton2D/hip/legL:rotation")
 tracks/17/interp = 1
 tracks/17/loop_wrap = true
 tracks/17/keys = {
-"times": PackedFloat32Array(0, 1, 2, 3),
+"times": PackedFloat32Array(0, 0.5, 1, 1.5),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 0,
 "values": [1.83073, 1.83073, 1.83073, 1.83073]
@@ -473,7 +473,7 @@ tracks/18/path = NodePath("Skeleton2D/hip/legR:position")
 tracks/18/interp = 1
 tracks/18/loop_wrap = true
 tracks/18/keys = {
-"times": PackedFloat32Array(0, 1, 2, 3),
+"times": PackedFloat32Array(0, 0.5, 1, 1.5),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 0,
 "values": [Vector2(71, 26), Vector2(71, 26), Vector2(71, 26), Vector2(71, 26)]
@@ -485,7 +485,7 @@ tracks/19/path = NodePath("Skeleton2D/hip/legR:rotation")
 tracks/19/interp = 1
 tracks/19/loop_wrap = true
 tracks/19/keys = {
-"times": PackedFloat32Array(0, 1, 2, 3),
+"times": PackedFloat32Array(0, 0.5, 1, 1.5),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 0,
 "values": [-0.411069, -0.411069, -0.411069, -0.411069]

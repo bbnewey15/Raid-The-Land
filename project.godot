@@ -12,7 +12,7 @@ config_version=5
 
 config/name="RaidTheLand"
 run/main_scene="res://scenes/Main.tscn"
-config/features=PackedStringArray("4.0", "Mobile")
+config/features=PackedStringArray("4.1", "Mobile")
 config/icon="res://icon.svg"
 
 [autoload]
@@ -27,6 +27,7 @@ EncounterBus="*res://scripts/global/EncounterBus.gd"
 
 window/size/viewport_width=1920
 window/size/viewport_height=1080
+window/size/initial_position_type=0
 window/stretch/mode="canvas_items"
 
 [input]
@@ -38,7 +39,7 @@ exit_game={
 }
 left_mouse_button={
 "deadzone": 0.5,
-"events": [Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"button_mask":1,"position":Vector2(85, 11),"global_position":Vector2(89, 54),"factor":1.0,"button_index":1,"pressed":true,"double_click":false,"script":null)
+"events": [Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"button_mask":1,"position":Vector2(85, 11),"global_position":Vector2(89, 54),"factor":1.0,"button_index":1,"canceled":false,"pressed":true,"double_click":false,"script":null)
 ]
 }
 debug_ui={

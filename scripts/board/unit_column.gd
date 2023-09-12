@@ -1,14 +1,19 @@
 class_name UnitColumn
 extends PanelContainer
 
-
 const Slot = preload("res://scenes/slot.tscn")
+#Debug 
+var DebugStatePicker = load("res://scenes/debug/state_select_debug.tscn")
+
+
 @export var column_type: GameData.COLUMN_TYPE
 var isEnemy: bool
 @onready var unit_grid = $MarginContainer/%UnitGrid
 var column_data: UnitColumnData
 var encounter_manager : EncounterManager = null
 var highlighted : bool = false
+
+
 
 func init(isEnemyParam: bool, column_type: GameData.COLUMN_TYPE) -> UnitColumn:
 	self.isEnemy = isEnemyParam
@@ -117,3 +122,8 @@ func unhighlight_column():
 	
 func debug_column_ui(debug: bool)-> void:
 	self.highlight_column()
+	
+	# Instance State picker
+	var statePicker = DebugStatePicker.instantiate()
+	encounter_manager.add_child(statePicker)
+	statePicker.encounter_manager = self.encounter_manager as EncounterManager

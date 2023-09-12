@@ -63,6 +63,7 @@ func on_unit_selected(unit_col_data: UnitColumnData, index: int, colIndex: int, 
 			pass
 		"PostFight":
 			update_actionUI()
+			active_slot_data.current_slot.highlight_unit()
 		_:
 			print("default")
 			
@@ -74,6 +75,5 @@ func update_actionUI() -> void:
 	print("ACTION UI")
 	if active_slot_data:
 		self.show()
-		self.set_global_position(active_slot_data.slot_position - self.size/2, true)
 	else:
 		self.hide()

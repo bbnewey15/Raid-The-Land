@@ -20,7 +20,9 @@ size_flags_vertical = 8
 mouse_filter = 2
 script = ExtResource("1_mjnjc")
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
+[node name="MoveActions" type="MarginContainer" parent="."]
+unique_name_in_owner = true
+visible = false
 layout_mode = 2
 size_flags_vertical = 8
 mouse_filter = 2
@@ -29,7 +31,7 @@ theme_override_constants/margin_top = 20
 theme_override_constants/margin_right = 20
 theme_override_constants/margin_bottom = 20
 
-[node name="LeftMoveButton" type="ColorRect" parent="MarginContainer"]
+[node name="LeftMoveButton" type="ColorRect" parent="MoveActions"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(45, 26)
 layout_mode = 2
@@ -37,7 +39,7 @@ size_flags_horizontal = 0
 size_flags_vertical = 4
 color = Color(0.607843, 0, 0.498039, 1)
 
-[node name="Label" type="Label" parent="MarginContainer/LeftMoveButton"]
+[node name="Label" type="Label" parent="MoveActions/LeftMoveButton"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -52,7 +54,7 @@ grow_horizontal = 2
 grow_vertical = 2
 text = "Left"
 
-[node name="RightMoveButton" type="ColorRect" parent="MarginContainer"]
+[node name="RightMoveButton" type="ColorRect" parent="MoveActions"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(45, 26)
 layout_mode = 2
@@ -60,7 +62,7 @@ size_flags_horizontal = 8
 size_flags_vertical = 4
 color = Color(0.607843, 0, 0.498039, 1)
 
-[node name="Label" type="Label" parent="MarginContainer/RightMoveButton"]
+[node name="Label" type="Label" parent="MoveActions/RightMoveButton"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -75,5 +77,73 @@ grow_horizontal = 2
 grow_vertical = 2
 text = "Right"
 
-[connection signal="gui_input" from="MarginContainer/LeftMoveButton" to="." method="_on_move_gui_input" binds= [0]]
-[connection signal="gui_input" from="MarginContainer/RightMoveButton" to="." method="_on_move_gui_input" binds= [1]]
+[node name="UnitActions" type="MarginContainer" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 15
+
+[node name="PanelContainer" type="PanelContainer" parent="UnitActions"]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+size_flags_horizontal = 8
+mouse_filter = 2
+
+[node name="ActionsHBox" type="HBoxContainer" parent="UnitActions/PanelContainer"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 5
+
+[node name="AttackAction" type="MarginContainer" parent="UnitActions/PanelContainer/ActionsHBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 0
+mouse_default_cursor_shape = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="AttackLabel" type="Label" parent="UnitActions/PanelContainer/ActionsHBox/AttackAction"]
+layout_mode = 2
+text = "ATTACK"
+horizontal_alignment = 1
+
+[node name="DefendAction" type="MarginContainer" parent="UnitActions/PanelContainer/ActionsHBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 0
+mouse_default_cursor_shape = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="DefendLabel" type="Label" parent="UnitActions/PanelContainer/ActionsHBox/DefendAction"]
+layout_mode = 2
+text = "DEFEND
+"
+horizontal_alignment = 1
+
+[node name="SupportAction" type="MarginContainer" parent="UnitActions/PanelContainer/ActionsHBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 0
+mouse_default_cursor_shape = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="SupportLabel" type="Label" parent="UnitActions/PanelContainer/ActionsHBox/SupportAction"]
+layout_mode = 2
+text = "SUPPORT
+"
+horizontal_alignment = 1
+
+[connection signal="gui_input" from="MoveActions/LeftMoveButton" to="." method="_on_move_gui_input" binds= [0]]
+[connection signal="gui_input" from="MoveActions/RightMoveButton" to="." method="_on_move_gui_input" binds= [1]]

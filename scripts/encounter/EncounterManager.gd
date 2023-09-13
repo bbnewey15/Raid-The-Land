@@ -57,6 +57,9 @@ func _ready():
 	# Connect to Encounter State Machine signals
 	EncounterBus.encounter_state_changed.connect(self.on_encounter_state_changed)
 	
+	# Singal to everyone that slot data should be updated
+	EncounterBus.slot_data_changed.emit()
+	
 	loading = false
 		
 

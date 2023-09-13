@@ -25,6 +25,7 @@ func init(isEnemyParam: bool, column_type: GameData.COLUMN_TYPE) -> UnitColumn:
 	
 func _ready():
 	encounter_manager = get_node("../..")
+	assert(encounter_manager)
 	pass
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

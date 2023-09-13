@@ -40,6 +40,7 @@ func _ready():
 	EncounterBus.slot_data_changed.connect(self.on_slot_data_changed)
 	EncounterBus.fight_action_started.connect(self.on_fight_action_started)
 	EncounterBus.player_place_ended_turn.connect(Callable(self, "on_player_place_ended_turn"))
+	EncounterBus.order_state_started.connect(self.on_order_action_started)
 	
 	EncounterBus.card_slot_clicked.connect(Callable(self, "on_card_slot_clicked"))
 	EncounterBus.card_played.connect(Callable(self, "on_card_played"))
@@ -87,6 +88,28 @@ func _physics_process(delta):
 #	update_actionUI()
 	
 	
+
+func on_slot_data_changed():
+	# Current way to update ui
+	var tmp_slot_array : Array[SlotData] 
+	tmp_slot_array.append_array(playerSlotDatas)
+	tmp_slot_array.append_array(enemySlotDatas)
+	tmp_slot_array.sort_custom(Callable(GameData,"attackOrderComparison") )
+	self.full_slot_array = tmp_slot_array
+	
+	var encounter_manager = get_node("../")
+	
+	
+	match encounter_manager.encounterStateMachine.get_state_name():
+		"Start":
+			pass
+		"Fight":
+			pass
+		"Place":
+			pass
+		"Order":
+			self.check_and_request_unit_action()
+
 	
 func on_fight_action_started() -> void:
 	self.fight()
@@ -109,16 +132,17 @@ func fight() -> void:
 	EncounterBus.fight_action_stopped.emit()
 	
 func on_order_action_started()-> void:
+	# Find the first slot that needs an action
 	self.check_and_request_unit_action()
 	
 func check_and_request_unit_action() -> void:
 	# Get First in attack order
 	for slot_data in self.full_slot_array:
-		if slot_data.action != null:
+		if slot_data.action_set != false:
 			continue
 			
 		var slot = slot_data.current_slot
-		EncounterBus.action_request_ui.emit()
+		EncounterBus.action_request_ui.emit(slot)
 	
 	
 
@@ -247,27 +271,6 @@ func on_player_place_ended_turn()-> void:
 	if encounter_manager.encounterStateMachine.get_state_name() == "Place":
 		# Handle any clean up before going to Attack Order state
 		EncounterBus.place_state_ended.emit()
-
-func on_slot_data_changed():
-	# Current way to update ui
-	var tmp_slot_array : Array[SlotData] 
-	tmp_slot_array.append_array(playerSlotDatas)
-	tmp_slot_array.append_array(enemySlotDatas)
-	tmp_slot_array.sort_custom(Callable(GameData,"attackOrderComparison") )
-	self.full_slot_array = tmp_slot_array
-	
-	var encounter_manager = get_node("../")
-	
-	
-	match encounter_manager.encounterStateMachine.get_state_name():
-		"Start":
-			pass
-		"Fight":
-			pass
-		"Place":
-			pass
-		"Order":
-			self.check_and_request_unit_action()
 
 	
 

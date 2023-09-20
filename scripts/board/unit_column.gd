@@ -18,7 +18,6 @@ var highlighted : bool = false
 func init(isEnemyParam: bool, column_type: GameData.COLUMN_TYPE) -> UnitColumn:
 	self.isEnemy = isEnemyParam
 	self.column_type = column_type
-	EncounterBus.column_attacked.connect(Callable(self, "on_column_attacked"))
 	EncounterBus.debug_ui.connect(self.debug_column_ui)
 	EncounterBus.encounter_state_changed.connect(Callable(self,"on_encounter_state_changed"))
 	return self
@@ -71,7 +70,6 @@ func add_slot(data: SlotData, shouldUpdateUI: bool = true) -> Slot:
 	column_data.slot_datas.append(data)
 	
 	# Add slot clicked signal
-	slot.slot_clicked.connect(column_data.on_slot_clicked)
 #		print("is valid %s" %  column_data.on_slot_clicked.is_valid())
 #		print("is connected? %s" % slot.is_connected("slot_clicked", column_data.on_slot_clicked))
 #		print("has signal %s" % slot.has_signal("slot_clicked"))
@@ -102,15 +100,6 @@ func on_encounter_state_changed(state_name):
 		_:
 			self.unhighlight_column()
 			pass
-	
-func on_column_attacked(unit_column: UnitColumn, unit_attacking: SlotData)-> void:
-	# Check if this is the column:
-	if self.column_data.colIndex != unit_column.column_data.colIndex:
-		return
-		
-	# Get slots in column
-	for child in unit_column.unit_grid.get_children():
-		child.defend(unit_attacking)
 	
 func highlight_column():
 	highlighted = true

@@ -42,7 +42,7 @@ func _on_gui_input(event):
 #			print(slot_clicked.get_connections())
 
 func _on_mouse_entered():
-	print("Entered")
+	print("Card Slot Entered")
 	pass # Replace with function body.
 
 func setHighlight(shouldHighlight: bool)-> void:

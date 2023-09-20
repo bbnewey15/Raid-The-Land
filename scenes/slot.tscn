@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://dsk2m6armxce3"]
+[gd_scene load_steps=5 format=3 uid="uid://dsk2m6armxce3"]
 
 [ext_resource type="Script" path="res://scripts/board/slot.gd" id="1_srcxh"]
 [ext_resource type="Texture2D" uid="uid://cntmgxfgw1gmc" path="res://assets/spear_stolen.PNG" id="2_eiu6v"]
 [ext_resource type="PackedScene" uid="uid://cj2sokxjbe72j" path="res://scenes/encounter/unit_ui.tscn" id="3_nyqq6"]
+[ext_resource type="PackedScene" uid="uid://cifxsod3pi21m" path="res://scenes/board/slot_highlighter.tscn" id="4_4qy15"]
 
 [node name="Slot" type="PanelContainer"]
 self_modulate = Color(1, 1, 1, 0)
@@ -40,5 +41,11 @@ stretch_mode = 5
 unique_name_in_owner = true
 layout_mode = 2
 
+[node name="Highlighter" parent="." instance=ExtResource("4_4qy15")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[connection signal="focus_entered" from="." to="." method="_on_focus_entered"]
 [connection signal="gui_input" from="." to="." method="_on_gui_input"]
 [connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]

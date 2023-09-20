@@ -2,6 +2,12 @@ extends Node
 
 # warning-ignore:unused_signal
 signal encounter_state_changed(state_name : String)
+
+# warning-ignore:unused_signal
+signal draft_state_started
+# warning-ignore:unused_signal
+signal draft_state_ended
+
 # warning-ignore:unused_signal
 signal slot_data_changed
 # warning-ignore:unused_signal
@@ -28,26 +34,31 @@ signal order_state_ended
 # warning-ignore:unused_signal
 signal action_request_ui(slot: Slot)
 
+# request_user_target_unit Uses GameData.ui_active_slot_data
 # warning-ignore:unused_signal
-signal fight_state_started(units_data : UnitColumnData)
+signal request_user_target_unit(action: GameData.UNIT_ACTIONS, potential_targets: Array[SlotData])
+# warning-ignore:unused_signal
+signal end_request_user_target_unit
+
+# warning-ignore:unused_signal
+signal fight_state_started
 # warning-ignore:unused_signal
 signal fight_state_stopped
 # warning-ignore:unused_signal
-signal fight_action_started
+#signal slot_attacked(slot_data: SlotData, unit_attacking: SlotData)
 # warning-ignore:unused_signal
-signal fight_action_stopped
+#signal unit_attack_finished(unit_attacking: SlotData)
 # warning-ignore:unused_signal
-signal column_attacked(unit_column: UnitColumn, unit_attacking: SlotData)
+signal post_fight_state_started
 # warning-ignore:unused_signal
-signal unit_attack_finished(unit_attacking: SlotData)
-# warning-ignore:unused_signal
-signal post_fight_state_started(units_data : UnitColumnData)
-# warning-ignore:unused_signal
-signal post_fight_state_stopped
-# warning-ignore:unused_signal
+signal post_fight_state_ended
 
 # warning-ignore:unused_signal
-signal unit_selected(unit_col_data: UnitColumnData, index: int, colIndex: int, button: int)
+signal slot_hovered(slot_data: SlotData)
+# warning-ignore:unused_signal
+signal slot_hover_exited(slot_data:SlotData)
+# warning-ignore:unused_signal
+signal unit_selected(slot_data: SlotData, index: int, button: int)
 
 # warning-ignore:unused_signal
 signal debug_ui(debug: bool)

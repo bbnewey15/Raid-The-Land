@@ -79,8 +79,8 @@ text = "Right"
 
 [node name="UnitActions" type="MarginContainer" parent="."]
 unique_name_in_owner = true
-visible = false
 layout_mode = 2
+size_flags_horizontal = 4
 mouse_filter = 2
 theme_override_constants/margin_left = 15
 theme_override_constants/margin_top = 15
@@ -147,3 +147,4 @@ horizontal_alignment = 1
 
 [connection signal="gui_input" from="MoveActions/LeftMoveButton" to="." method="_on_move_gui_input" binds= [0]]
 [connection signal="gui_input" from="MoveActions/RightMoveButton" to="." method="_on_move_gui_input" binds= [1]]
+[connection signal="gui_input" from="UnitActions/PanelContainer/ActionsHBox/AttackAction" to="." method="_on_action_gui_input" binds= [0]]

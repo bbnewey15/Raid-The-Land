@@ -5,7 +5,7 @@ const SiegeColumnScene = preload("res://scenes/board/columns/siege_column.tscn")
 const InfantryColumnScene = preload("res://scenes/board/columns/ranged_column.tscn")
 const RangedColumnScene = preload("res://scenes/board/columns/infantry_column.tscn")
 
-
+@onready var target_unit_selector = $TargetUnitSelector
 
 var column_dict : Dictionary
 var isEnemy: bool
@@ -16,12 +16,9 @@ var full_slot_array : Array[SlotData]
 
 var active_slot_data : SlotData
 
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	#Clear scence just in case
-	for child in get_children():
-		child.queue_free()
-			
 	
 	column_dict = {
 		# We instantiate here and not place in scene so we can add params before placing
@@ -36,9 +33,13 @@ func _ready():
 		GameData.ENEMY_INFANTRY_COL : InfantryColumnScene.instantiate().init(true, GameData.COLUMN_TYPE.INFANTRY)
 	}
 	
+	# Pass data down to components
+	target_unit_selector.column_group = self
+	
+	
 	# Add signals
 	EncounterBus.slot_data_changed.connect(self.on_slot_data_changed)
-	EncounterBus.fight_action_started.connect(self.on_fight_action_started)
+	EncounterBus.fight_state_started.connect(self.on_fight_state_started)
 	EncounterBus.player_place_ended_turn.connect(Callable(self, "on_player_place_ended_turn"))
 	EncounterBus.order_state_started.connect(self.on_order_action_started)
 	
@@ -108,10 +109,11 @@ func on_slot_data_changed():
 		"Place":
 			pass
 		"Order":
-			self.check_and_request_unit_action()
+			#self.check_and_request_unit_action()
+			pass
 
 	
-func on_fight_action_started() -> void:
+func on_fight_state_started() -> void:
 	self.fight()
 
 func fight() -> void:
@@ -125,11 +127,11 @@ func fight() -> void:
 			
 			var target_array = slot_data.attack_targets
 			for target in target_array:
-				slot_data.current_slot.attack(target)
-				print("Unit: %s attacked Column: %s" % [slot_data.unit_data.name, GameData.getColumnStringByIndex(target.column_data.colIndex)])
-				await EncounterBus.unit_attack_finished
+				await slot_data.current_slot.attack(target)
+				print("%s attacked %s " % [slot_data.unit_data.description, target.unit_data.description])
+				#await EncounterBus.unit_attack_finished
  
-	EncounterBus.fight_action_stopped.emit()
+	EncounterBus.fight_state_stopped.emit()
 	
 func on_order_action_started()-> void:
 	# Find the first slot that needs an action
@@ -138,12 +140,16 @@ func on_order_action_started()-> void:
 func check_and_request_unit_action() -> void:
 	# Get First in attack order
 	for slot_data in self.full_slot_array:
+		if slot_data.isEnemyUnit == true:
+			continue
 		if slot_data.action_set != false:
 			continue
 			
 		var slot = slot_data.current_slot
 		EncounterBus.action_request_ui.emit(slot)
-	
+		
+		#Stop looping now that we found one
+		break
 	
 
 func get_potential_attack_targets(slot_data: SlotData) -> Array[SlotData]:
@@ -156,7 +162,8 @@ func get_potential_attack_targets(slot_data: SlotData) -> Array[SlotData]:
 	
 	var targeted_columns : Array[UnitColumn] = []
 	var range: Array
-	# What kind of unit is this ? 
+	# What kind of unit is this ?
+	#TODO: Move range to unit_data 
 	match slot_data.unit_data.column_type:
 		GameData.COLUMN_TYPE.INFANTRY:
 			# Targets Adjacent Columns
@@ -191,7 +198,7 @@ func get_potential_attack_targets(slot_data: SlotData) -> Array[SlotData]:
 	
 	var attackable_slots: Array[SlotData] = []
 	for column in targeted_columns:
-		for slot in column.get_children():
+		for slot in column.unit_grid.get_children():
 			attackable_slots.append(slot.slot_data)
 	
 	return attackable_slots
@@ -293,3 +300,4 @@ func find_available_columns_to_add_to(cardSlot: CardSlot, isEnemy: bool = false)
 		if column_dict[column].isEnemy == isEnemy:
 			columns_available.append(column)
 	return columns_available
+

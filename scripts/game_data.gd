@@ -1,6 +1,9 @@
 extends Node
 
 
+# State
+var ui_active_slot_data : SlotData
+
 # Encounter Data
 const UNIT_SIZE = Vector2(110,110)
 const COLUMN_SIZE = Vector2(150,614)

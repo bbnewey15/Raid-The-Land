@@ -9,8 +9,8 @@ class_name SlotData
 @export var column_name: GameData.COLUMN_STRING
 @export var slotIndex: int
 var slot_position: Vector2
-@export var attack_order: int = 0
-var attack_targets : Array[SlotData]
+@export var action_order: int = 0
+var action_targets : Array[SlotData]
 var action : GameData.UNIT_ACTIONS
 var action_set : bool = false
 var current_slot : Slot
@@ -25,11 +25,11 @@ func init_unit_data(data: UnitDataTest):
 func set_slot_position(pos: Vector2)->void:
 	slot_position = pos
 
-func can_attack() -> bool:
-	var will_attack = true
+func can_action() -> bool:
+	var will_action = true
 	if unit_data.health <= 0:
-		will_attack = false
-	if action != GameData.UNIT_ACTIONS["ATTACK"]:
-		will_attack = false
+		will_action = false
+#	if action != GameData.UNIT_ACTIONS["ATTACK"]:
+#		will_action = false
 	
-	return will_attack
+	return will_action

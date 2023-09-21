@@ -26,21 +26,3 @@ func exit() -> void:
 	print("-- FIGHT EXITED --")
 
 
-#
-#UnitColumnGroup on state: "fight"
-#
-#put units in order by attack order and turn priority
-#
-#for unit in units:
-#
-# target = get_attack_target(unit)
-#
-# unit.attack(target)
-# //show animation, sound, update in data
-#
-# is target dead?
-# is unit dead?
-# //show animation, sound, update in data
-#
-#
-#EncounterBus.fight_completed.emit()

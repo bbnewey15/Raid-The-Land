@@ -60,7 +60,7 @@ func add_slot(data: SlotData, shouldUpdateUI: bool = true) -> Slot:
 	unit_grid.add_child(slot)
 	
 	data.slotIndex = slot.get_index()
-	data.attack_order = encounter_manager.columnGroup.get_next_attack_order(data.isEnemyUnit)
+	data.action_order = encounter_manager.columnGroup.get_next_action_order(data.isEnemyUnit)
 	# Rotate slot so it is on the right angle
 	slot.set_pivot_offset(slot.size/2)
 	#slot.set_rotation_degrees(-self.get_rotation_degrees())
@@ -88,7 +88,8 @@ func _on_gui_input(event):
 			print("Card Slot Clicked %s" % event )
 			# Have to update position
 			if highlighted:
-				EncounterBus.column_clicked.emit(self, get_index(), event.button_index)
+				# 1 because of target node is adding to index
+				EncounterBus.column_clicked.emit(self, get_index()-1, event.button_index)
 
 	
 func on_encounter_state_changed(state_name):

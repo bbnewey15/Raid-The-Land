@@ -6,6 +6,10 @@ var currentUnit: UnitDataTest
 var encounter_manager : EncounterManager
 @onready var move_actions = %MoveActions
 @onready var unit_actions = %UnitActions
+@onready var attack_action = %AttackAction
+@onready var defend_action = %DefendAction
+@onready var support_action = %SupportAction
+
 
 func _ready():
 	EncounterBus.unit_selected.connect(self.on_unit_selected)
@@ -76,10 +80,10 @@ func on_unit_selected(slot_data: SlotData, index: int, button: int) -> void:
 			if GameData.ui_active_slot_data:
 				assert(GameData.ui_active_slot_data)
 				GameData.ui_active_slot_data.current_slot.highlighter.unhighlight_slot()
-				GameData.ui_active_slot_data = null
+				GameData.set_ui_active_slot_data(null)
 			match [GameData.ui_active_slot_data, button]:
 				[null, MOUSE_BUTTON_LEFT]:
-					GameData.ui_active_slot_data = slot_data	
+					GameData.set_ui_active_slot_data(slot_data)	
 					self.update_actionUI()
 					#GameData.ui_active_slot_data.current_slot.highlighter.highlight_slot()
 		_:
@@ -91,11 +95,16 @@ func on_action_request_ui(slot: Slot):
 		assert(GameData.ui_active_slot_data)
 		if GameData.ui_active_slot_data != slot.slot_data:
 			GameData.ui_active_slot_data.current_slot.highlighter.unhighlight_slot()
-			GameData.ui_active_slot_data = null
+			GameData.set_ui_active_slot_data(null)
 			EncounterBus.end_request_user_target_unit.emit()
+			
+			
 	
 	assert(slot)
-	GameData.ui_active_slot_data = slot.slot_data
+	GameData.set_ui_active_slot_data(slot.slot_data)
+	
+	if GameData.ui_active_slot_data.action_set:
+		self.get_potential_targets_and_emit(slot.slot_data.action)
 	
 	match encounter_manager.encounterStateMachine.get_state_name():
 		"Start":
@@ -115,11 +124,15 @@ func on_action_request_ui(slot: Slot):
 func update_actionUI() -> void:
 	match encounter_manager.encounterStateMachine.get_state_name():
 		"Order":
+			
+			
 			if GameData.ui_active_slot_data:
+				self.update_active_action_button(GameData.ui_active_slot_data.action)
 				self.show()
 				move_actions.hide()
 				unit_actions.show()
 			else:
+				self.update_active_action_button(0)
 				self.hide()
 		"PostFight":
 			if GameData.ui_active_slot_data:
@@ -136,20 +149,30 @@ func update_actionUI() -> void:
 			
 	
 
-
 func _on_action_gui_input(event, action: GameData.UNIT_ACTIONS):
 	assert(GameData.ui_active_slot_data)
 	
 	if event is InputEventMouseButton \
 		and (event.button_index == MOUSE_BUTTON_LEFT) \
 		and event.is_pressed():
+			# Set active slot's data
+			GameData.ui_active_slot_data.action_set = true
+			GameData.ui_active_slot_data.action = action
+			EncounterBus.slot_data_changed.emit()
+			# Update UnitActions buttons to active action
+			self.update_active_action_button(action)
+			# Emit Action
 			self.get_potential_targets_and_emit(action)
 			
 func get_potential_targets_and_emit(action: GameData.UNIT_ACTIONS):
+	assert(GameData.UNIT_ACTIONS.values().has(action))
+	assert(GameData.ui_active_slot_data)
+	
 	# If requires target, request a target
 	if GameData.ui_active_slot_data.unit_data.requires_target(action):
+		
 		# Get available targets 
-		var potential_targets : Array[SlotData] = encounter_manager.columnGroup.get_potential_attack_targets(GameData.ui_active_slot_data)
+		var potential_targets : Array[SlotData] = encounter_manager.columnGroup.get_potential_action_targets(GameData.ui_active_slot_data)
 		
 		if len(potential_targets) > 0:
 			# Following Signal Uses GameData.ui_active_slot_data
@@ -158,3 +181,23 @@ func get_potential_targets_and_emit(action: GameData.UNIT_ACTIONS):
 		else:
 			# Display message to user
 			print("No available targets")
+
+func update_active_action_button(action: GameData.UNIT_ACTIONS):
+	# Clear all
+	self.unactive_all()
+		
+	if GameData.ui_active_slot_data and GameData.ui_active_slot_data.action_set:
+		self.unactive_all()
+		match action:
+			GameData.UNIT_ACTIONS.ATTACK:
+				attack_action.get_node("ColorRect").show()
+			GameData.UNIT_ACTIONS.DEFEND:
+				defend_action.get_node("ColorRect").show()
+			GameData.UNIT_ACTIONS.SUPPORT:
+				support_action.get_node("ColorRect").show()
+		
+	
+func unactive_all():
+	attack_action.get_node("ColorRect").hide()
+	defend_action.get_node("ColorRect").hide()
+	support_action.get_node("ColorRect").hide()

@@ -3,6 +3,12 @@ extends Node
 
 # State
 var ui_active_slot_data : SlotData
+var full_slot_array: Array[SlotData] = []
+
+# setter
+func set_ui_active_slot_data(slot_data: SlotData):
+	ui_active_slot_data = slot_data
+	EncounterBus.ui_active_slot_data_changed.emit()
 
 # Encounter Data
 const UNIT_SIZE = Vector2(110,110)
@@ -82,13 +88,13 @@ const UNIT = 1
 const START_STATE_INTRO_TIMEOUT : float = 3.0
 
 
-func attackOrderComparison(a : SlotData, b : SlotData):
-	if !a.can_attack():
+func actionOrderComparison(a : SlotData, b : SlotData):
+	if !a.can_action():
 		return true
-	if !b.can_attack():
+	if !b.can_action():
 		return false
 		
-	if typeof(a.attack_order) != typeof(b.attack_order):
-		return typeof(a.attack_order) < typeof(b.attack_order)
+	if typeof(a.action_order) != typeof(b.action_order):
+		return typeof(a.action_order) < typeof(b.action_order)
 	else:
-		return a.attack_order < b.attack_order
+		return a.action_order < b.action_order

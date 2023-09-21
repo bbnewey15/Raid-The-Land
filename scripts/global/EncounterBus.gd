@@ -62,3 +62,8 @@ signal unit_selected(slot_data: SlotData, index: int, button: int)
 
 # warning-ignore:unused_signal
 signal debug_ui(debug: bool)
+
+
+# UI 
+# warning-ignore:unused_signal
+signal ui_active_slot_data_changed 

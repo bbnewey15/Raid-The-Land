@@ -23,7 +23,7 @@ func set_unit_data(data: UnitDataTest)-> void:
 	health_label.text = str(new_health)
 	
 func set_slot_data(data: SlotData)->void:
-	order_control_label.text = str(data.attack_order)
+	order_control_label.text = str(data.action_order)
 	if data.isEnemyUnit:
 		order_control_label.add_theme_color_override("font_color","#ff5555")
 

@@ -72,18 +72,18 @@ func on_slot_hover_exited(slot_data: SlotData):
 func on_slot_selected(slot_data: SlotData, index: int, button: int):
 	print("selected from target")
 	if active and GameData.ui_active_slot_data and slot_data in potential_targets:
-		var adj_attack_targets : Array[SlotData] = GameData.ui_active_slot_data.attack_targets
+		var adj_action_targets : Array[SlotData] = GameData.ui_active_slot_data.action_targets
 		# If Selecting
-		if slot_data not in GameData.ui_active_slot_data.attack_targets:
-			if len(adj_attack_targets) >= GameData.ui_active_slot_data.unit_data.number_of_targets(active_action) :
-				adj_attack_targets.pop_back()
-				adj_attack_targets.append(slot_data)
+		if slot_data not in GameData.ui_active_slot_data.action_targets:
+			if len(adj_action_targets) >= GameData.ui_active_slot_data.unit_data.number_of_targets(active_action) :
+				adj_action_targets.pop_back()
+				adj_action_targets.append(slot_data)
 			else:
-				adj_attack_targets.append(slot_data)
+				adj_action_targets.append(slot_data)
 		else:
 			# DE-selecting
-			var test = adj_attack_targets.find(slot_data)
-			adj_attack_targets.remove_at(test)
+			var test = adj_action_targets.find(slot_data)
+			adj_action_targets.remove_at(test)
 			
-		GameData.ui_active_slot_data.attack_targets = adj_attack_targets
+		GameData.ui_active_slot_data.action_targets = adj_action_targets
 		EncounterBus.slot_data_changed.emit()

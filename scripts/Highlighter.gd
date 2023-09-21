@@ -59,15 +59,16 @@ func on_request_user_target_unit( action: GameData.UNIT_ACTIONS, potential_targe
 	if self.slot.slot_data == GameData.ui_active_slot_data:
 		self.highlight_slot()
 	
-	self.potential_targets = potential_targets
 	
-	# Indicate that this unit is targetable
-	if self.slot.slot_data in self.potential_targets:
-		# target:  SlotData
-		self.highlight_slot(HIGHLIGHT_COLOR)
-		self.targeting_active = true
-		self.active_action = action
-	
+	if GameData.ui_active_slot_data.unit_data.requires_target(action):
+		self.potential_targets = potential_targets
+		# Indicate that this unit is targetable
+		if self.slot.slot_data in self.potential_targets:
+			# target:  SlotData
+			self.highlight_slot(HIGHLIGHT_COLOR)
+			self.targeting_active = true
+			self.active_action = action
+		
 		
 	# Highlight if targeted already
 	self.check_attack_highlights()
@@ -84,7 +85,7 @@ func check_attack_highlights():
 	if GameData.ui_active_slot_data == null:
 		return
 	
-	var targets = GameData.ui_active_slot_data.attack_targets
+	var targets = GameData.ui_active_slot_data.action_targets
 	if self.slot.slot_data in targets:
 		# Currently targeted
 		self.highlight_slot(ATTACKING_COLOR)
@@ -100,30 +101,30 @@ func check_attack_highlights():
 		self.highlight_slot()
 	
 
-#
-#func _on_color_rect_mouse_entered():
-#	if targeting_active and active_action != null:
-#		match active_action:
-#			GameData.UNIT_ACTIONS["ATTACK"]:
-#				if actioned:
-#					self.highlight_slot(ATTACKING_COLOR.lightened(.3))
-#				else:
-#					self.highlight_slot(HIGHLIGHT_COLOR.lightened(.3))
-#			GameData.UNIT_ACTIONS["DEFEND"]:
-#				pass
-#			GameData.UNIT_ACTIONS["SUPPORT"]:
-#				pass
-#
-#
-#func _on_color_rect_mouse_exited():
-#	if targeting_active and active_action != null:
-#		match active_action:
-#			GameData.UNIT_ACTIONS["ATTACK"]:
-#				if actioned:
-#					self.highlight_slot(ATTACKING_COLOR)
-#				else:
-#					self.highlight_slot(HIGHLIGHT_COLOR)
-#			GameData.UNIT_ACTIONS["DEFEND"]:
-#				pass
-#			GameData.UNIT_ACTIONS["SUPPORT"]:
-#				pass
+
+func _on_color_rect_mouse_entered():
+	if targeting_active and active_action != null:
+		match active_action:
+			GameData.UNIT_ACTIONS["ATTACK"]:
+				if actioned:
+					self.highlight_slot(ATTACKING_COLOR.lightened(.3))
+				else:
+					self.highlight_slot(HIGHLIGHT_COLOR.lightened(.3))
+			GameData.UNIT_ACTIONS["DEFEND"]:
+				pass
+			GameData.UNIT_ACTIONS["SUPPORT"]:
+				pass
+
+
+func _on_color_rect_mouse_exited():
+	if targeting_active and active_action != null:
+		match active_action:
+			GameData.UNIT_ACTIONS["ATTACK"]:
+				if actioned:
+					self.highlight_slot(ATTACKING_COLOR)
+				else:
+					self.highlight_slot(HIGHLIGHT_COLOR)
+			GameData.UNIT_ACTIONS["DEFEND"]:
+				pass
+			GameData.UNIT_ACTIONS["SUPPORT"]:
+				pass

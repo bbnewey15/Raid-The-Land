@@ -8,6 +8,7 @@ load_path = "res://.godot/imported/background_beach.png-8ce3fae750e50a82c4f26510
 [node name="CanvasLayerBackground" type="Control"]
 layout_mode = 3
 anchors_preset = 0
+mouse_filter = 1
 
 [node name="TextureRect" type="TextureRect" parent="."]
 layout_mode = 0

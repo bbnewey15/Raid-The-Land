@@ -58,7 +58,7 @@ signal slot_hovered(slot_data: SlotData)
 # warning-ignore:unused_signal
 signal slot_hover_exited(slot_data:SlotData)
 # warning-ignore:unused_signal
-signal unit_selected(slot_data: SlotData, index: int, button: int)
+signal unit_selected(slot_data: SlotData, button: int)
 
 # warning-ignore:unused_signal
 signal debug_ui(debug: bool)

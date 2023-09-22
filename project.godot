@@ -22,6 +22,7 @@ ResourceManager="*res://resources/FolderListResource.gd"
 DataUtils="*res://scripts/utils/data.gd"
 EventBus="*res://scripts/global/EventBus.gd"
 EncounterBus="*res://scripts/global/EncounterBus.gd"
+UiManager="*res://scripts/encounter/ui_manager.gd"
 
 [display]
 

@@ -10,10 +10,16 @@ var encounter_manager : EncounterManager
 @onready var defend_action = %DefendAction
 @onready var support_action = %SupportAction
 
+@export var allowed_states : Array[String] = [GameData.ORDER, GameData.POST_FIGHT]
 
 func _ready():
+	
+	UiManager.register_ui_module(self as ActionUI)
+	
 	EncounterBus.unit_selected.connect(self.on_unit_selected)
 	EncounterBus.action_request_ui.connect(self.on_action_request_ui)
+	EncounterBus.ui_active_slot_data_changed.connect(self.update_actionUI)
+	
 	
 
 func move_unit(direction: GameData.MOVE_DIRECTION ):
@@ -57,12 +63,10 @@ func _on_move_gui_input(event, left_or_right):
 			move_unit(left_or_right)
 	
 	
-func on_unit_selected(slot_data: SlotData, index: int, button: int) -> void:
+func on_unit_selected(slot_data: SlotData, button: int) -> void:
 	# Actions are only performed from ally units
 	if slot_data.isEnemyUnit == true:
 		return
-		
-	print("index: %s\n %s" % [index, button])
 	
 	
 	
@@ -155,7 +159,15 @@ func _on_action_gui_input(event, action: GameData.UNIT_ACTIONS):
 	if event is InputEventMouseButton \
 		and (event.button_index == MOUSE_BUTTON_LEFT) \
 		and event.is_pressed():
+			# If previous action required targets and this one doesnt
+			EncounterBus.end_request_user_target_unit.emit()
 			# Set active slot's data
+			
+			# if action already set and different action is selected
+			if GameData.ui_active_slot_data.action_set and action != GameData.ui_active_slot_data.action:
+				# Reset targets
+				GameData.ui_active_slot_data.action_targets = []
+			
 			GameData.ui_active_slot_data.action_set = true
 			GameData.ui_active_slot_data.action = action
 			EncounterBus.slot_data_changed.emit()
@@ -181,6 +193,7 @@ func get_potential_targets_and_emit(action: GameData.UNIT_ACTIONS):
 		else:
 			# Display message to user
 			print("No available targets")
+
 
 func update_active_action_button(action: GameData.UNIT_ACTIONS):
 	# Clear all

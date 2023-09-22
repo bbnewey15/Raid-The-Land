@@ -12,11 +12,15 @@ var card_hand_data: CardHandData
 var active_slot : CardSlot
 var encounter_manager: EncounterManager
 	
-	
+@export var allowed_states : Array[String] = [GameData.PLACE, GameData.DRAFT]
+
 func _ready():
 	self.hide()
 	end_turn_button.hide()
 	end_order_button.hide()
+	
+	UiManager.register_ui_module(self as CardHandInterface)
+	
 	EncounterBus.encounter_state_changed.connect(Callable(self,"on_encounter_state_changed"))
 	EncounterBus.card_slot_clicked.connect(Callable(self, "on_card_slot_clicked"))
 	EncounterBus.card_post_play.connect(Callable(self,"on_card_post_play"))
@@ -102,19 +106,13 @@ func on_card_post_play(card_slot: CardSlot, column_type: GameData.COLUMN_TYPE, i
 func on_encounter_state_changed(state_name):
 	match state_name:
 		"Start":
-			self.hide()
 			place_button_container.hide()
-			pass
 		"Fight":
-			self.hide()
 			place_button_container.hide()
-			pass
 		"Place":
-			self.show()
 			place_button_container.show()
 			end_turn_button.show()
 		"Order":
-			self.show()
 			place_button_container.show()
 			end_order_button.show()
 	

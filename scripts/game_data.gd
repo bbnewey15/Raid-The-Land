@@ -29,6 +29,7 @@ const infantryEnemyColumnRotation: float = -3.6
 const rangedEnemyColumnLocation: Vector2 = Vector2(602, 20)
 const rangedEnemyColumnRotation: float = -.8
 
+# Columns
 enum COLUMN_STRING {PLAYER_SIEGE_COL, PLAYER_RANGED_COL, PLAYER_INFANTRY_COL,ENEMY_INFANTRY_COL, ENEMY_RANGED_COL,ENEMY_SIEGE_COL  }
 const PLAYER_SIEGE_COL = "playerSiegeCol"
 const PLAYER_RANGED_COL = "playerRangedCol"
@@ -73,10 +74,29 @@ enum MOVE_DIRECTION {LEFT, RIGHT}
 const LEFT = 0
 const RIGHT = 1
 
+# Action related
 enum UNIT_ACTIONS {ATTACK, DEFEND, SUPPORT}
 const ATTACK = 0
 const DEFEND = 1
 const SUPPORT = 2
+
+const ATTACK_ICON = preload("res://assets/attack_icon.png")
+const DEFENSE_ICON = preload("res://assets/defense_icon.png")
+const SUPPORT_ICON = preload("res://assets/support_icon.png")
+
+func get_icon_by_action(action: GameData.UNIT_ACTIONS)-> Texture:
+	assert(GameData.UNIT_ACTIONS.find_key(action))
+	
+	match action:
+			GameData.UNIT_ACTIONS.ATTACK:
+				return GameData.ATTACK_ICON
+			GameData.UNIT_ACTIONS.DEFEND:
+				return GameData.DEFENSE_ICON
+			GameData.UNIT_ACTIONS.SUPPORT:
+				return GameData.SUPPORT_ICON
+	
+	assert(false)
+	return null
 
 ## Cards
 enum CARD_TYPE {SKILL,UNIT}
@@ -84,6 +104,14 @@ const SKILL = 0
 const UNIT = 1
 
 ## State 
+enum STATE_NAMES {START, DRAFT, PLACE, ORDER, FIGHT, POST_FIGHT}
+const START = "Start"
+const DRAFT = "Draft"
+const PLACE = "Place"
+const ORDER = "Order"
+const FIGHT = "Fight"
+const POST_FIGHT = "PostFight"
+
 
 const START_STATE_INTRO_TIMEOUT : float = 3.0
 

@@ -74,6 +74,21 @@ func _physics_process(delta):
 
 
 func on_encounter_state_changed(state_name : String) -> void:
-	print("Signaled to on_encounter_state_changed %s" % state_name)
+	# Update UI Items based on state
+	match state_name:
+		"Start":
+			pass
+		"Draft":
+			pass
+		"Place":
+			pass
+		"Order":
+			pass
+		"Fight":
+			pass
+		"PostFight":
+			pass
+		
+	
 	
 	

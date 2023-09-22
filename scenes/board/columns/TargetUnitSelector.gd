@@ -69,7 +69,7 @@ func on_slot_hover_exited(slot_data: SlotData):
 	if active:
 		self.show()
 	
-func on_slot_selected(slot_data: SlotData, index: int, button: int):
+func on_slot_selected(slot_data: SlotData, button: int):
 	print("selected from target")
 	if active and GameData.ui_active_slot_data and slot_data in potential_targets:
 		var adj_action_targets : Array[SlotData] = GameData.ui_active_slot_data.action_targets

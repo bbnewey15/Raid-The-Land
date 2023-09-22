@@ -19,6 +19,7 @@ func _ready():
 	EncounterBus.request_user_target_unit.connect(self.on_request_user_target_unit)
 	EncounterBus.slot_data_changed.connect(self.on_slot_data_changed)
 	EncounterBus.end_request_user_target_unit.connect(self.on_end_request_user_target_unit)
+	EncounterBus.ui_active_slot_data_changed.connect(self.on_ui_active_slot_data_changed)
 	
 	await get_parent().ready
 	self.unhighlight_slot()
@@ -29,6 +30,9 @@ func _process(delta):
 	pass
 	
 func on_slot_data_changed():
+	self.check_attack_highlights()
+	
+func on_ui_active_slot_data_changed():
 	self.check_attack_highlights()
 	
 func highlight_slot(color: Color = DEFAULT_SELECT_COLOR):
@@ -46,20 +50,14 @@ func on_action_request_ui(slot: Slot):
 	check_attack_highlights()
 #	if GameData.ui_active_slot_data and GameData.ui_active_slot_data == self.slot.slot_data:
 #		self.highlight_slot()
-		
+
 
 func on_request_user_target_unit( action: GameData.UNIT_ACTIONS, potential_targets: Array[SlotData]):
 	assert(GameData.ui_active_slot_data)
 	assert(GameData.UNIT_ACTIONS.find_key(action))
 	assert(potential_targets)
 	
-	# Check for highlights and clear
-	self.unhighlight_slot()
-	
-	if self.slot.slot_data == GameData.ui_active_slot_data:
-		self.highlight_slot()
-	
-	
+	# Set state
 	if GameData.ui_active_slot_data.unit_data.requires_target(action):
 		self.potential_targets = potential_targets
 		# Indicate that this unit is targetable
@@ -70,20 +68,28 @@ func on_request_user_target_unit( action: GameData.UNIT_ACTIONS, potential_targe
 			self.active_action = action
 		
 		
-	# Highlight if targeted already
+	# Update UI according to state
 	self.check_attack_highlights()
 	
 
 func on_end_request_user_target_unit():
-	self.unhighlight_slot()
+	if GameData.ui_active_slot_data and self.slot.slot_data != GameData.ui_active_slot_data:
+		self.unhighlight_slot()
 	self.potential_targets = []
 	self.active_action = 0
 	self.targeting_active = false
 	
 
 func check_attack_highlights():
+	# Update UI according to state
+	
+	
 	if GameData.ui_active_slot_data == null:
+		self.on_end_request_user_target_unit()
 		return
+	
+	if GameData.ui_active_slot_data and self.slot.slot_data != GameData.ui_active_slot_data:
+		self.unhighlight_slot()
 	
 	var targets = GameData.ui_active_slot_data.action_targets
 	if self.slot.slot_data in targets:

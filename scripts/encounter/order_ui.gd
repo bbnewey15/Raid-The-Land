@@ -6,10 +6,15 @@ class_name OrderUi
 var saved_data : SlotDataGroup
 var order_ui_panel = preload("res://scenes/encounter/order_ui_panel.tscn")
 var allow_movement : bool = false
+
+@export var allowed_states : Array[String] = [GameData.ORDER]
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	# Connect to Encounter State Machine signals
 	self.hide()
+	
+	UiManager.register_ui_module(self as OrderUi)
+	
 	EncounterBus.encounter_state_changed.connect(self.on_encounter_state_changed)
 	EncounterBus.slot_data_changed.connect(self.on_slot_data_changed)
 
@@ -45,10 +50,8 @@ func load_from_slot_data_group(data: SlotDataGroup):
 func on_encounter_state_changed(state: String):
 	match state:
 		"Order":
-			self.show()
 			self.allow_movement = true
 		_:
-			self.hide()
 			self.allow_movement = false
 
 func move_panel_up_or_down(panel: Panel, up_or_down: String, slot_data: SlotData):

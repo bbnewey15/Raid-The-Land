@@ -12,6 +12,7 @@ var unit_node : Node2D
 
 func _ready():
 	highlighter.slot = self as Slot
+	unit_ui.slot = self as Slot
 	EncounterBus.slot_data_changed.connect(self.on_slot_data_changed)
 	
 
@@ -40,6 +41,7 @@ func set_slot_data(data: SlotData) -> void:
 	unit_ui.set_slot_data(self.slot_data)
 	
 	
+	
 
 func on_slot_data_changed():
 	# Current way to update ui
@@ -57,7 +59,7 @@ func _on_gui_input(event):
 			print("Slot Clicked %s" % event )
 			# Have to update position
 			slot_data.set_slot_position(get_global_position() + size/2)
-			EncounterBus.unit_selected.emit(self.slot_data, get_index(),event.button_index)
+			EncounterBus.unit_selected.emit(self.slot_data,event.button_index)
 
 func _on_mouse_entered():
 	EncounterBus.slot_hovered.emit(slot_data)

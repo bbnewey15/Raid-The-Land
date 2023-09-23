@@ -147,7 +147,8 @@ func check_and_request_unit_action() -> void:
 	# Get First in attack order
 	for slot_data in GameData.full_slot_array:
 		if slot_data.isEnemyUnit == true:
-			continue
+			if !GameData.debug_mode:
+				continue
 		if slot_data.action_set != false:
 			continue
 			
@@ -178,48 +179,31 @@ func get_potential_action_targets(slot_data: SlotData, action: GameData.UNIT_ACT
 	var actioning_column : UnitColumn = slot_actioning.get_node("../../../")
 	
 	var targeted_columns : Array[UnitColumn] = []
-	var range: Array
-	# What kind of unit is this ?
-	#TODO: Move range to unit_data 
-	match slot_data.unit_data.column_type:
-		GameData.COLUMN_TYPE.INFANTRY:
-			# Targets Adjacent Columns
-			range = [1]
-		GameData.COLUMN_TYPE.RANGED:
-			# Targets Range 2 from Column
-			range = [2]
-		GameData.COLUMN_TYPE.SIEGE:
-			# Targets up to 2 range
-			range = [1,2]
-	
+	var range: Array = slot_data.unit_data.get_range_by_action(action)
 	assert(range, "No Range set")
 	
 	var atk_col_index = actioning_column.column_data.colIndex
 	
 	for distance in range:
 		# If enemy actioning at left end
-		if isEnemy && atk_col_index - distance >= 0:
+		if atk_col_index - distance >= 0:
 			var tmp_index =atk_col_index - distance
 			
 			var tmp = column_dict[GameData.getColumnStringByIndex(tmp_index)]
-			if should_select_friendly:
-				if tmp.isEnemy:
-					targeted_columns.append(tmp)
-			else:
-				if !tmp.isEnemy:
-					targeted_columns.append(tmp)
+			if (isEnemy and !tmp.isEnemy) if !should_select_friendly else (isEnemy and tmp.isEnemy):
+				targeted_columns.append(tmp)
+			if (!isEnemy and tmp.isEnemy) if !should_select_friendly else (!isEnemy and !tmp.isEnemy):
+				targeted_columns.append(tmp)
 			
 		# If player actioning at right end
-		if !isEnemy && atk_col_index + distance <= 5:
+		if atk_col_index + distance <= 5:
 			var tmp_index =atk_col_index + distance
 			
 			var tmp = column_dict[GameData.getColumnStringByIndex(tmp_index)]
-			if should_select_friendly:
-				if !tmp.isEnemy:
-					targeted_columns.append(tmp)
-			else:
-				if tmp.isEnemy:
-					targeted_columns.append(tmp)
+			if (isEnemy and !tmp.isEnemy) if !should_select_friendly else (isEnemy and tmp.isEnemy):
+				targeted_columns.append(tmp)
+			if (!isEnemy and tmp.isEnemy) if !should_select_friendly else (!isEnemy and !tmp.isEnemy):
+				targeted_columns.append(tmp)
 	
 	var actionable_slots: Array[SlotData] = []
 	for column in targeted_columns:

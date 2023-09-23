@@ -4,14 +4,14 @@ class_name Slot
 @onready var texture_rect = $MarginContainer/Control/%TextureRect
 @onready var control_node = $MarginContainer/Control
 @onready var unit_ui = $UnitUi
-@onready var highlighter = %Highlighter
+@onready var targeter = %Targeter
 var slot_data : SlotData 
 var unit_node : Node2D
 
 
 
 func _ready():
-	highlighter.slot = self as Slot
+	targeter.slot = self as Slot
 	unit_ui.slot = self as Slot
 	EncounterBus.slot_data_changed.connect(self.on_slot_data_changed)
 	
@@ -46,7 +46,7 @@ func set_slot_data(data: SlotData) -> void:
 func on_slot_data_changed():
 	# Current way to update ui
 	set_slot_data(slot_data)
-	highlighter.slot = self as Slot
+	targeter.slot = self as Slot
 	
 func _process(delta):
 	pass
@@ -112,7 +112,7 @@ func receive_attack(attackingUnit : SlotData):
 	# Check blocking
 	var adj_damage_done = damage_done
 	if self.slot_data.action == GameData.UNIT_ACTIONS["DEFEND"]:
-		adj_damage_done = damage_done * self.slot_data.unit_data.blocking_ratio
+		adj_damage_done = damage_done - ( damage_done * self.slot_data.unit_data.defend_ratio )
 	
 	print("self.slot_data.unit_data.health - damage_done %s" % str(self.slot_data.unit_data.health - adj_damage_done))
 	var new_health = self.slot_data.unit_data.health - adj_damage_done

@@ -11,10 +11,12 @@ var slot : Slot
 @onready var order_control_label = %OrderControl/Label
 @onready var action_control = %ActionControl
 @onready var action_control_texture_rect = %ActionControl/TextureRect
+@onready var active_highlighter = %ActiveHighlighter
 
 var unit_data : UnitDataTest
 
-
+@export var DEFAULT_SELECT_COLOR: Color = Color(.5,.75,.75,.33)
+@export var UNHIGHLIGHT_COLOR: Color = Color(1, 1, 1, 0)
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -22,6 +24,7 @@ func _ready():
 	action_control.hide()
 	action_control_texture_rect.set_texture(null)
 	EncounterBus.encounter_state_changed.connect(self.on_encounter_state_changed)
+	EncounterBus.ui_active_slot_data_changed.connect(self.on_ui_active_slot_data_changed)
 	
 	await get_parent().ready
 	assert(slot)
@@ -52,5 +55,14 @@ func on_encounter_state_changed(state: String)-> void:
 		order_control.show()
 		action_control.show()
 
+func on_ui_active_slot_data_changed():
+	if GameData.ui_active_slot_data and self.slot.slot_data == GameData.ui_active_slot_data:
+		self.highlight_slot()
+	else:
+		self.unhighlight_slot()
 
+func highlight_slot(color: Color = DEFAULT_SELECT_COLOR):
+	self.active_highlighter.set_color(color)
 	
+func unhighlight_slot():
+	self.active_highlighter.set_color(UNHIGHLIGHT_COLOR)

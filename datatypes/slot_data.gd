@@ -11,8 +11,8 @@ class_name SlotData
 var slot_position: Vector2
 @export var action_order: int = 0
 var action_targets : Array[SlotData]
-var action : GameData.UNIT_ACTIONS
-var action_set : bool = false
+@export var action : GameData.UNIT_ACTIONS
+@export var action_set : bool = false
 var current_slot : Slot
 
 func init_unit_data(data: UnitDataTest):

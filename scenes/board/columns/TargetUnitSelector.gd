@@ -15,9 +15,9 @@ var potential_targets : Array[SlotData] = []
 func _ready():
 	self.hide()
 	EncounterBus.request_user_target_unit.connect(self.on_request_user_target_unit)
-	EncounterBus.slot_hovered.connect(self.on_slot_hovered)
-	EncounterBus.slot_hover_exited.connect(self.on_slot_hover_exited)
-	EncounterBus.unit_selected.connect(self.on_slot_selected)
+	EncounterBus.target_hovered.connect(self.on_target_hovered)
+	EncounterBus.target_hover_exited.connect(self.on_target_hover_exited)
+	EncounterBus.target_selected.connect(self.on_target_selected)
 	EncounterBus.end_request_user_target_unit.connect(self.quit_targeting)
 	await get_parent().ready
 	assert(column_group)
@@ -58,18 +58,18 @@ func _on_gui_input(event):
 		and (event.button_index == MOUSE_BUTTON_RIGHT) \
 		and event.is_pressed() and active == true:
 			# cancel
-			self.quit_targeting()
+			EncounterBus.end_request_user_target_unit.emit()
 	
 
-func on_slot_hovered(slot_data: SlotData):
+func on_target_hovered(slot_data: SlotData):
 	if slot_data in potential_targets:
 		self.hide()
 	
-func on_slot_hover_exited(slot_data: SlotData):
+func on_target_hover_exited(slot_data: SlotData):
 	if active:
 		self.show()
 	
-func on_slot_selected(slot_data: SlotData, button: int):
+func on_target_selected(slot_data: SlotData, button: int):
 	print("selected from target")
 	if active and GameData.ui_active_slot_data and slot_data in potential_targets:
 		var adj_action_targets : Array[SlotData] = GameData.ui_active_slot_data.action_targets

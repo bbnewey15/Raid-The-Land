@@ -21,4 +21,6 @@ support_requires_target = true
 attack_number_target = 2
 defend_number_target = 0
 support_number_target = 1
+attack_range = [1, 2]
+support_range = [1]
 health = 70

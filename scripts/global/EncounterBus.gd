@@ -54,6 +54,13 @@ signal post_fight_state_started
 signal post_fight_state_ended
 
 # warning-ignore:unused_signal
+signal target_hovered(slot_data: SlotData)
+# warning-ignore:unused_signal
+signal target_hover_exited(slot_data:SlotData)
+# warning-ignore:unused_signal
+signal target_selected(slot_data: SlotData, button: int)
+
+# warning-ignore:unused_signal
 signal slot_hovered(slot_data: SlotData)
 # warning-ignore:unused_signal
 signal slot_hover_exited(slot_data:SlotData)

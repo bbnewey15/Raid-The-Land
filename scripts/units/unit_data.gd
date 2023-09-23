@@ -16,6 +16,8 @@ class_name UnitDataTest extends Resource
 @export var attack_number_target = 2
 @export var defend_number_target = 0
 @export var support_number_target = 1
+@export var attack_range = [1]
+@export var support_range = [0,1]
 
 @export var health = max_health
 
@@ -52,3 +54,16 @@ func number_of_targets(action: GameData.UNIT_ACTIONS):
 		_:
 			push_warning("Default value used in unit_data's number_of_targets")
 			return 0
+
+func get_range_by_action(action: GameData.UNIT_ACTIONS) -> Array:
+	match action:
+		GameData.UNIT_ACTIONS["ATTACK"]:
+			return self.attack_range
+		GameData.UNIT_ACTIONS["DEFEND"]:
+			return []
+		GameData.UNIT_ACTIONS["SUPPORT"]:
+			return self.support_range
+		_:
+			assert(false)
+			return []
+	

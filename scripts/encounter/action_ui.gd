@@ -19,6 +19,7 @@ func _ready():
 	EncounterBus.unit_selected.connect(self.on_unit_selected)
 	EncounterBus.action_request_ui.connect(self.on_action_request_ui)
 	EncounterBus.ui_active_slot_data_changed.connect(self.update_actionUI)
+	EncounterBus.encounter_state_changed.connect(self.on_encounter_state_changed)
 	
 	
 
@@ -66,8 +67,9 @@ func _on_move_gui_input(event, left_or_right):
 func on_unit_selected(slot_data: SlotData, button: int) -> void:
 	# Actions are only performed from ally units
 	if slot_data.isEnemyUnit == true:
-		return
-	
+		if !GameData.debug_mode:
+			return
+
 	
 	
 	match encounter_manager.encounterStateMachine.get_state_name():
@@ -76,20 +78,16 @@ func on_unit_selected(slot_data: SlotData, button: int) -> void:
 		"Fight":
 			pass
 		"Order":
-			# Update Self and UI (Highlighters)
+			# Update Self and UI (Targeter)
 			# GameData.ui_active_slot_data will update in action_request_ui
+			
 			EncounterBus.action_request_ui.emit(slot_data.current_slot)
 			pass
 		"PostFight":
-			if GameData.ui_active_slot_data:
-				assert(GameData.ui_active_slot_data)
-				GameData.ui_active_slot_data.current_slot.highlighter.unhighlight_slot()
-				GameData.set_ui_active_slot_data(null)
 			match [GameData.ui_active_slot_data, button]:
 				[null, MOUSE_BUTTON_LEFT]:
 					GameData.set_ui_active_slot_data(slot_data)	
 					self.update_actionUI()
-					#GameData.ui_active_slot_data.current_slot.highlighter.highlight_slot()
 		_:
 			print("default")
 			
@@ -98,7 +96,6 @@ func on_action_request_ui(slot: Slot):
 	if GameData.ui_active_slot_data:
 		assert(GameData.ui_active_slot_data)
 		if GameData.ui_active_slot_data != slot.slot_data:
-			GameData.ui_active_slot_data.current_slot.highlighter.unhighlight_slot()
 			GameData.set_ui_active_slot_data(null)
 			EncounterBus.end_request_user_target_unit.emit()
 			
@@ -117,7 +114,6 @@ func on_action_request_ui(slot: Slot):
 			pass
 		"Order":
 			self.update_actionUI()
-			GameData.ui_active_slot_data.current_slot.highlighter.highlight_slot()
 		"PostFight":
 			pass
 		_:
@@ -210,6 +206,11 @@ func update_active_action_button(action: GameData.UNIT_ACTIONS):
 			GameData.UNIT_ACTIONS.SUPPORT:
 				support_action.get_node("ColorRect").show()
 		
+
+func on_encounter_state_changed(state_name: String):
+	if state_name != GameData.ORDER:
+		GameData.set_ui_active_slot_data(null)
+		EncounterBus.end_request_user_target_unit.emit()
 	
 func unactive_all():
 	attack_action.get_node("ColorRect").hide()

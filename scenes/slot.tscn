@@ -42,9 +42,10 @@ stretch_mode = 5
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="Highlighter" parent="." instance=ExtResource("4_4qy15")]
+[node name="Targeter" parent="." instance=ExtResource("4_4qy15")]
 unique_name_in_owner = true
 layout_mode = 2
+SUPPORTING_COLOR = Color(0.921569, 0.192157, 0.631373, 0.388235)
 
 [connection signal="focus_entered" from="." to="." method="_on_focus_entered"]
 [connection signal="gui_input" from="." to="." method="_on_gui_input"]

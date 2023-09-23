@@ -1,5 +1,6 @@
 extends Node
 
+var debug_mode : bool = true
 
 # State
 var ui_active_slot_data : SlotData

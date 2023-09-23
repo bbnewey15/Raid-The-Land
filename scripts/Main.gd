@@ -15,6 +15,7 @@ func _unhandled_key_input(event) -> void:
 		get_tree().quit()
 		
 	if event.is_action_pressed("debug_ui"):
+		GameData.debug_mode = true
 		EncounterBus.debug_ui.emit(true)
 		
 	

@@ -70,7 +70,16 @@ func _on_mouse_exited():
 	EncounterBus.slot_hover_exited.emit(slot_data)
 	pass # Replace with function body.
 
-	
+func unit_action(action: GameData.UNIT_ACTIONS, target):
+	match action:
+		GameData.UNIT_ACTIONS["ATTACK"]:
+			await self.attack(target)
+		GameData.UNIT_ACTIONS["DEFEND"]:
+			await self.defend()
+		GameData.UNIT_ACTIONS["SUPPORT"]:
+			await self.support(target)
+		_:
+			push_warning("Default value used in unit_data's requires_target")
 
 func attack(defending_slot_data: SlotData):
 	# show animation, sound, update in data
@@ -79,7 +88,7 @@ func attack(defending_slot_data: SlotData):
 	await animation_player.animation_finished
 	
 	#EncounterBus.slot_attacked.emit(self.slot_data, defending_slot_data)
-	await defending_slot_data.current_slot.defend(self.slot_data as SlotData)
+	await defending_slot_data.current_slot.receive_attack(self.slot_data as SlotData)
 	# 		is self dead? 
 	# 		//show animation, sound, update in data
 	
@@ -90,7 +99,7 @@ func attack(defending_slot_data: SlotData):
 	#EncounterBus.unit_attack_finished.emit(slot_data)
 	
 
-func defend(attackingUnit : SlotData):
+func receive_attack(attackingUnit : SlotData):
 	assert(attackingUnit)
 	
 	# Attacked animation
@@ -99,8 +108,14 @@ func defend(attackingUnit : SlotData):
 	await tween.finished
 	
 	var damage_done = attackingUnit.unit_data.damage
-	print("self.slot_data.unit_data.health - damage_done %s" % str(self.slot_data.unit_data.health - damage_done))
-	var new_health = self.slot_data.unit_data.health - damage_done
+	
+	# Check blocking
+	var adj_damage_done = damage_done
+	if self.slot_data.action == GameData.UNIT_ACTIONS["DEFEND"]:
+		adj_damage_done = damage_done * self.slot_data.unit_data.blocking_ratio
+	
+	print("self.slot_data.unit_data.health - damage_done %s" % str(self.slot_data.unit_data.health - adj_damage_done))
+	var new_health = self.slot_data.unit_data.health - adj_damage_done
 	# Update unit datas new health
 	self.slot_data.unit_data.update_health(new_health)
 	
@@ -110,6 +125,42 @@ func defend(attackingUnit : SlotData):
 	# Update UI to show new health
 	EncounterBus.slot_data_changed.emit()
 	
+func defend():
+	# show animation, sound, update in data
+	var animation_player : AnimationPlayer = unit_node.get_node("AnimationPlayer")
+	animation_player.play("attack",-1,3)
+	await animation_player.animation_finished
+	
+
+	
+func support(supporting_slot_data: SlotData):
+	# show animation, sound, update in data
+	var animation_player : AnimationPlayer = unit_node.get_node("AnimationPlayer")
+	animation_player.play("attack",-1,3)
+	await animation_player.animation_finished
+	
+	await supporting_slot_data.current_slot.receive_support(self.slot_data as SlotData)
+	
+func receive_support(supporting_unit : SlotData):
+	assert(supporting_unit)
+	
+	# Attacked animation
+	var tween: Tween = create_tween()
+	tween.tween_property(unit_node, "modulate:v", 1, 0.25).from(15)
+	await tween.finished
+	
+	var healing_done = supporting_unit.unit_data.support_amount
+	print("self.slot_data.unit_data.health - healing_done %s" % str(self.slot_data.unit_data.health - healing_done))
+	var new_health = self.slot_data.unit_data.health + healing_done
+	
+	
+	if new_health > self.slot_data.unit_data.max_health:
+		new_health = self.slot_data.unit_data.max_health
+		
+	# Update unit datas new health
+	self.slot_data.unit_data.update_health(new_health)
+	# Update UI to show new health
+	EncounterBus.slot_data_changed.emit()
 
 func die() -> void:
 	

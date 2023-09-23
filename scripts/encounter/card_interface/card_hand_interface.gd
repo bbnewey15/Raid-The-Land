@@ -12,7 +12,7 @@ var card_hand_data: CardHandData
 var active_slot : CardSlot
 var encounter_manager: EncounterManager
 	
-@export var allowed_states : Array[String] = [GameData.PLACE, GameData.DRAFT]
+@export var allowed_states : Array[String] = [GameData.ORDER,GameData.PLACE, GameData.DRAFT]
 
 func _ready():
 	self.hide()

@@ -123,14 +123,18 @@ func fight() -> void:
 	for slot_data in GameData.full_slot_array:
 		if slot_data.can_action() && slot_data.action_order:
 			
+			if !slot_data.action_set:
+				continue
 			# Units act according to slot_data.action
 			
-			
-			var target_array = slot_data.action_targets
-			for target in target_array:
-				await slot_data.current_slot.attack(target)
-				print("%s attacked %s " % [slot_data.unit_data.description, target.unit_data.description])
-				#await EncounterBus.unit_attack_finished
+			if slot_data.unit_data.requires_target(slot_data.action):
+				var target_array = slot_data.action_targets
+				for target in target_array:
+					await slot_data.current_slot.unit_action(slot_data.action, target)
+					print("%s attacked %s " % [slot_data.unit_data.description, target.unit_data.description])
+					#await EncounterBus.unit_attack_finished
+			else:
+				await slot_data.current_slot.unit_action(slot_data.action, null)
  
 	EncounterBus.fight_state_stopped.emit()
 	
@@ -154,10 +158,21 @@ func check_and_request_unit_action() -> void:
 		break
 	
 
-func get_potential_action_targets(slot_data: SlotData) -> Array[SlotData]:
+func get_potential_action_targets(slot_data: SlotData, action: GameData.UNIT_ACTIONS) -> Array[SlotData]:
 	var slot_actioning = slot_data.current_slot
 	assert(slot_actioning, "No slot found for slot_data")
 	
+	var should_select_friendly : bool = false
+	match action:
+		GameData.UNIT_ACTIONS["ATTACK"]:
+			pass
+		GameData.UNIT_ACTIONS["DEFEND"]:
+			pass
+		GameData.UNIT_ACTIONS["SUPPORT"]:
+			should_select_friendly = true
+		_:
+			push_warning("Default value used in unit_data's requires_target")
+			
 	var isEnemy = slot_data.isEnemyUnit
 	
 	var actioning_column : UnitColumn = slot_actioning.get_node("../../../")
@@ -187,16 +202,24 @@ func get_potential_action_targets(slot_data: SlotData) -> Array[SlotData]:
 			var tmp_index =atk_col_index - distance
 			
 			var tmp = column_dict[GameData.getColumnStringByIndex(tmp_index)]
-			if !tmp.isEnemy:
-				targeted_columns.append(tmp)
+			if should_select_friendly:
+				if tmp.isEnemy:
+					targeted_columns.append(tmp)
+			else:
+				if !tmp.isEnemy:
+					targeted_columns.append(tmp)
 			
 		# If player actioning at right end
 		if !isEnemy && atk_col_index + distance <= 5:
 			var tmp_index =atk_col_index + distance
 			
 			var tmp = column_dict[GameData.getColumnStringByIndex(tmp_index)]
-			if tmp.isEnemy:
-				targeted_columns.append(tmp)
+			if should_select_friendly:
+				if !tmp.isEnemy:
+					targeted_columns.append(tmp)
+			else:
+				if tmp.isEnemy:
+					targeted_columns.append(tmp)
 	
 	var actionable_slots: Array[SlotData] = []
 	for column in targeted_columns:

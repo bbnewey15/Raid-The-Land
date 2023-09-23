@@ -7,6 +7,8 @@ class_name UnitDataTest extends Resource
 @export var column_type: GameData.COLUMN_TYPE
 @export var max_health: int = 100
 @export var damage: int = 35
+@export var support_amount : int = 15
+@export var defend_ratio: float = .60
 @export var status: String = "ALIVE"
 @export var attack_requires_target = true
 @export var defend_requires_target = false

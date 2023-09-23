@@ -184,7 +184,8 @@ func get_potential_targets_and_emit(action: GameData.UNIT_ACTIONS):
 	if GameData.ui_active_slot_data.unit_data.requires_target(action):
 		
 		# Get available targets 
-		var potential_targets : Array[SlotData] = encounter_manager.columnGroup.get_potential_action_targets(GameData.ui_active_slot_data)
+		var potential_targets : Array[SlotData] = encounter_manager.columnGroup \
+		.get_potential_action_targets(GameData.ui_active_slot_data, GameData.ui_active_slot_data.action)
 		
 		if len(potential_targets) > 0:
 			# Following Signal Uses GameData.ui_active_slot_data

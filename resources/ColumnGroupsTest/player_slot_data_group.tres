@@ -1,17 +1,33 @@
-[gd_resource type="Resource" script_class="SlotDataGroup" load_steps=5 format=3 uid="uid://cmsqg2ih4hgrm"]
+[gd_resource type="Resource" script_class="SlotDataGroup" load_steps=6 format=3 uid="uid://cmsqg2ih4hgrm"]
 
 [ext_resource type="Script" path="res://datatypes/slot_data_group.gd" id="1_c0af3"]
 [ext_resource type="Script" path="res://datatypes/slot_data.gd" id="2_ff2sj"]
-[ext_resource type="Resource" uid="uid://pyymubqqcjt7" path="res://scripts/units/infantry/spearman.tres" id="4_ebkeb"]
 
 [sub_resource type="Resource" id="Resource_cp4ha"]
 script = ExtResource("2_ff2sj")
-unit_data = ExtResource("4_ebkeb")
+unit_data_path = "res://scripts/units/infantry/spearman.tres"
 isEnemyUnit = false
 column_name = 2
 slotIndex = 0
+action_order = 0
+
+[sub_resource type="Resource" id="Resource_a8yci"]
+script = ExtResource("2_ff2sj")
+unit_data_path = "res://scripts/units/infantry/spearman.tres"
+isEnemyUnit = false
+column_name = 2
+slotIndex = 1
+action_order = 0
+
+[sub_resource type="Resource" id="Resource_ghcti"]
+script = ExtResource("2_ff2sj")
+unit_data_path = "res://scripts/units/ranged/stone_tosser.tres"
+isEnemyUnit = false
+column_name = 1
+slotIndex = 0
+action_order = 0
 
 [resource]
 script = ExtResource("1_c0af3")
-slot_datas = Array[ExtResource("2_ff2sj")]([SubResource("Resource_cp4ha")])
+slot_datas = Array[ExtResource("2_ff2sj")]([SubResource("Resource_cp4ha"), SubResource("Resource_a8yci"), SubResource("Resource_ghcti")])
 isEnemy = false

@@ -3,15 +3,28 @@ extends Control
 
 
 const CardSlot = preload("res://scenes/encounter/card_interface/card_slot.tscn")
+@onready var place_button_container = %PlaceButtonContainer
+@onready var end_turn_button = %EndTurnButton
+@onready var end_order_button = %EndOrderButton
 
 @onready var unit_grid = $PanelContainer/MarginContainer/%CardGrid
 var card_hand_data: CardHandData
+var active_slot : CardSlot
+var encounter_manager: EncounterManager
+	
+@export var allowed_states : Array[String] = [GameData.ORDER,GameData.PLACE, GameData.DRAFT]
 
-	
-	
-	
 func _ready():
-	pass
+	self.hide()
+	end_turn_button.hide()
+	end_order_button.hide()
+	
+	UiManager.register_ui_module(self as CardHandInterface)
+	
+	EncounterBus.encounter_state_changed.connect(Callable(self,"on_encounter_state_changed"))
+	EncounterBus.card_slot_clicked.connect(Callable(self, "on_card_slot_clicked"))
+	EncounterBus.card_post_play.connect(Callable(self,"on_card_post_play"))
+	EncounterBus.column_clicked.connect(Callable(self,"on_column_clicked"))
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -36,24 +49,7 @@ func load_from_resource(data: CardHandData) -> void:
 		
 		unit_grid.add_child(slot)
 		
-		# Rotate slot so it is on the right angle
-		var slot_text_rect : TextureRect = slot.get_node("MarginContainer/Control/%TextureRect")
-		slot_text_rect.set_pivot_offset(slot.size/2)
-		slot_text_rect.set_rotation_degrees(-self.get_rotation_degrees())
-		
-		# Add slot clicked signal
-		slot.slot_clicked.connect(card_hand_data.on_slot_clicked)
-#		print("is valid %s" %  column_data.on_slot_clicked.is_valid())
-#		print("is connected? %s" % slot.is_connected("slot_clicked", column_data.on_slot_clicked))
-#		print("has signal %s" % slot.has_signal("slot_clicked"))
-#		print(slot.slot_clicked.get_connections())
-		
-		var parent  = get_parent_control()
-		
-		#slot.slot_clicked.connect(parent.)
-		
-		if slot_data:
-			slot.set_slot_data(slot_data)
+		slot.set_slot_data(slot_data)
 			
 	# set pivot point for proper rotation
 	self.set_pivot_offset(size/2)
@@ -61,4 +57,76 @@ func load_from_resource(data: CardHandData) -> void:
 	self.set_size(GameData.COLUMN_SIZE)
 	
 
+func on_card_slot_clicked(slot: CardSlot, column_type: GameData.COLUMN_TYPE, index: int, button: int):
+	print("Card selected %s \n index: %s\n button: %s" % [slot, index, button])
+	var old_active_slot : CardSlot = null
 	
+	var test = is_instance_valid(slot)
+	match encounter_manager.encounterStateMachine.get_state_name():
+		"Start":
+			pass
+		"Fight":
+			pass
+		"Place":
+			
+			old_active_slot = active_slot
+			active_slot = null
+			match [active_slot, button]:
+				[null, MOUSE_BUTTON_LEFT]:
+					active_slot = slot
+			
+			# Slot could be recently freed, so we check
+			# TODO: There might be a better way to handle this
+			if is_instance_valid(old_active_slot):
+				old_active_slot.setHighlight(false)
+				
+			if is_instance_valid(active_slot):
+				# Highlight Card
+				active_slot.setHighlight(true)
+		_:
+			print("default")
+			
+
+
+func update_hand_ui(old_active_slot: CardSlot) -> void:
+	print("HAND UI")
+	
+func on_column_clicked(column: UnitColumn, index: int, button: int):
+	if active_slot and active_slot.highlighted:
+		# Play the card:
+		EncounterBus.card_played.emit(active_slot, active_slot.slot_data.unit_data.column_type, index, button)
+
+func on_card_post_play(card_slot: CardSlot, column_type: GameData.COLUMN_TYPE, index: int, button: int):
+	#Remove card from hand and free resources
+	unit_grid.remove_child(card_slot)
+	card_slot.queue_free()
+	active_slot = null
+	
+
+func on_encounter_state_changed(state_name):
+	match state_name:
+		"Start":
+			place_button_container.hide()
+		"Fight":
+			place_button_container.hide()
+		"Place":
+			place_button_container.show()
+			end_turn_button.show()
+		"Order":
+			place_button_container.show()
+			end_order_button.show()
+	
+
+func _on_end_turn_button_pressed():
+	if encounter_manager.encounterStateMachine.get_state_name() == "Place":
+		place_button_container.hide()
+		end_turn_button.hide()
+		EncounterBus.player_place_ended_turn.emit()
+
+
+func _on_end_order_button_pressed():
+	if encounter_manager.encounterStateMachine.get_state_name() == "Order":
+		place_button_container.hide()
+		end_order_button.hide()
+		EncounterBus.order_state_ended.emit()
+	pass # Replace with function body.

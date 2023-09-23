@@ -1,6 +1,8 @@
-[gd_scene load_steps=2 format=3 uid="uid://dwjqrihae367o"]
+[gd_scene load_steps=4 format=3 uid="uid://dwjqrihae367o"]
 
 [ext_resource type="Script" path="res://scripts/board/column_group.gd" id="1_xo2ug"]
+[ext_resource type="Script" path="res://scenes/board/columns/TargetUnitSelector.gd" id="2_dvufr"]
+[ext_resource type="Texture2D" uid="uid://dh1cjff5yasnf" path="res://assets/target.png" id="3_gohnq"]
 
 [node name="ColumnGroup" type="Control"]
 layout_mode = 3
@@ -9,4 +11,22 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 1
 script = ExtResource("1_xo2ug")
+
+[node name="TargetUnitSelector" type="Control" parent="."]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+mouse_filter = 1
+script = ExtResource("2_dvufr")
+
+[node name="TextureRect" type="TextureRect" parent="TargetUnitSelector"]
+layout_mode = 0
+offset_right = 100.0
+offset_bottom = 100.0
+texture = ExtResource("3_gohnq")
+expand_mode = 2
+stretch_mode = 5
+
+[connection signal="gui_input" from="TargetUnitSelector" to="TargetUnitSelector" method="_on_gui_input"]

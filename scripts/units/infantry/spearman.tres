@@ -1,12 +1,26 @@
-[gd_resource type="Resource" script_class="UnitData" load_steps=3 format=3 uid="uid://pyymubqqcjt7"]
+[gd_resource type="Resource" script_class="UnitDataTest" load_steps=3 format=3 uid="uid://deook0vixfbqa"]
 
 [ext_resource type="Script" path="res://scripts/units/unit_data.gd" id="1_urgia"]
 [ext_resource type="Texture2D" uid="uid://cntmgxfgw1gmc" path="res://assets/spear_stolen.PNG" id="2_bk65b"]
 
 [resource]
-resource_local_to_scene = true
 script = ExtResource("1_urgia")
 name = "Spearman"
 description = "A simple minded infantry unit."
 texture = ExtResource("2_bk65b")
+unit_node_path = "res://scenes/units/spearman.tscn"
 column_type = 2
+max_health = 100
+damage = 35
+support_amount = 15
+defend_ratio = 0.6
+status = "ALIVE"
+attack_requires_target = true
+defend_requires_target = false
+support_requires_target = true
+attack_number_target = 2
+defend_number_target = 0
+support_number_target = 1
+attack_range = [1]
+support_range = [0, 1]
+health = 100

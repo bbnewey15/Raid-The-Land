@@ -5,8 +5,11 @@ extends State
 
 
 func enter(_msg := {}) -> void:
-#	state_machine.encounter_manager.add_child(encounter_message)
-	print("Entered Post Fight")
+	print("-- POST FIGHT ENTERED --")
+	EncounterBus.post_fight_state_started.emit()
+	await EncounterBus.post_fight_state_ended
+	print("-- TRANSITION TO DRAFT --")
+	state_machine.transition_to("Draft")
 	pass
 	
 func update(delta: float) -> void:
@@ -22,6 +25,6 @@ func update(delta: float) -> void:
 	
 	
 func exit() -> void:
-	print("leaving post fight state")
+	print("-- POST FIGHT EXITED --")
 
 

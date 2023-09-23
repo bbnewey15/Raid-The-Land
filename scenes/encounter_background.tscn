@@ -1,56 +1,33 @@
-[gd_scene load_steps=2 format=3 uid="uid://dvtdj06b21lkw"]
+[gd_scene load_steps=3 format=3 uid="uid://dvtdj06b21lkw"]
 
 [ext_resource type="Texture2D" uid="uid://cixfrsud0wdve" path="res://assets/board_outline.png" id="1_e3vbb"]
 
-[node name="Background" type="Node"]
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_34bbi"]
+load_path = "res://.godot/imported/background_beach.png-8ce3fae750e50a82c4f26510b40f2744.ctex"
 
-[node name="SkySolidColor" type="ColorRect" parent="."]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-size_flags_horizontal = 6
-size_flags_vertical = 4
-color = Color(0.760784, 1, 1, 1)
+[node name="CanvasLayerBackground" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+mouse_filter = 1
 
-[node name="MidBackSolidColor" type="ColorRect" parent="."]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_top = 176.0
-offset_bottom = -632.0
-grow_horizontal = 2
-grow_vertical = 2
-size_flags_horizontal = 6
-size_flags_vertical = 4
-color = Color(0.141176, 0.643137, 0, 1)
-
-[node name="GroundSolidColor" type="ColorRect" parent="."]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_top = 320.0
-grow_horizontal = 2
-grow_vertical = 2
-size_flags_horizontal = 6
-size_flags_vertical = 4
-color = Color(0.980392, 0.941176, 0.878431, 1)
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 0
+offset_right = 2560.0
+offset_bottom = 1440.0
+scale = Vector2(0.75, 0.75)
+texture = SubResource("CompressedTexture2D_34bbi")
 
 [node name="BoardOutline" type="TextureRect" parent="."]
+visible = false
+layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -960.0
-offset_top = -720.0
-offset_right = 960.0
-offset_bottom = -60.0
+offset_top = 360.0
+offset_right = 1920.0
+offset_bottom = 1020.0
 grow_horizontal = 2
 grow_vertical = 0
 texture = ExtResource("1_e3vbb")
-
-[node name="CanvasLayerBackground" type="Control" parent="."]
-layout_mode = 3
-anchors_preset = 0

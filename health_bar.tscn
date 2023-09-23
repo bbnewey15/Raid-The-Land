@@ -1,0 +1,51 @@
+[gd_scene load_steps=5 format=3 uid="uid://feysoru1scpe"]
+
+[ext_resource type="Script" path="res://scripts/encounter/HealthBar.gd" id="1_8enn5"]
+[ext_resource type="FontFile" uid="uid://bux2d6r2ckfem" path="res://assets/fonts/vikingsquad/vikingsquadbold.ttf" id="2_0rale"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bpcgy"]
+bg_color = Color(0.168627, 0.00784314, 0.00784314, 0.431373)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_akngr"]
+bg_color = Color(0.352941, 0.878431, 0.258824, 1)
+corner_radius_top_left = 3
+corner_radius_bottom_left = 3
+
+[node name="HealthBar" type="Control"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 3
+anchors_preset = 0
+size_flags_vertical = 6
+script = ExtResource("1_8enn5")
+
+[node name="HealthBarTexture" type="ProgressBar" parent="."]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+offset_right = 125.0
+offset_bottom = 20.0
+size_flags_vertical = 6
+theme_override_styles/background = SubResource("StyleBoxFlat_bpcgy")
+theme_override_styles/fill = SubResource("StyleBoxFlat_akngr")
+value = 50.0
+show_percentage = false
+
+[node name="HealthLabel" type="Label" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 3
+theme_override_fonts/font = ExtResource("2_0rale")
+theme_override_font_sizes/font_size = 34
+text = "100"
+horizontal_alignment = 1
+vertical_alignment = 1

@@ -1,1 +1,59 @@
 5/4 - Split data resource so that board data was separate from slot data. Slot data now is 1 array for player slots and 1 array for enemy slots so its easier to loop through
+5/4 - Add Fight to Column Group to loop through; Next: Add attack signals to slot and Add an animation?
+5/5 - Add Attack signals to slots and connect to UnitColumns
+5/12 - Added animations to fight; Next: Add visible health bars and other stats to units
+5/12 - Added health bar/ health / dmg to unit_data -- also used unit_data as template; ToDo - add moving units in post
+5/12 - Added basic movement from column to column
+5/15 - Changed background image
+
+TODO: add_slot by unit_data instead of by slot data -- or handle the data better?
+
+TODO:
+EZ:
+****Make Units Die on 0
+****Update health bar to match max health instead of 100
+****Fix movement ui - probably just move the UI to the bottom of the screen
+Add defense mode to unit ( counter attack = if a unit blocks damage, add a percentage of that dmg to the next attack )
+Add draw cards stage - for now just randomly pick 3 cards and add to hand
+Add simple ai
+
+Big Features:
+Create encounter upgrade cards ( round modifiers, phase modifiers (multiple rounds), encounter modifiers(multi phases) ) 
+   Infantry gain +10 block, infantry gain +30% counter attack percentage), etc
+Create Unit item cards
+   Unit holding item gains leadership that boosts nearby units, get this card back on death, unit gains overshield if doesnt attack
+Create a level up for each unit based on experience
+
+AI:
+Keep track of stats to use for AI
+ Number of units, Number of each type of unit, Location of frontline
+Add simple ai for placing new units on next place stage
+Add simple ai drawing new cards
+AI for determining attack order
+AI for moving up unit
+
+Possible Ideas:
+BIG CHANGE - units do not attack full rows - must choose attack/def/supp and select target
+Only allow for units to be placed 1 column away from frontline
+Have 3 different actions -- Attack/Defend/Heal
+Before encounter, draft your army
+ = Pick a unit and adjust their stats (attack,defence,support)
+   = Based on the level - add up to 5 pts
+     = if attack = 3, defence = 2, support = 1 | 
+Each run has a # of reinforcements. Lose all your reinforcements in battle, then game over
+Unit Level ups carry over to next round?
+
+Brainstorm:
+Micro round thoughts:
+What are the unknowns when starting a fight?
+ -Will my unit die before he acts?
+ -Will the enemy attack/defend/heal?
+ -Will the enemy place a game modifier for this round?
+
+Encounter Big Picture thoughts:
+ -Will win this round? Should I tank this round to try to win 2/3
+ -Early Game Strat
+   - Try to win the first round
+ -Late Game Strat
+   - Level up unit
+ -Should I retreat to save men?

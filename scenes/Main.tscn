@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://cjn0k0cjh438d"]
+[gd_scene load_steps=9 format=3 uid="uid://cjn0k0cjh438d"]
 
 [ext_resource type="Script" path="res://scripts/Main.gd" id="1_o075c"]
 [ext_resource type="Script" path="res://scripts/World.gd" id="2_arvqx"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://dwjqrihae367o" path="res://scenes/board/columns/column_group.tscn" id="5_acetr"]
 [ext_resource type="Script" path="res://scripts/encounter/EncounterManager.gd" id="5_v1psm"]
 [ext_resource type="PackedScene" uid="uid://p46rby3d6qhj" path="res://scenes/encounter/card_interface/card_hand_interface.tscn" id="6_4bypg"]
+[ext_resource type="PackedScene" uid="uid://cv6dog5eil5g3" path="res://scenes/encounter/order_ui.tscn" id="8_rx5hp"]
 
 [node name="Main" type="Node"]
 script = ExtResource("1_o075c")
@@ -19,7 +20,7 @@ one_shot = true
 z_index = -1
 script = ExtResource("2_arvqx")
 
-[node name="Background" parent="World" instance=ExtResource("2_uouqs")]
+[node name="CanvasLayerBackground" parent="World" instance=ExtResource("2_uouqs")]
 
 [node name="GUI" type="Control" parent="."]
 layout_mode = 3
@@ -34,9 +35,6 @@ columnGroupDataResourcePath = "res://resources/ColumnGroupsTest/column_group_tes
 playerSlotDatasResourcePath = "res://resources/ColumnGroupsTest/player_slot_data_group.tres"
 enemySlotDatasResourcePath = "res://resources/ColumnGroupsTest/enemy_slot_data_group.tres"
 
-[node name="CardHandInterface" parent="GUI/EncounterManager" instance=ExtResource("6_4bypg")]
-top_level = true
-
 [node name="PlayerColumnGroup" parent="GUI/EncounterManager" instance=ExtResource("5_acetr")]
 unique_name_in_owner = true
 top_level = true
@@ -44,3 +42,9 @@ offset_left = 363.0
 offset_top = 360.0
 offset_right = -366.0
 offset_bottom = -50.0
+
+[node name="CardHandInterface" parent="GUI/EncounterManager" instance=ExtResource("6_4bypg")]
+top_level = true
+offset_top = -150.0
+
+[node name="OrderUi" parent="GUI/EncounterManager" instance=ExtResource("8_rx5hp")]

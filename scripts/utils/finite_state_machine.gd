@@ -4,7 +4,7 @@ class_name StateMachine
 extends Node
 
 # Emitted when transitioning to a new state.
-signal encounter_state_changed(state_name : String)
+
 
 # Path to the initial active state. We export it to be able to pick the initial state in the inspector.
 #@export var initial_state := NodePath()
@@ -45,12 +45,13 @@ func transition_to(target_state_name: String, msg: Dictionary = {}) -> void:
 	# We don't use an assert here to help with code reuse. If you reuse a state in different state machines
 	# but you don't want them all, they won't be able to transition to states that aren't in the scene tree.
 	if not has_node(target_state_name):
+		print("Invalid state %s" % target_state_name)
 		return
 
 	state.exit()
 	state = get_node(target_state_name)
 	state.enter(msg)
-	encounter_state_changed.emit(state.name)
+	EncounterBus.encounter_state_changed.emit(state.name)
 
 func get_state_name():
 	return self.state.name

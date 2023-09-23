@@ -3,13 +3,14 @@ extends Node
 class_name EncounterManager
 
 
-const ActionUIScene = preload("res://scenes/action_ui.tscn")
+const ActionUIScene = preload("res://scenes/encounter/action_ui.tscn")
 @export var columnGroupDataResourcePath: String
 @export var playerSlotDatasResourcePath: String
 @export var enemySlotDatasResourcePath: String
+const playerHandData : CardHandData = preload("res://resources/hand/player_hand.tres")
 const FiniteStateMachine = preload("res://scenes/encounter/encounter_state_machine.tscn")
-
-
+@onready var cardHandInterface = $CardHandInterface
+@onready var order_ui = $OrderUi
 
 var actionUI: ActionUI
 var loading: bool = true
@@ -20,17 +21,17 @@ var columnGroup : UnitColGroup
 var columnGroupData : Resource
 var playerSlotDatas : Resource
 var enemySlotDatas : Resource
+var playerCardData : Resource
 # Called when the node enters the scene tree for the first time.
 func _ready():
 			
 	columnGroupData = ResourceManager.load_specific_resources(columnGroupDataResourcePath)
 	playerSlotDatas = ResourceManager.load_specific_resources(playerSlotDatasResourcePath)
 	enemySlotDatas = ResourceManager.load_specific_resources(enemySlotDatasResourcePath)
-
 		
 	# Encounter State Machine
 	encounterStateMachine = FiniteStateMachine.instantiate()
-	encounterStateMachine.state_start = 3
+	encounterStateMachine.state_start = 0
 	encounterStateMachine.encounter_manager = self as EncounterManager
 	add_child(encounterStateMachine)
 	
@@ -48,13 +49,19 @@ func _ready():
 	add_child(actionUI)
 	actionUI.hide()
 	
-
+	cardHandInterface.encounter_manager = self as EncounterManager
+	cardHandInterface.load_from_resource(playerHandData)
+	
+	order_ui.load_from_slot_data_group(playerSlotDatas)
 	
 	# Connect to Encounter State Machine signals
-	encounterStateMachine.encounter_state_changed.connect(self.on_encounter_state_changed)
+	EncounterBus.encounter_state_changed.connect(self.on_encounter_state_changed)
+	
+	# Singal to everyone that slot data should be updated
+	EncounterBus.slot_data_changed.emit()
 	
 	loading = false
-	
+		
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -67,6 +74,21 @@ func _physics_process(delta):
 
 
 func on_encounter_state_changed(state_name : String) -> void:
-	print("Signaled to on_encounter_state_changed %s" % state_name)
+	# Update UI Items based on state
+	match state_name:
+		"Start":
+			pass
+		"Draft":
+			pass
+		"Place":
+			pass
+		"Order":
+			pass
+		"Fight":
+			pass
+		"PostFight":
+			pass
+		
+	
 	
 	

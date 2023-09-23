@@ -14,10 +14,7 @@ func grab_slot_data(index: int) -> SlotData:
 		return slot_data
 	else:
 		return null
-	
-func on_slot_clicked(index: int, button: int) -> void:
-	print("col data - on_slot_clicked")
-	EncounterBus.unit_selected.emit(self, index, colIndex,button)
+
 
 func get_player_occupies() -> bool:
 	for slot_data in slot_datas:
@@ -25,3 +22,4 @@ func get_player_occupies() -> bool:
 			return true
 		
 	return false
+

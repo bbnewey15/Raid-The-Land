@@ -1,0 +1,32 @@
+[gd_scene load_steps=3 format=3 uid="uid://cv6dog5eil5g3"]
+
+[ext_resource type="Script" path="res://scripts/encounter/order_ui.gd" id="1_4mmp4"]
+[ext_resource type="PackedScene" uid="uid://ckx857ocp38pj" path="res://scenes/encounter/order_ui_panel.tscn" id="2_14eiw"]
+
+[node name="OrderUi" type="Control"]
+custom_minimum_size = Vector2(300, 20)
+layout_mode = 3
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -240.0
+offset_right = 300.0
+offset_bottom = -200.0
+grow_vertical = 2
+script = ExtResource("1_4mmp4")
+
+[node name="PanelContainer" type="MarginContainer" parent="."]
+custom_minimum_size = Vector2(300, 20)
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 15
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer"]
+layout_mode = 2
+
+[node name="OrderUiPanel" parent="PanelContainer/VBoxContainer" instance=ExtResource("2_14eiw")]
+layout_mode = 2

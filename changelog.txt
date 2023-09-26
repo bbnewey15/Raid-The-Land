@@ -5,15 +5,15 @@
 5/12 - Added health bar/ health / dmg to unit_data -- also used unit_data as template; ToDo - add moving units in post
 5/12 - Added basic movement from column to column
 5/15 - Changed background image
-
-TODO: add_slot by unit_data instead of by slot data -- or handle the data better?
-
-TODO:
-EZ:
 ****Make Units Die on 0
 ****Update health bar to match max health instead of 100
 ****Fix movement ui - probably just move the UI to the bottom of the screen
+units do not attack full rows - must choose attack/def/supp and select target
 Add defense mode to unit ( counter attack = if a unit blocks damage, add a percentage of that dmg to the next attack )
+
+TODO:
+Update attack order on_slot_data_changed
+Add cardsmanager - 
 Add draw cards stage - for now just randomly pick 3 cards and add to hand
 Add simple ai
 
@@ -33,7 +33,7 @@ AI for determining attack order
 AI for moving up unit
 
 Possible Ideas:
-BIG CHANGE - units do not attack full rows - must choose attack/def/supp and select target
+
 Only allow for units to be placed 1 column away from frontline
 Have 3 different actions -- Attack/Defend/Heal
 Before encounter, draft your army
@@ -42,6 +42,10 @@ Before encounter, draft your army
      = if attack = 3, defence = 2, support = 1 | 
 Each run has a # of reinforcements. Lose all your reinforcements in battle, then game over
 Unit Level ups carry over to next round?
+
+Possible Flaws:
+Movement from column to column seems a little weird
+1:02 PM 9/25/2023
 
 Brainstorm:
 Micro round thoughts:

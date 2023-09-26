@@ -10,7 +10,7 @@ var encounter_manager : EncounterManager
 @onready var defend_action = %DefendAction
 @onready var support_action = %SupportAction
 
-@export var allowed_states : Array[String] = [GameData.ORDER, GameData.POST_FIGHT]
+@export var allowed_states : Array[String] = [GameData.PLAYER_TURN, GameData.POST_FIGHT]
 
 func _ready():
 	
@@ -75,9 +75,7 @@ func on_unit_selected(slot_data: SlotData, button: int) -> void:
 	match encounter_manager.encounterStateMachine.get_state_name():
 		"Start":
 			pass
-		"Fight":
-			pass
-		"Order":
+		"PlayerTurn":
 			# Update Self and UI (Targeter)
 			# GameData.ui_active_slot_data will update in action_request_ui
 			
@@ -110,9 +108,7 @@ func on_action_request_ui(slot: Slot):
 	match encounter_manager.encounterStateMachine.get_state_name():
 		"Start":
 			pass
-		"Fight":
-			pass
-		"Order":
+		"PlayerTurn":
 			self.update_actionUI()
 		"PostFight":
 			pass
@@ -123,7 +119,7 @@ func on_action_request_ui(slot: Slot):
 	
 func update_actionUI() -> void:
 	match encounter_manager.encounterStateMachine.get_state_name():
-		"Order":
+		"PlayerTurn":
 			
 			
 			if GameData.ui_active_slot_data:
@@ -208,7 +204,7 @@ func update_active_action_button(action: GameData.UNIT_ACTIONS):
 		
 
 func on_encounter_state_changed(state_name: String):
-	if state_name != GameData.ORDER:
+	if state_name != GameData.PLAYER_TURN:
 		GameData.set_ui_active_slot_data(null)
 		EncounterBus.end_request_user_target_unit.emit()
 	

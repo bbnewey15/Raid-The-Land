@@ -1,8 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://p46rby3d6qhj"]
+[gd_scene load_steps=3 format=3 uid="uid://p46rby3d6qhj"]
 
 [ext_resource type="Script" path="res://scripts/encounter/card_interface/card_hand_interface.gd" id="1_iljyn"]
 [ext_resource type="PackedScene" uid="uid://b8sbk48j0lfst" path="res://scenes/encounter/card_interface/card_slot.tscn" id="2_eteuo"]
-[ext_resource type="Theme" uid="uid://dl8v06n638p0x" path="res://new_theme.tres" id="3_rpmg6"]
 
 [node name="CardHandInterface" type="Control"]
 custom_minimum_size = Vector2(1370, 150)
@@ -56,26 +55,3 @@ layout_mode = 2
 
 [node name="CardSlot2" parent="PanelContainer/MarginContainer/CardGrid" instance=ExtResource("2_eteuo")]
 layout_mode = 2
-
-[node name="PlaceButtonContainer" type="MarginContainer" parent="PanelContainer"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(200, 0)
-layout_mode = 2
-
-[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/PlaceButtonContainer"]
-layout_mode = 2
-
-[node name="EndTurnButton" type="Button" parent="PanelContainer/PlaceButtonContainer/VBoxContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-theme = ExtResource("3_rpmg6")
-text = "END TURN"
-
-[node name="EndOrderButton" type="Button" parent="PanelContainer/PlaceButtonContainer/VBoxContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-theme = ExtResource("3_rpmg6")
-text = "END ORDER"
-
-[connection signal="pressed" from="PanelContainer/PlaceButtonContainer/VBoxContainer/EndTurnButton" to="." method="_on_end_turn_button_pressed"]
-[connection signal="pressed" from="PanelContainer/PlaceButtonContainer/VBoxContainer/EndOrderButton" to="." method="_on_end_order_button_pressed"]

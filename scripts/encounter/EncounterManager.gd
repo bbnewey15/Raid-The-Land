@@ -11,6 +11,8 @@ const playerHandData : CardHandData = preload("res://resources/hand/player_hand.
 const FiniteStateMachine = preload("res://scenes/encounter/encounter_state_machine.tscn")
 @onready var cardHandInterface = $CardHandInterface
 @onready var order_ui = $OrderUi
+@onready var encounter_ui = $EncounterUi
+
 
 var actionUI: ActionUI
 var loading: bool = true
@@ -54,6 +56,8 @@ func _ready():
 	
 	order_ui.load_from_slot_data_group(playerSlotDatas)
 	
+	encounter_ui.encounter_manager = self as EncounterManager
+	
 	# Connect to Encounter State Machine signals
 	EncounterBus.encounter_state_changed.connect(self.on_encounter_state_changed)
 	
@@ -80,11 +84,7 @@ func on_encounter_state_changed(state_name : String) -> void:
 			pass
 		"Draft":
 			pass
-		"Place":
-			pass
-		"Order":
-			pass
-		"Fight":
+		"PlayerTurn":
 			pass
 		"PostFight":
 			pass

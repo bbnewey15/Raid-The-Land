@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://cjn0k0cjh438d"]
+[gd_scene load_steps=10 format=3 uid="uid://cjn0k0cjh438d"]
 
 [ext_resource type="Script" path="res://scripts/Main.gd" id="1_o075c"]
 [ext_resource type="Script" path="res://scripts/World.gd" id="2_arvqx"]
@@ -8,6 +8,7 @@
 [ext_resource type="Script" path="res://scripts/encounter/EncounterManager.gd" id="5_v1psm"]
 [ext_resource type="PackedScene" uid="uid://p46rby3d6qhj" path="res://scenes/encounter/card_interface/card_hand_interface.tscn" id="6_4bypg"]
 [ext_resource type="PackedScene" uid="uid://cv6dog5eil5g3" path="res://scenes/encounter/order_ui.tscn" id="8_rx5hp"]
+[ext_resource type="PackedScene" uid="uid://3igdb1jenvn4" path="res://scenes/encounter/encounter_ui.tscn" id="9_3bn05"]
 
 [node name="Main" type="Node"]
 script = ExtResource("1_o075c")
@@ -48,3 +49,7 @@ top_level = true
 offset_top = -150.0
 
 [node name="OrderUi" parent="GUI/EncounterManager" instance=ExtResource("8_rx5hp")]
+
+[node name="EncounterUi" parent="GUI/EncounterManager" instance=ExtResource("9_3bn05")]
+size_flags_horizontal = 8
+size_flags_vertical = 8

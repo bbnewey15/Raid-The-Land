@@ -7,7 +7,7 @@ var saved_data : SlotDataGroup
 var order_ui_panel = preload("res://scenes/encounter/order_ui_panel.tscn")
 var allow_movement : bool = false
 
-@export var allowed_states : Array[String] = [GameData.ORDER]
+@export var allowed_states : Array[String] = [GameData.PLAYER_TURN, GameData.DRAFT]
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	# Connect to Encounter State Machine signals
@@ -49,7 +49,7 @@ func load_from_slot_data_group(data: SlotDataGroup):
 
 func on_encounter_state_changed(state: String):
 	match state:
-		"Order":
+		"PlayerFight":
 			self.allow_movement = true
 		_:
 			self.allow_movement = false

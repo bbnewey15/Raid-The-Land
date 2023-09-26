@@ -11,12 +11,9 @@ signal draft_state_ended
 # warning-ignore:unused_signal
 signal slot_data_changed
 # warning-ignore:unused_signal
-signal place_state_started
-# warning-ignore:unused_signal
-signal place_state_ended
-# warning-ignore:unused_signal
 signal player_place_ended_turn
 # warning-ignore:unused_signal
+
 signal card_slot_clicked(card_slot: CardSlot, column_type: GameData.COLUMN_TYPE, index: int, button: int)
 # warning-ignore:unused_signal
 signal card_played(card_slot: CardSlot, column_type: GameData.COLUMN_TYPE, index: int, button: int)
@@ -28,10 +25,6 @@ signal column_clicked(column: UnitColumn, index: int, button:int)
 signal place_unit
 
 # warning-ignore:unused_signal
-signal order_state_started
-# warning-ignore:unused_signal
-signal order_state_ended
-# warning-ignore:unused_signal
 signal action_request_ui(slot: Slot)
 
 # request_user_target_unit Uses GameData.ui_active_slot_data
@@ -41,9 +34,14 @@ signal request_user_target_unit(action: GameData.UNIT_ACTIONS, potential_targets
 signal end_request_user_target_unit
 
 # warning-ignore:unused_signal
-signal fight_state_started
+signal player_turn_state_started
 # warning-ignore:unused_signal
-signal fight_state_stopped
+signal player_turn_state_stopped
+
+# warning-ignore:unused_signal
+signal enemy_turn_state_started
+# warning-ignore:unused_signal
+signal enemy_turn_state_stopped
 # warning-ignore:unused_signal
 #signal slot_attacked(slot_data: SlotData, unit_attacking: SlotData)
 # warning-ignore:unused_signal

@@ -12,20 +12,26 @@ var isEnemy: bool
 var column_data: UnitColumnData
 var encounter_manager : EncounterManager = null
 var highlighted : bool = false
+var col_position: Vector2
 
 
-
-func init(isEnemyParam: bool, column_type: GameData.COLUMN_TYPE) -> UnitColumn:
+func init(isEnemyParam: bool, column_type: GameData.COLUMN_TYPE, position: Vector2) -> UnitColumn:
 	self.isEnemy = isEnemyParam
 	self.column_type = column_type
 	EncounterBus.debug_ui.connect(self.debug_column_ui)
 	EncounterBus.encounter_state_changed.connect(Callable(self,"on_encounter_state_changed"))
+	
+	self.col_position = position
 	return self
 	
 func _ready():
 	encounter_manager = get_node("../..")
 	assert(encounter_manager)
-	pass
+	
+	# set position
+	if col_position:
+		self.set_position(col_position)
+
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -69,12 +75,6 @@ func add_slot(data: SlotData, shouldUpdateUI: bool = true) -> Slot:
 	slot.set_slot_data(data)
 	column_data.slot_datas.append(data)
 	
-	# Add slot clicked signal
-#		print("is valid %s" %  column_data.on_slot_clicked.is_valid())
-#		print("is connected? %s" % slot.is_connected("slot_clicked", column_data.on_slot_clicked))
-#		print("has signal %s" % slot.has_signal("slot_clicked"))
-#		print(slot.slot_clicked.get_connections())
-	
 	var parent  = get_parent_control()
 		
 	
@@ -96,8 +96,6 @@ func on_encounter_state_changed(state_name):
 	match state_name:
 #		"Start":
 #		"Fight":
-#		"Place":
-#		"Order":
 		_:
 			self.unhighlight_column()
 			pass

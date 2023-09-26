@@ -51,7 +51,7 @@ func _process(delta):
 	
 
 func on_encounter_state_changed(state: String)-> void:
-	if state == "Order" or state == "Fight":
+	if state == "PlayerTurn" or state == "EnemyTurn":
 		order_control.show()
 		action_control.show()
 

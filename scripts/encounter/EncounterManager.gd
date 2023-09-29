@@ -7,9 +7,7 @@ const ActionUIScene = preload("res://scenes/encounter/action_ui.tscn")
 @export var columnGroupDataResourcePath: String
 @export var playerSlotDatasResourcePath: String
 @export var enemySlotDatasResourcePath: String
-const playerHandData : CardHandData = preload("res://resources/hand/player_hand.tres")
 const FiniteStateMachine = preload("res://scenes/encounter/encounter_state_machine.tscn")
-@onready var cardHandInterface = $CardHandInterface
 @onready var order_ui = $OrderUi
 @onready var encounter_ui = $EncounterUi
 
@@ -23,7 +21,6 @@ var columnGroup : UnitColGroup
 var columnGroupData : Resource
 var playerSlotDatas : Resource
 var enemySlotDatas : Resource
-var playerCardData : Resource
 # Called when the node enters the scene tree for the first time.
 func _ready():
 			
@@ -51,8 +48,6 @@ func _ready():
 	add_child(actionUI)
 	actionUI.hide()
 	
-	cardHandInterface.encounter_manager = self as EncounterManager
-	cardHandInterface.load_from_resource(playerHandData)
 	
 	order_ui.load_from_slot_data_group(playerSlotDatas)
 	

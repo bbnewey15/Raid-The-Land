@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://cjn0k0cjh438d"]
+[gd_scene load_steps=9 format=3 uid="uid://cjn0k0cjh438d"]
 
 [ext_resource type="Script" path="res://scripts/Main.gd" id="1_o075c"]
 [ext_resource type="Script" path="res://scripts/World.gd" id="2_arvqx"]
@@ -6,7 +6,6 @@
 [ext_resource type="Script" path="res://scripts/GUI.gd" id="4_2brdk"]
 [ext_resource type="PackedScene" uid="uid://dwjqrihae367o" path="res://scenes/board/columns/column_group.tscn" id="5_acetr"]
 [ext_resource type="Script" path="res://scripts/encounter/EncounterManager.gd" id="5_v1psm"]
-[ext_resource type="PackedScene" uid="uid://p46rby3d6qhj" path="res://scenes/encounter/card_interface/card_hand_interface.tscn" id="6_4bypg"]
 [ext_resource type="PackedScene" uid="uid://cv6dog5eil5g3" path="res://scenes/encounter/order_ui.tscn" id="8_rx5hp"]
 [ext_resource type="PackedScene" uid="uid://3igdb1jenvn4" path="res://scenes/encounter/encounter_ui.tscn" id="9_3bn05"]
 
@@ -42,11 +41,7 @@ top_level = true
 offset_left = 363.0
 offset_top = 360.0
 offset_right = -366.0
-offset_bottom = -50.0
-
-[node name="CardHandInterface" parent="GUI/EncounterManager" instance=ExtResource("6_4bypg")]
-top_level = true
-offset_top = -150.0
+offset_bottom = -200.0
 
 [node name="OrderUi" parent="GUI/EncounterManager" instance=ExtResource("8_rx5hp")]
 

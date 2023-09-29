@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="SlotDataGroup" load_steps=6 format=3 uid="uid://udcs3bby0rpx"]
+[gd_resource type="Resource" script_class="SlotDataGroup" load_steps=5 format=3 uid="uid://udcs3bby0rpx"]
 
 [ext_resource type="Script" path="res://datatypes/slot_data_group.gd" id="1_uwmqi"]
 [ext_resource type="Script" path="res://datatypes/slot_data.gd" id="2_xj8kk"]
@@ -23,17 +23,7 @@ action_order = 0
 action = 0
 action_set = false
 
-[sub_resource type="Resource" id="Resource_0oyn6"]
-script = ExtResource("2_xj8kk")
-unit_data_path = "res://scripts/units/infantry/spearman.tres"
-isEnemyUnit = true
-column_name = 3
-slotIndex = 1
-action_order = 0
-action = 0
-action_set = false
-
 [resource]
 script = ExtResource("1_uwmqi")
-slot_datas = Array[ExtResource("2_xj8kk")]([SubResource("Resource_ueit6"), SubResource("Resource_e1ksr"), SubResource("Resource_0oyn6")])
+slot_datas = Array[ExtResource("2_xj8kk")]([SubResource("Resource_ueit6"), SubResource("Resource_e1ksr")])
 isEnemy = true

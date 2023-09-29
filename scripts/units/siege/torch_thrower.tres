@@ -23,4 +23,5 @@ defend_number_target = 0
 support_number_target = 1
 attack_range = [1, 2]
 support_range = [1]
+eagerness = 8
 health = 50

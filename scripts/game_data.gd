@@ -16,22 +16,22 @@ func set_ui_active_slot_data(slot_data: SlotData):
 
 # Encounter Data
 const UNIT_SIZE = Vector2(110,110)
-const COLUMN_SIZE = Vector2(150,614)
+const COLUMN_SIZE = Vector2(150,520)
 ## Player
-const frontColumnLocation: Vector2 = Vector2(99, 20)
-const frontColumnRotation: float = 6.8
-const backColumnLocation: Vector2 = Vector2(273, 20)
-const backColumnRotation: float = 3.6
+const backColumnLocation: Vector2 = Vector2(99, 20)
+const backColumnRotation: float = 6.8
+const frontColumnLocation: Vector2 = Vector2(273, 20)
+const frontColumnRotation: float = 3.6
 #const backColumnLocation: Vector2 = Vector2(442, 20)
 #const backColumnRotation: float = .8
 
 ## Enemey
-const frontEnemyColumnLocation: Vector2 = Vector2(945, 20)
-const frontEnemyColumnRotation: float = -6.8
-#const middleEnemyColumnLocation: Vector2 = Vector2(772, 20)
-#const middleEnemyColumnRotation: float = -3.6
-const backEnemyColumnLocation: Vector2 = Vector2(602, 20)
-const backEnemyColumnRotation: float = -.8
+#const backEnemyColumnLocation: Vector2 = Vector2(945, 20)
+#const backEnemyColumnRotation: float = -6.8
+const backEnemyColumnLocation: Vector2 = Vector2(772, 20)
+const backEnemyColumnRotation: float = -3.6
+const frontEnemyColumnLocation: Vector2 = Vector2(602, 20)
+const frontEnemyColumnRotation: float = -.8
 
 # Columns
 enum COLUMN_STRING {PLAYER_FRONT_COL, PLAYER_BACK_COL,ENEMY_FRONT_COL, ENEMY_BACK_COL  }
@@ -95,10 +95,6 @@ func get_icon_by_action(action: GameData.UNIT_ACTIONS)-> Texture:
 	assert(false)
 	return null
 
-## Cards
-enum CARD_TYPE {SKILL,UNIT}
-const SKILL = 0
-const UNIT = 1
 
 ## State 
 enum STATE_NAMES {START, DRAFT, PLAYER_TURN,ENEMY_TURN, POST_FIGHT}
@@ -112,13 +108,15 @@ const POST_FIGHT = "PostFight"
 const START_STATE_INTRO_TIMEOUT : float = 3.0
 
 
-func actionOrderComparison(a : SlotData, b : SlotData):
-	if !a.can_action():
-		return true
-	if !b.can_action():
-		return false
+func eagernessOrderComparison(a : SlotData, b : SlotData):
 		
-	if typeof(a.action_order) != typeof(b.action_order):
-		return typeof(a.action_order) < typeof(b.action_order)
+	if typeof(a.unit_data.eagerness) != typeof(b.unit_data.eagerness):
+		return typeof(a.unit_data.eagerness) > typeof(b.unit_data.eagerness)
 	else:
-		return a.action_order < b.action_order
+		if  a.unit_data.eagerness == b.unit_data.eagerness:
+			if !a.isEnemyUnit and b.isEnemyUnit:
+				return true
+			if !b.isEnemyUnit and a.isEnemyUnit:
+				return false
+				
+		return a.unit_data.eagerness > b.unit_data.eagerness

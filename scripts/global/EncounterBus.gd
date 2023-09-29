@@ -9,16 +9,9 @@ signal draft_state_started
 signal draft_state_ended
 
 # warning-ignore:unused_signal
-signal slot_data_changed
-# warning-ignore:unused_signal
-signal player_place_ended_turn
+signal slot_data_changed(update_action_order: bool)
 # warning-ignore:unused_signal
 
-signal card_slot_clicked(card_slot: CardSlot, column_type: GameData.COLUMN_TYPE, index: int, button: int)
-# warning-ignore:unused_signal
-signal card_played(card_slot: CardSlot, column_type: GameData.COLUMN_TYPE, index: int, button: int)
-# warning-ignore:unused_signal
-signal card_post_play(card_slot: CardSlot, column_type: GameData.COLUMN_TYPE, index: int, button: int)
 # warning-ignore:unused_signal
 signal column_clicked(column: UnitColumn, index: int, button:int)
 # warning-ignore:unused_signal

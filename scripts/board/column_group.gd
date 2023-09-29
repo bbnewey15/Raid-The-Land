@@ -36,8 +36,6 @@ func _ready():
 	EncounterBus.player_turn_state_started.connect(self.on_player_turn_state_started)
 	EncounterBus.enemy_turn_state_started.connect(self.on_enemy_turn_state_started)
 	
-	EncounterBus.card_slot_clicked.connect(Callable(self, "on_card_slot_clicked"))
-	EncounterBus.card_played.connect(Callable(self, "on_card_played"))
 #	# Connect to Encounter State Machine signals
 #	encounterStateMachine.encounter_state_changed.connect(self.on_encounter_state_changed)
 	
@@ -81,15 +79,25 @@ func _physics_process(delta):
 #
 #	update_actionUI()
 	
-	
 
-func on_slot_data_changed():
-	# Current way to update ui
-	var tmp_slot_array : Array[SlotData] 
-	tmp_slot_array.append_array(playerSlotDatas)
-	tmp_slot_array.append_array(enemySlotDatas)
-	tmp_slot_array.sort_custom(GameData.actionOrderComparison)
-	GameData.full_slot_array = tmp_slot_array
+
+func on_slot_data_changed(update_action_order: bool = true):
+	if update_action_order == true || GameData.full_slot_array == null:
+		# Current way to update ui
+		var tmp_slot_array : Array[SlotData] 
+		tmp_slot_array.append_array(playerSlotDatas)
+		tmp_slot_array.append_array(enemySlotDatas)
+		tmp_slot_array.sort_custom(GameData.eagernessOrderComparison)
+		
+		# Set the action order
+		var action_order = 1;
+		for slot_data in tmp_slot_array:
+			slot_data.action_order = action_order
+			action_order = action_order + 1
+		
+		GameData.full_slot_array = tmp_slot_array
+		# weird way to run UI updates and avoid an endless loop
+		EncounterBus.slot_data_changed.emit(false)
 	
 	var encounter_manager = get_node("../")
 	
@@ -211,78 +219,7 @@ func on_encounter_state_changed(state_name : String) -> void:
 	print("Signaled to on_encounter_state_changed %s" % state_name)
 	
 
-	
-func on_card_slot_clicked(card_slot: CardSlot, column_type: GameData.COLUMN_TYPE, index: int, button: int)->void:
-	var encounter_manager = get_node("../")
-	
-	
-	match encounter_manager.encounterStateMachine.get_state_name():
-		"Start":
-			pass
-		"PlayerTurn":
-
-			if not card_slot.slot_data.abstract_card:
-				# Find available columns to add to
-				var columns_available = self.find_available_columns_to_add_to(card_slot)
-				# Highlight the columns
-				for column in columns_available:
-					column_dict[column].highlight_column()
-			
-		_:
-			print("default")
-	
-func on_card_played(card_slot: CardSlot, column_type: GameData.COLUMN_TYPE, index: int, button: int)->void:
-	var encounter_manager = get_node("../")
-	
-	
-	match encounter_manager.encounterStateMachine.get_state_name():
-		"Start":
-			pass
-		"PlayerTurn":
-				if not card_slot.slot_data.abstract_card:
-					# Add to card appropriate column
-					var column_to_add : UnitColumn = column_dict[GameData.getColumnStringByIndex(index)]
-					
-					# Create slot_data from card_slot_data
-					var slot_data = SlotData.new()
-					slot_data.init_unit_data(card_slot.slot_data.unit_data)
-					slot_data.isEnemyUnit = false or GameData.acting_as_enemy
-					slot_data.column_name = GameData.getColumnStringByColumnType(column_type)
-					
-					var slot : Slot = column_to_add.add_slot(slot_data)
-					slot_data.current_slot = slot
-					
-					#Update the shared data
-					encounter_manager.columnGroup.playerSlotDatas.append(slot.slot_data)
-					EncounterBus.slot_data_changed.emit()
-					
-					# Emit signal to update CardHandInterface
-					EncounterBus.card_post_play.emit(card_slot, column_type, index, button)
-					
-					# Remove any highlights from columns
-					for column in column_dict:
-						column_dict[column].unhighlight_column()
-				else:
-					# Play it abstractly
-					pass
-		_:
-			print("default")
-
-
-func get_next_action_order(isEnemy: bool) -> int:
-	var data_to_check : Array[SlotData]
-
-	data_to_check = enemySlotDatas if isEnemy else playerSlotDatas
-	
-	var next_action_order : int = 1
-	for slot_data in data_to_check:
-		# Get highest action order
-		if slot_data.action_order >= next_action_order:
-			next_action_order = slot_data.action_order+1
-	
-	return next_action_order
-
-func find_available_columns_to_add_to(cardSlot: CardSlot, isEnemy: bool = false):
+func find_available_columns_to_add_to(isEnemy: bool = false):
 	var adj_is_enemy : bool = isEnemy or GameData.acting_as_enemy
 	
 	var columns_available = []

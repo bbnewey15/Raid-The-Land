@@ -60,13 +60,14 @@ func load_from_resource(data: UnitColumnData) -> void:
 	
 	
 	
+	
 func add_slot(data: SlotData, shouldUpdateUI: bool = true) -> Slot:
 	var slot = Slot.instantiate()
 	
 	unit_grid.add_child(slot)
 	
 	data.slotIndex = slot.get_index()
-	data.action_order = encounter_manager.columnGroup.get_next_action_order(data.isEnemyUnit)
+	# action order will be set later
 	# Rotate slot so it is on the right angle
 	slot.set_pivot_offset(slot.size/2)
 	#slot.set_rotation_degrees(-self.get_rotation_degrees())
@@ -85,7 +86,7 @@ func _on_gui_input(event):
 	if event is InputEventMouseButton \
 		and (event.button_index == MOUSE_BUTTON_LEFT) \
 		and event.is_pressed():
-			print("Card Slot Clicked %s" % event )
+			print("Column Clicked %s" % event )
 			# Have to update position
 			if highlighted:
 				# 1 because of target node is adding to index

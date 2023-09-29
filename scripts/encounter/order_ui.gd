@@ -1,6 +1,6 @@
 extends Control
 class_name OrderUi
-@onready var v_box_container = $PanelContainer/VBoxContainer
+@onready var v_box_container = $PanelContainer/HBoxContainer
 
 
 var saved_data : SlotDataGroup
@@ -29,7 +29,7 @@ func load_from_slot_data_group(data: SlotDataGroup):
 	for child in v_box_container.get_children():
 		child.queue_free()
 		
-	var reordered_slot_datas = GameData.full_slot_array.filter(func(slot_data): return slot_data.isEnemyUnit != true)
+	var reordered_slot_datas = GameData.full_slot_array
 
 	
 	for slot_data in reordered_slot_datas:
@@ -39,7 +39,7 @@ func load_from_slot_data_group(data: SlotDataGroup):
 		panel.slot_data = slot_data
 		panel.get_node("%UnitImage").texture = slot_data.unit_data.texture
 		panel.get_node("%NameLabel").text = str(slot_data.unit_data.name)
-		panel.get_node("%OrderLabel").text = str(slot_data.action_order)
+		#panel.get_node("%OrderLabel").text = str(slot_data.action_order)
 		panel.get_node("%HealthBar").update(slot_data.unit_data)
 		
 		v_box_container.add_child(panel)

@@ -38,14 +38,6 @@ func update_ui():
 	else:
 		action_texture_rect.set_texture(null)
 
-func _on_move_up_button_pressed():
-	order_ui.move_panel_up_or_down(self, "up",slot_data)
-
-
-func _on_move_down_button_pressed():
-	order_ui.move_panel_up_or_down(self, "down", slot_data)
-	
-	
 
 func setActive(isActive : bool):
 	if isActive:

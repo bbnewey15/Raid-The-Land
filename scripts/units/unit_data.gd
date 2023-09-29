@@ -18,6 +18,7 @@ class_name UnitDataTest extends Resource
 @export var support_number_target = 1
 @export var attack_range = [1]
 @export var support_range = [0,1]
+@export var eagerness = 10
 
 @export var health = max_health
 

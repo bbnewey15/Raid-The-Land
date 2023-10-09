@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://cj2sokxjbe72j"]
 
-[ext_resource type="Script" path="res://scripts/encounter/unit_ui.gd" id="1_y42an"]
+[ext_resource type="Script" path="res://scripts/units/unit_ui.gd" id="1_y42an"]
 [ext_resource type="FontFile" uid="uid://bux2d6r2ckfem" path="res://assets/fonts/vikingsquad/vikingsquadbold.ttf" id="2_ucouw"]
 [ext_resource type="Texture2D" uid="uid://da6wl6gbj4c2y" path="res://assets/attack_icon.png" id="3_qda4a"]
 

@@ -5,11 +5,11 @@ extends State
 
 func enter(_msg := {}) -> void:
 #	state_machine.encounter_manager.add_child(encounter_message)
-	print("-- PLAYERTURN ENTERED --")
-	EncounterBus.player_turn_state_started.emit()
-	await EncounterBus.player_turn_state_stopped
-	print("-- TRANISITION TO EnemyTurn --")
-	state_machine.transition_to("EnemyTurn")
+	print("-- FIGHT ENTERED --")
+	EncounterBus.fight_state_started.emit()
+	await EncounterBus.fight_state_stopped
+	print("-- TRANISITION TO PostFight --")
+	state_machine.transition_to("PostFight")
 	
 	
 	pass
@@ -23,6 +23,6 @@ func update(delta: float) -> void:
 		pass
 	
 func exit() -> void:
-	print("-- PLAYER_TURN EXITED --")
+	print("-- Fight EXITED --")
 
 

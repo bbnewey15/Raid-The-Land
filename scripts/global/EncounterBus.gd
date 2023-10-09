@@ -19,22 +19,23 @@ signal place_unit
 
 # warning-ignore:unused_signal
 signal action_request_ui(slot: Slot)
+# warning-ignore:unused_signal
+signal action_activated( slot_data: SlotData)
 
 # request_user_target_unit Uses GameData.ui_active_slot_data
 # warning-ignore:unused_signal
-signal request_user_target_unit(action: GameData.UNIT_ACTIONS, potential_targets: Array[SlotData])
+signal request_user_target_unit(action_data: ActionData, potential_targets: Array[SlotData])
 # warning-ignore:unused_signal
 signal end_request_user_target_unit
 
 # warning-ignore:unused_signal
-signal player_turn_state_started
+signal fight_state_started
 # warning-ignore:unused_signal
-signal player_turn_state_stopped
+signal fight_state_stopped
 
 # warning-ignore:unused_signal
-signal enemy_turn_state_started
-# warning-ignore:unused_signal
-signal enemy_turn_state_stopped
+signal unit_turn_ended
+
 # warning-ignore:unused_signal
 #signal slot_attacked(slot_data: SlotData, unit_attacking: SlotData)
 # warning-ignore:unused_signal

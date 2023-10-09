@@ -7,21 +7,19 @@
 script = ExtResource("2_xj8kk")
 unit_data_path = "res://scripts/units/infantry/spearman.tres"
 isEnemyUnit = true
-column_name = 3
+column_name = 2
 slotIndex = 0
-action_order = 0
-action = 1
-action_set = true
+action_set = false
+turn_over = false
 
 [sub_resource type="Resource" id="Resource_e1ksr"]
 script = ExtResource("2_xj8kk")
 unit_data_path = "res://scripts/units/infantry/spearman.tres"
 isEnemyUnit = true
-column_name = 3
+column_name = 2
 slotIndex = 2
-action_order = 0
-action = 0
 action_set = false
+turn_over = false
 
 [resource]
 script = ExtResource("1_uwmqi")

@@ -49,7 +49,7 @@ func _ready():
 	actionUI.hide()
 	
 	
-	order_ui.load_from_slot_data_group(playerSlotDatas)
+	#order_ui.load_from_slot_data_group(playerSlotDatas)
 	
 	encounter_ui.encounter_manager = self as EncounterManager
 	
@@ -79,7 +79,7 @@ func on_encounter_state_changed(state_name : String) -> void:
 			pass
 		"Draft":
 			pass
-		"PlayerTurn":
+		"Fight":
 			pass
 		"PostFight":
 			pass

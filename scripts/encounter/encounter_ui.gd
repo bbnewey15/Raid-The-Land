@@ -3,7 +3,7 @@ class_name EncounterUi
 
 var encounter_manager: EncounterManager
 
-@export var allowed_states : Array[String] = [GameData.PLAYER_TURN, GameData.POST_FIGHT]
+@export var allowed_states : Array[String] = [GameData.FIGHT, GameData.POST_FIGHT]
 
 @onready var place_button_container = %PlaceButtonContainer
 @onready var end_turn_button = %EndTurnButton
@@ -32,7 +32,7 @@ func on_encounter_state_changed(state_name: String):
 	match state_name:
 		"Start":
 			place_button_container.hide()
-		"PlayerTurn":
+		"Fight":
 			place_button_container.show()
 			end_turn_button.show()
 		"PostFight":
@@ -51,4 +51,4 @@ func _on_end_turn_button_pressed():
 	if encounter_manager.encounterStateMachine.get_state_name() == "PlayerFight":
 		place_button_container.hide()
 		end_turn_button.hide()
-		EncounterBus.player_turn_state_stopped.emit()
+		EncounterBus.fight_state_stopped.emit()

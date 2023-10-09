@@ -1,10 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://kwunmiwowkh6"]
+[gd_scene load_steps=6 format=3 uid="uid://kwunmiwowkh6"]
 
 [ext_resource type="Script" path="res://scripts/utils/finite_state_machine.gd" id="1_nvr34"]
 [ext_resource type="Script" path="res://scripts/encounter/states/start.gd" id="2_cvm08"]
 [ext_resource type="Script" path="res://scripts/encounter/states/draft.gd" id="3_2ctnn"]
-[ext_resource type="Script" path="res://scripts/encounter/states/player_turn.gd" id="4_lbygo"]
-[ext_resource type="Script" path="res://scripts/encounter/states/enemy_turn.gd" id="5_mr4ir"]
+[ext_resource type="Script" path="res://scripts/encounter/states/fight.gd" id="4_12dlu"]
 [ext_resource type="Script" path="res://scripts/encounter/states/post_fight.gd" id="6_oxafh"]
 
 [node name="EncounterStateMachine" type="Node"]
@@ -16,11 +15,8 @@ script = ExtResource("2_cvm08")
 [node name="Draft" type="Node" parent="."]
 script = ExtResource("3_2ctnn")
 
-[node name="PlayerTurn" type="Node" parent="."]
-script = ExtResource("4_lbygo")
-
-[node name="EnemyTurn" type="Node" parent="."]
-script = ExtResource("5_mr4ir")
+[node name="Fight" type="Node" parent="."]
+script = ExtResource("4_12dlu")
 
 [node name="PostFight" type="Node" parent="."]
 script = ExtResource("6_oxafh")

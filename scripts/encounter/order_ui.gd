@@ -3,11 +3,10 @@ class_name OrderUi
 @onready var v_box_container = $PanelContainer/HBoxContainer
 
 
-var saved_data : SlotDataGroup
 var order_ui_panel = preload("res://scenes/encounter/order_ui_panel.tscn")
 var allow_movement : bool = false
 
-@export var allowed_states : Array[String] = [GameData.PLAYER_TURN, GameData.DRAFT]
+@export var allowed_states : Array[String] = [GameData.FIGHT, GameData.DRAFT]
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	# Connect to Encounter State Machine signals
@@ -22,15 +21,18 @@ func _ready():
 func _process(delta):
 	pass
 	
-func load_from_slot_data_group(data: SlotDataGroup):
 	
-	saved_data = data
+func on_slot_data_changed():
+	# Current way to update ui
+	self.load_from_slot_data()
+
+func load_from_slot_data():
 	# TODO: Dont reinstance every time
 	for child in v_box_container.get_children():
 		child.queue_free()
 		
+	# Full slot array is source of truth on order 
 	var reordered_slot_datas = GameData.full_slot_array
-
 	
 	for slot_data in reordered_slot_datas:
 		# Create new panel for each
@@ -66,12 +68,12 @@ func move_panel_up_or_down(panel: Panel, up_or_down: String, slot_data: SlotData
 			panel_to_switch = v_box_container.get_child(panel.get_index()+1)
 	
 	if panel_to_switch:
-		var tmp = slot_data.action_order
-		slot_data.action_order = panel_to_switch.slot_data.action_order
-		panel_to_switch.slot_data.action_order = tmp
-		#Tell everything that relys on slot_data to refresh
-		EncounterBus.slot_data_changed.emit()
-	
-func on_slot_data_changed():
-	# Current way to update ui
-	load_from_slot_data_group(saved_data)
+		# Update GameData.full_slot_array instead 
+#		var tmp = slot_data.action_order
+#		slot_data.action_order = panel_to_switch.slot_data.action_order
+#		panel_to_switch.slot_data.action_order = tmp
+#		#Tell everything that relys on slot_data to refresh
+#		EncounterBus.slot_data_changed.emit()
+		pass
+
+

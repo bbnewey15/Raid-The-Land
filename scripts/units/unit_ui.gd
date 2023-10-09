@@ -37,13 +37,13 @@ func set_unit_data(data: UnitDataTest)-> void:
 	health_label.text = str(new_health)
 	
 func set_slot_data(data: SlotData)->void:
-	order_control_label.text = str(data.action_order)
+#	order_control_label.text = str(data.action_order)
 	if data.action_set:
-		action_control_texture_rect.set_texture(GameData.get_icon_by_action(data.action))
+		action_control_texture_rect.set_texture(data.action_data.icon_path)
 	else:
 		action_control_texture_rect.set_texture(null)
-	if data.isEnemyUnit:
-		order_control_label.add_theme_color_override("font_color","#ff5555")
+#	if data.isEnemyUnit:
+#		order_control_label.add_theme_color_override("font_color","#ff5555")
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -51,8 +51,8 @@ func _process(delta):
 	
 
 func on_encounter_state_changed(state: String)-> void:
-	if state == "PlayerTurn" or state == "EnemyTurn":
-		order_control.show()
+	if state == "Fight":
+		#order_control.show()
 		action_control.show()
 
 func on_ui_active_slot_data_changed():

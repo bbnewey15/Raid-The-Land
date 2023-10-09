@@ -7,6 +7,7 @@ var acting_as_enemy : bool = false
 
 # State
 var ui_active_slot_data : SlotData
+# All slots ordered according to Eagerness
 var full_slot_array: Array[SlotData] = []
 
 # setter
@@ -67,48 +68,51 @@ enum COLUMN_TYPE {FRONT,BACK}
 const FRONT = "front"
 const BACK = "back"
 
-enum MOVE_DIRECTION {LEFT, RIGHT}
-const LEFT = 0
-const RIGHT = 1
+enum MOVE_DIRECTION {LEFT = 0, RIGHT = 1}
 
 # Action related
-enum UNIT_ACTIONS {ATTACK, DEFEND, SUPPORT}
-const ATTACK = 0
-const DEFEND = 1
-const SUPPORT = 2
+enum UNIT_ACTIONS {ATTACK  , DEFEND , SUPPORT }
 
 const ATTACK_ICON = preload("res://assets/attack_icon.png")
 const DEFENSE_ICON = preload("res://assets/defense_icon.png")
 const SUPPORT_ICON = preload("res://assets/support_icon.png")
 
-func get_icon_by_action(action: GameData.UNIT_ACTIONS)-> Texture:
-	assert(GameData.UNIT_ACTIONS.find_key(action))
-	
-	match action:
-			GameData.UNIT_ACTIONS.ATTACK:
-				return GameData.ATTACK_ICON
-			GameData.UNIT_ACTIONS.DEFEND:
-				return GameData.DEFENSE_ICON
-			GameData.UNIT_ACTIONS.SUPPORT:
-				return GameData.SUPPORT_ICON
-	
-	assert(false)
-	return null
+# Target Type
+enum ACTION_TARGET_TYPE { TARGET_SELF  , TARGET_ALLY , TARGET_ENEMY}
+
+# CONDITIONS
+enum CONDITIONS { HEAL, WEAKEN,STRENGTHEN , SHAKEN, INSPIRED, INFECT , CURE}
+
+# STATUS
+enum UNIT_STATUS { ALIVE, DEAD }
 
 
 ## State 
-enum STATE_NAMES {START, DRAFT, PLAYER_TURN,ENEMY_TURN, POST_FIGHT}
+enum STATE_NAMES {START, DRAFT, FIGHT, POST_FIGHT}
 const START = "Start"
 const DRAFT = "Draft"
-const PLAYER_TURN = "PlayerTurn"
-const ENEMY_TURN = "EnemyTurn"
+const FIGHT = "Fight"
 const POST_FIGHT = "PostFight"
 
 
 const START_STATE_INTRO_TIMEOUT : float = 3.0
 
+func sort_full_slot_datas(full_array: Array[SlotData]) -> Array[SlotData]:
+	# We need to separate those who have already used their turn		
+	var turn_over : Array[SlotData] = full_array.filter(func(x): return x.turn_over == true) 		
+	var turn_not_over : Array[SlotData] = full_array.filter(func(x): return x.turn_over == false) 
+	
+	turn_over.sort_custom(GameData.eagernessOrderComparison)
+	turn_not_over.sort_custom(GameData.eagernessOrderComparison)
+	
+	var final_array : Array[SlotData] = []
+	final_array.append_array(turn_not_over)
+	final_array.append_array(turn_over)
+	return final_array
 
 func eagernessOrderComparison(a : SlotData, b : SlotData):
+	
+	
 		
 	if typeof(a.unit_data.eagerness) != typeof(b.unit_data.eagerness):
 		return typeof(a.unit_data.eagerness) > typeof(b.unit_data.eagerness)

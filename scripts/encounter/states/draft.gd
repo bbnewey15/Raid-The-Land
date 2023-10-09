@@ -6,8 +6,8 @@ func enter(_msg := {}) -> void:
 	print("-- DRAFT ENTERED --")
 	EncounterBus.draft_state_started.emit()
 	await EncounterBus.draft_state_ended
-	print("-- TRANISITION TO PlayerTurn --")
-	state_machine.transition_to("PlayerTurn")
+	print("-- TRANISITION TO Fight --")
+	state_machine.transition_to("Fight")
 	
 func update(delta: float) -> void:
 	

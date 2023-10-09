@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://cdingdme3tu70"]
+[gd_scene load_steps=3 format=3 uid="uid://cdingdme3tu70"]
 
 [ext_resource type="Script" path="res://scripts/encounter/action_ui.gd" id="1_mjnjc"]
+[ext_resource type="PackedScene" uid="uid://roew4pufu0gr" path="res://scenes/encounter/actions/action.tscn" id="2_vco0l"]
 
 [node name="action_ui" type="PanelContainer"]
 custom_minimum_size = Vector2(1080, 150)
@@ -88,86 +89,20 @@ theme_override_constants/margin_right = 15
 theme_override_constants/margin_bottom = 15
 
 [node name="PanelContainer" type="PanelContainer" parent="UnitActions"]
-custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
-size_flags_horizontal = 8
+size_flags_horizontal = 4
 mouse_filter = 2
 
-[node name="ActionsHBox" type="HBoxContainer" parent="UnitActions/PanelContainer"]
+[node name="Actions" type="HBoxContainer" parent="UnitActions/PanelContainer"]
+unique_name_in_owner = true
 layout_mode = 2
+size_flags_horizontal = 4
 mouse_filter = 2
 theme_override_constants/separation = 5
 
-[node name="AttackAction" type="MarginContainer" parent="UnitActions/PanelContainer/ActionsHBox"]
+[node name="Action" parent="UnitActions/PanelContainer/Actions" instance=ExtResource("2_vco0l")]
 unique_name_in_owner = true
 layout_mode = 2
-size_flags_horizontal = 3
-mouse_filter = 0
-mouse_default_cursor_shape = 2
-theme_override_constants/margin_left = 5
-theme_override_constants/margin_top = 5
-theme_override_constants/margin_right = 5
-theme_override_constants/margin_bottom = 5
-
-[node name="ColorRect" type="ColorRect" parent="UnitActions/PanelContainer/ActionsHBox/AttackAction"]
-visible = false
-layout_mode = 2
-mouse_filter = 1
-color = Color(0.317647, 0.85098, 0.952941, 0.568627)
-
-[node name="AttackLabel" type="Label" parent="UnitActions/PanelContainer/ActionsHBox/AttackAction"]
-layout_mode = 2
-text = "ATTACK"
-horizontal_alignment = 1
-
-[node name="DefendAction" type="MarginContainer" parent="UnitActions/PanelContainer/ActionsHBox"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 3
-mouse_filter = 0
-mouse_default_cursor_shape = 2
-theme_override_constants/margin_left = 5
-theme_override_constants/margin_top = 5
-theme_override_constants/margin_right = 5
-theme_override_constants/margin_bottom = 5
-
-[node name="ColorRect" type="ColorRect" parent="UnitActions/PanelContainer/ActionsHBox/DefendAction"]
-visible = false
-layout_mode = 2
-mouse_filter = 1
-color = Color(0.317647, 0.85098, 0.952941, 0.568627)
-
-[node name="DefendLabel" type="Label" parent="UnitActions/PanelContainer/ActionsHBox/DefendAction"]
-layout_mode = 2
-text = "DEFEND
-"
-horizontal_alignment = 1
-
-[node name="SupportAction" type="MarginContainer" parent="UnitActions/PanelContainer/ActionsHBox"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 3
-mouse_filter = 0
-mouse_default_cursor_shape = 2
-theme_override_constants/margin_left = 5
-theme_override_constants/margin_top = 5
-theme_override_constants/margin_right = 5
-theme_override_constants/margin_bottom = 5
-
-[node name="ColorRect" type="ColorRect" parent="UnitActions/PanelContainer/ActionsHBox/SupportAction"]
-visible = false
-layout_mode = 2
-mouse_filter = 1
-color = Color(0.317647, 0.85098, 0.952941, 0.568627)
-
-[node name="SupportLabel" type="Label" parent="UnitActions/PanelContainer/ActionsHBox/SupportAction"]
-layout_mode = 2
-text = "SUPPORT
-"
-horizontal_alignment = 1
 
 [connection signal="gui_input" from="MoveActions/LeftMoveButton" to="." method="_on_move_gui_input" binds= [0]]
 [connection signal="gui_input" from="MoveActions/RightMoveButton" to="." method="_on_move_gui_input" binds= [1]]
-[connection signal="gui_input" from="UnitActions/PanelContainer/ActionsHBox/AttackAction" to="." method="_on_action_gui_input" binds= [0]]
-[connection signal="gui_input" from="UnitActions/PanelContainer/ActionsHBox/DefendAction" to="." method="_on_action_gui_input" binds= [1]]
-[connection signal="gui_input" from="UnitActions/PanelContainer/ActionsHBox/SupportAction" to="." method="_on_action_gui_input" binds= [2]]

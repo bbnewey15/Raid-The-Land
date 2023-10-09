@@ -34,7 +34,7 @@ func update_ui():
 	
 	# Update ActionControl
 	if slot_data.action_set:
-		action_texture_rect.set_texture(GameData.get_icon_by_action(slot_data.action))
+		action_texture_rect.set_texture(slot_data.action_data.icon_path)
 	else:
 		action_texture_rect.set_texture(null)
 

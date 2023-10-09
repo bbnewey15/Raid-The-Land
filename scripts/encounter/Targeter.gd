@@ -5,7 +5,7 @@ var highlighted : bool = false
 var actioned : bool = false
 @onready var color_rect: ColorRect = $ColorRect
 var targeting_active : bool = false
-var active_action : GameData.UNIT_ACTIONS
+var active_action : ActionData
 var potential_targets : Array[SlotData]
 
 @export var HIGHLIGHT_COLOR: Color = Color(0.894, 0.765, 0.263, 0.39)
@@ -57,20 +57,20 @@ func on_action_request_ui(slot: Slot):
 #		self.highlight_slot()
 
 
-func on_request_user_target_unit( action: GameData.UNIT_ACTIONS, potential_targets: Array[SlotData]):
+func on_request_user_target_unit( action_data: ActionData, potential_targets: Array[SlotData]):
 	assert(GameData.ui_active_slot_data)
-	assert(GameData.UNIT_ACTIONS.find_key(action))
+	assert(action_data)
 	assert(potential_targets)
 	
 	# Set state
-	if GameData.ui_active_slot_data.unit_data.requires_target(action):
+	if action_data.requires_target:
 		self.potential_targets = potential_targets
 		# Indicate that this unit is targetable
 		if self.slot.slot_data in self.potential_targets:
 			# target:  SlotData
 			self.highlight_slot(HIGHLIGHT_COLOR)
 			self.targeting_active = true
-			self.active_action = action
+			self.active_action = action_data
 		
 		
 	# Update UI according to state
@@ -80,7 +80,7 @@ func on_request_user_target_unit( action: GameData.UNIT_ACTIONS, potential_targe
 func on_end_request_user_target_unit():
 	self.unhighlight_slot()
 	self.potential_targets = []
-	self.active_action = 0
+	self.active_action = null
 	self.targeting_active = false
 	
 
@@ -98,10 +98,12 @@ func check_action_highlights():
 	if self.slot.slot_data in targets:
 		
 		var color
-		match GameData.ui_active_slot_data.action:
-			GameData.UNIT_ACTIONS["ATTACK"]:
+		match GameData.ui_active_slot_data.action_data.target_type:
+			GameData.ACTION_TARGET_TYPE.TARGET_ENEMY:
 				color = self.ATTACKING_COLOR
-			GameData.UNIT_ACTIONS["SUPPORT"]:
+			GameData.ACTION_TARGET_TYPE.TARGET_ALLY:
+				color = self.SUPPORTING_COLOR
+			GameData.ACTION_TARGET_TYPE.TARGET_SELF:
 				color = self.SUPPORTING_COLOR
 			_:
 				push_warning("Default value used in check_action_highlights")
@@ -123,30 +125,30 @@ func check_action_highlights():
 func _on_color_rect_mouse_entered():
 	if targeting_active and active_action != null:
 		EncounterBus.target_hovered.emit(self.slot.slot_data)
-		match active_action:
-			GameData.UNIT_ACTIONS["ATTACK"]:
+		match active_action.target_type:
+			GameData.ACTION_TARGET_TYPE.TARGET_ENEMY:
 				if actioned:
 					self.highlight_slot(ATTACKING_COLOR.lightened(.3))
 				else:
 					self.highlight_slot(HIGHLIGHT_COLOR.lightened(.3))
-			GameData.UNIT_ACTIONS["DEFEND"]:
+			GameData.ACTION_TARGET_TYPE.TARGET_SELF:
 				pass
-			GameData.UNIT_ACTIONS["SUPPORT"]:
+			GameData.ACTION_TARGET_TYPE.TARGET_ALLY:
 				pass
 
 
 func _on_color_rect_mouse_exited():
 	if targeting_active and active_action != null:
 		EncounterBus.target_hover_exited.emit(self.slot.slot_data)
-		match active_action:
-			GameData.UNIT_ACTIONS["ATTACK"]:
+		match active_action.target_type:
+			GameData.ACTION_TARGET_TYPE.TARGET_ENEMY:
 				if actioned:
 					self.highlight_slot(ATTACKING_COLOR)
 				else:
 					self.highlight_slot(HIGHLIGHT_COLOR)
-			GameData.UNIT_ACTIONS["DEFEND"]:
+			GameData.ACTION_TARGET_TYPE.TARGET_SELF:
 				pass
-			GameData.UNIT_ACTIONS["SUPPORT"]:
+			GameData.ACTION_TARGET_TYPE.TARGET_ALLY:
 				pass
 
 
@@ -158,4 +160,3 @@ func _on_color_rect_gui_input(event):
 			print("Target Clicked %s" % event )
 			# Have to update position
 			EncounterBus.target_selected.emit(self.slot.slot_data,event.button_index)
-	pass # Replace with function body.

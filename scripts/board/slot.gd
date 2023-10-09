@@ -7,8 +7,7 @@ class_name Slot
 @onready var targeter = %Targeter
 var slot_data : SlotData 
 var unit_node : Node2D
-
-
+var basic_attack = preload("res://scripts/encounter/actions/attacks/basic_attack.tres")
 
 func _ready():
 	targeter.slot = self as Slot
@@ -27,7 +26,9 @@ func set_slot_data(data: SlotData) -> void:
 	#texture_rect.texture = unit_data.texture
 	var unit_node_scene = load(slot_data.unit_data.unit_node_path)
 	unit_node = unit_node_scene.instantiate()
+	
 	control_node.add_child(unit_node)
+	
 	if slot_data.isEnemyUnit:
 		#flip the node 
 		unit_node.apply_scale(Vector2(-1,1))
@@ -39,6 +40,13 @@ func set_slot_data(data: SlotData) -> void:
 	# Update Unit UI
 	unit_ui.set_unit_data(self.slot_data.unit_data)
 	unit_ui.set_slot_data(self.slot_data)
+	
+	# set action manager 
+	var action_manager = self.get_node("%ActionManager")
+	var tmp_action_array : Array[ActionData]= []
+	tmp_action_array.append(basic_attack)
+	action_manager.set_action_data(tmp_action_array)
+	self.slot_data.unit_data.action_manager = action_manager
 	
 	
 	
@@ -70,16 +78,21 @@ func _on_mouse_exited():
 	EncounterBus.slot_hover_exited.emit(slot_data)
 	pass # Replace with function body.
 
-func unit_action(action: GameData.UNIT_ACTIONS, target):
-	match action:
-		GameData.UNIT_ACTIONS["ATTACK"]:
+func unit_action(action_data: ActionData, target: SlotData):
+	match action_data.action_type:
+		GameData.UNIT_ACTIONS.ATTACK:
 			await self.attack(target)
-		GameData.UNIT_ACTIONS["DEFEND"]:
+		GameData.UNIT_ACTIONS.DEFEND:
 			await self.defend()
-		GameData.UNIT_ACTIONS["SUPPORT"]:
+		GameData.UNIT_ACTIONS.SUPPORT:
 			await self.support(target)
 		_:
 			push_warning("Default value used in unit_data's requires_target")
+			
+	# end turn for now
+	self.slot_data.turn_over = true
+	EncounterBus.unit_turn_ended.emit()
+	
 
 func attack(defending_slot_data: SlotData):
 	# show animation, sound, update in data
@@ -111,8 +124,8 @@ func receive_attack(attackingUnit : SlotData):
 	
 	# Check blocking
 	var adj_damage_done = damage_done
-	if self.slot_data.action == GameData.UNIT_ACTIONS["DEFEND"]:
-		adj_damage_done = damage_done - ( damage_done * self.slot_data.unit_data.defend_ratio )
+#	if self.slot_data.action_data == GameData.UNIT_ACTIONS["DEFEND"]:
+#		adj_damage_done = damage_done - ( damage_done * self.slot_data.unit_data.defend_ratio )
 	
 	print("self.slot_data.unit_data.health - damage_done %s" % str(self.slot_data.unit_data.health - adj_damage_done))
 	var new_health = self.slot_data.unit_data.health - adj_damage_done
@@ -120,6 +133,7 @@ func receive_attack(attackingUnit : SlotData):
 	self.slot_data.unit_data.update_health(new_health)
 	
 	if new_health <= 0:
+		self.slot_data.unit_data.status =  GameData.UNIT_STATUS.DEAD
 		self.die()
 		
 	# Update UI to show new health

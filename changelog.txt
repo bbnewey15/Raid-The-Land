@@ -70,5 +70,20 @@ DND style for rolls to see damage / armor value
 3 characters available at a time
  - if 1 dies, you start over with lvl 1 character
  
+Questions to ask my game?
 
+What does my game leverage?
+Probability based gameplay
+ User isnt totally in control which leads to a failed run
+ User is in control enough with class/move decisions 
+
+What emotions do I want my player to feel?
+  Mystery/Discovery
+  Smart for figuring out how to defeat encounter
+
+What could possibly be mysterious about a non-fiction environment?
+The mystery could be in discovery of hidden power - rewards per fight could be a gift from Odin
+
+Tasks:
+Research the gods and what they reward/punish
 

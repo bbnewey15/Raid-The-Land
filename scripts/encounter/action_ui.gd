@@ -20,6 +20,7 @@ func _ready():
 	EncounterBus.action_request_ui.connect(self.on_action_request_ui)
 	EncounterBus.ui_active_slot_data_changed.connect(self.update_actionUI)
 	EncounterBus.encounter_state_changed.connect(self.on_encounter_state_changed)
+	EncounterBus.unit_turn_ended.connect(self.on_unit_turn_ended)
 	
 	for child in actions.get_children():
 		child.queue_free()
@@ -98,6 +99,8 @@ func on_unit_selected(slot_data: SlotData, button: int) -> void:
 		_:
 			print("default")
 			
+func on_unit_turn_ended():
+	self.update_actionUI()
 		
 func on_action_request_ui(slot: Slot):
 	if GameData.ui_active_slot_data:
@@ -131,7 +134,7 @@ func update_actionUI() -> void:
 		"Fight":
 			
 			
-			if GameData.ui_active_slot_data:
+			if GameData.ui_active_slot_data and !GameData.ui_active_slot_data.isEnemyUnit:
 				# Get available actions for unit
 				var unit_data = GameData.ui_active_slot_data.unit_data
 				var actions_available = unit_data.action_manager.actions_available
@@ -151,7 +154,7 @@ func update_actionUI() -> void:
 				self.update_active_action_button(null)
 				self.hide()
 		"PostFight":
-			if GameData.ui_active_slot_data:
+			if GameData.ui_active_slot_data and !GameData.ui_active_slot_data.isEnemyUnit:
 				self.show()
 				move_actions.show()
 				unit_actions.hide()

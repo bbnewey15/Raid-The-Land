@@ -4,6 +4,7 @@ class_name EncounterManager
 
 
 const ActionUIScene = preload("res://scenes/encounter/action_ui.tscn")
+const AiActionManagerScene = preload("res://scenes/encounter/ai_action_manager.tscn")
 @export var columnGroupDataResourcePath: String
 @export var playerSlotDatasResourcePath: String
 @export var enemySlotDatasResourcePath: String
@@ -13,6 +14,7 @@ const FiniteStateMachine = preload("res://scenes/encounter/encounter_state_machi
 
 
 var actionUI: ActionUI
+var aiActionManager : AiActionManager
 var loading: bool = true
 var encounterStateMachine : StateMachine
 var columnGroup : UnitColGroup
@@ -48,6 +50,9 @@ func _ready():
 	add_child(actionUI)
 	actionUI.hide()
 	
+	aiActionManager = AiActionManagerScene.instantiate()
+	aiActionManager.encounter_manager = self as EncounterManager
+	add_child(aiActionManager)
 	
 	#order_ui.load_from_slot_data_group(playerSlotDatas)
 	

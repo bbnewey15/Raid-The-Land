@@ -2,7 +2,7 @@ extends Panel
 
 var order_ui : OrderUi
 var slot_data : SlotData
-@onready var color_rect = $ColorRect
+@onready var color_rect = %ColorRect
 @onready var action_texture_rect = %ActionControl/MarginContainer/TextureRect
 
 const ACTIVE_COLOR : Color =  Color(0.373, 0.965, 0.855, 0.518)
@@ -37,6 +37,12 @@ func update_ui():
 		action_texture_rect.set_texture(slot_data.action_data.icon_path)
 	else:
 		action_texture_rect.set_texture(null)
+		
+	# Set variation of theme depending on enemy
+	if self.slot_data.isEnemyUnit:
+		self.set_theme_type_variation("OrderUiPanelEnemy")
+	else:
+		self.set_theme_type_variation("OrderUiPanel")
 
 
 func setActive(isActive : bool):

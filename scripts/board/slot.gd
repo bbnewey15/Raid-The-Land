@@ -1,13 +1,13 @@
 extends PanelContainer
 class_name Slot
 
-@onready var texture_rect = $MarginContainer/Control/%TextureRect
-@onready var control_node = $MarginContainer/Control
+@onready var control_node = %UnitNode
 @onready var unit_ui = $UnitUi
 @onready var targeter = %Targeter
 var slot_data : SlotData 
 var unit_node : Node2D
-var basic_attack = preload("res://scripts/encounter/actions/attacks/basic_attack.tres")
+var basic_attack_path = "res://scripts/encounter/actions/attacks/basic_attack.tres"
+var heal_path = "res://scripts/encounter/actions/supports/heal_ally.tres"
 
 func _ready():
 	targeter.slot = self as Slot
@@ -44,7 +44,11 @@ func set_slot_data(data: SlotData) -> void:
 	# set action manager 
 	var action_manager = self.get_node("%ActionManager")
 	var tmp_action_array : Array[ActionData]= []
-	tmp_action_array.append(basic_attack)
+	var attack_action = load(basic_attack_path).duplicate(true)
+	var heal_action = load(heal_path).duplicate(true)
+	tmp_action_array.append(attack_action)
+	tmp_action_array.append(heal_action)
+	
 	action_manager.set_action_data(tmp_action_array)
 	self.slot_data.unit_data.action_manager = action_manager
 	
@@ -98,8 +102,8 @@ func attack(defending_slot_data: SlotData):
 	# show animation, sound, update in data
 	var animation_player : AnimationPlayer = unit_node.get_node("AnimationPlayer")
 	animation_player.play("attack",-1,3)
-	await animation_player.animation_finished
-	
+	#var a = await animation_player.animation_finished
+	await get_tree().create_timer(.6).timeout
 	#EncounterBus.slot_attacked.emit(self.slot_data, defending_slot_data)
 	await defending_slot_data.current_slot.receive_attack(self.slot_data as SlotData)
 	# 		is self dead? 
@@ -132,6 +136,10 @@ func receive_attack(attackingUnit : SlotData):
 	# Update unit datas new health
 	self.slot_data.unit_data.update_health(new_health)
 	
+	# Apply conditions
+	if attackingUnit.action_data.apply_condition:
+		self.apply_condition(attackingUnit.action_data, self.slot_data)
+	
 	if new_health <= 0:
 		self.slot_data.unit_data.status =  GameData.UNIT_STATUS.DEAD
 		self.die()
@@ -151,8 +159,8 @@ func support(supporting_slot_data: SlotData):
 	# show animation, sound, update in data
 	var animation_player : AnimationPlayer = unit_node.get_node("AnimationPlayer")
 	animation_player.play("attack",-1,3)
-	await animation_player.animation_finished
-	
+	#var a = await animation_player.animation_finished
+	await get_tree().create_timer(.6).timeout
 	await supporting_slot_data.current_slot.receive_support(self.slot_data as SlotData)
 	
 func receive_support(supporting_unit : SlotData):
@@ -163,18 +171,39 @@ func receive_support(supporting_unit : SlotData):
 	tween.tween_property(unit_node, "modulate:v", 1, 0.25).from(15)
 	await tween.finished
 	
-	var healing_done = supporting_unit.unit_data.support_amount
-	print("self.slot_data.unit_data.health - healing_done %s" % str(self.slot_data.unit_data.health - healing_done))
-	var new_health = self.slot_data.unit_data.health + healing_done
-	
-	
-	if new_health > self.slot_data.unit_data.max_health:
-		new_health = self.slot_data.unit_data.max_health
-		
-	# Update unit datas new health
-	self.slot_data.unit_data.update_health(new_health)
+
+	# Apply conditions
+	if supporting_unit.action_data.apply_condition:
+		self.apply_condition(supporting_unit.action_data, self.slot_data)
+
 	# Update UI to show new health
 	EncounterBus.slot_data_changed.emit()
+	
+func apply_condition(action_data: ActionData, slot_to_apply: SlotData):
+	assert(action_data)
+	assert(action_data.apply_condition)
+	assert(slot_to_apply)
+	
+	# Add conditions
+	for condition in action_data.conditions:
+		slot_to_apply.unit_data.add_condition(condition.duplicate(true))
+	
+	# Trigger conditions for the first time, they will resolve at the start of their next turn
+	slot_to_apply.current_slot.resolve_conditions()
+	
+func resolve_conditions():
+	if len(self.slot_data.unit_data.conditions) > 0:
+		for condition in self.slot_data.unit_data.conditions:
+			#TODO animate unit for condition
+			await get_tree().create_timer(.6).timeout
+			
+			condition.execute(self.slot_data.unit_data)
+			if condition.stacks <= 0:
+				# Remove
+				self.slot_data.unit_data.conditions.remove_at(self.slot_data.unit_data.conditions.find(condition))
+				
+			# TODO
+			await get_tree().create_timer(.6).timeout
 
 func die() -> void:
 	

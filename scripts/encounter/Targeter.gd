@@ -94,6 +94,9 @@ func check_action_highlights():
 	
 	self.unhighlight_slot()
 	
+	if GameData.ui_active_slot_data.isEnemyUnit:
+		return
+	
 	var targets = GameData.ui_active_slot_data.action_targets
 	if self.slot.slot_data in targets:
 		

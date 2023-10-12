@@ -21,7 +21,5 @@ var current_action : Action
 @export var number_of_targets : int = 0
 @export var number_of_actions : int = 1
 
-@export var apply_condition: bool = true
-@export var conditions: Array[GameData.CONDITIONS] = [GameData.CONDITIONS.STRENGTHEN]
-@export var condition_stacks : int = 3
-
+@export var apply_condition: bool = false
+@export var conditions: Array[ConditionData] = []

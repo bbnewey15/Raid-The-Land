@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=7 format=3 uid="uid://dl8v06n638p0x"]
+[gd_resource type="Theme" load_steps=8 format=3 uid="uid://dl8v06n638p0x"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qr1aw"]
 content_margin_left = 1.0
@@ -60,8 +60,11 @@ expand_margin_top = 2.0
 expand_margin_right = 2.0
 expand_margin_bottom = 2.0
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_404tp"]
-content_margin_left = 0.0
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hnus4"]
+bg_color = Color(0.164706, 0.290196, 0.482353, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4pxki"]
+bg_color = Color(0.4, 0.141176, 0.0980392, 1)
 
 [sub_resource type="SystemFont" id="SystemFont_j8f1i"]
 
@@ -73,4 +76,7 @@ Button/styles/focus = SubResource("StyleBoxFlat_qr1aw")
 Button/styles/hover = SubResource("StyleBoxFlat_akrxq")
 Button/styles/normal = SubResource("StyleBoxFlat_awa66")
 Button/styles/pressed = SubResource("StyleBoxFlat_755et")
-PanelContainer/styles/panel = SubResource("StyleBoxFlat_404tp")
+OrderUiPanel/base_type = &"Panel"
+OrderUiPanel/styles/panel = SubResource("StyleBoxFlat_hnus4")
+OrderUiPanelEnemy/base_type = &"Panel"
+OrderUiPanelEnemy/styles/panel = SubResource("StyleBoxFlat_4pxki")

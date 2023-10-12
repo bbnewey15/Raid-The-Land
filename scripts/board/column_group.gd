@@ -137,6 +137,11 @@ func on_action_activated(slot_data  : SlotData):
 	else:
 		await slot_data.current_slot.unit_action(slot_data.action_data, null)
 		
+	# Reset slot_datas targets and action
+	slot_data.action_targets = []
+	slot_data.action_set = false
+	slot_data.action_data = null
+		
 	if slot_data.unit_data.action_points >= 0 or slot_data.action_data.will_end_turn:
 		# end units turn
 		slot_data.turn_over = true
@@ -151,25 +156,46 @@ func fight() -> void:
 	var run : bool = true
 	# Find the first slot that needs an action
 	while run:
-		var result = await self.check_and_request_unit_action()
-		# Check up on win condition
-		var all_enemies_dead = false
-		var test = GameData.full_slot_array.filter(func(x): return x.isEnemyUnit)
-		var lam = func(y):  
-			print( "Status %s" % y.unit_data.status)
-			print( "UNIT data for alive: %s" % GameData.UNIT_STATUS.ALIVE )
-			return y.unit_data.status == GameData.UNIT_STATUS.ALIVE 
-		var test2 = test.any(lam)
-		if test2 == false:
-			run = false;
-			continue
-			
-		# reset slot_data.turn_over if result is false
-		if result == false:
+		var result : SlotData = await self.check_and_request_unit_action()
+		
+		# reset slot_data.turn_over if result is null
+		if result == null:
 			print("EVERYONE HAS ATTACKED RESETTING")
 			for slot_data in GameData.full_slot_array:
 				slot_data.turn_over = false;
 			EncounterBus.slot_data_changed.emit()
+			continue
+		
+		# If slot found -> Apply conditions
+		if result:
+			await result.current_slot.resolve_conditions()
+		
+		# Check up on win condition
+		var all_enemies_dead = false
+		var all_enemies = GameData.full_slot_array.filter(func(x): return x.isEnemyUnit)
+		var lam = func(y):  
+			print( "Status %s" % y.unit_data.status)
+			print( "UNIT data for alive: %s" % GameData.UNIT_STATUS.ALIVE )
+			return y.unit_data.status == GameData.UNIT_STATUS.ALIVE 
+		var test2 = all_enemies.any(lam)
+		if test2 == false:
+			run = false;
+			continue
+			
+		# Request action
+		if result.isEnemyUnit == false:
+			var slot = result.current_slot
+			EncounterBus.action_request_ui.emit(slot)
+		else:
+			# Run AI action
+			EncounterBus.ai_action_request.emit(result)
+			
+		
+		
+		# wait forever unil turn ended to solve action request
+		await EncounterBus.unit_turn_ended
+		
+		
 			
 	EncounterBus.fight_state_stopped.emit()
 	
@@ -177,28 +203,21 @@ func fight() -> void:
 	
 func check_and_request_unit_action():
 	assert(GameData.full_slot_array)
-	var found_slot : bool = false
 	# Get First in attack order
 	for slot_data in GameData.full_slot_array:
-		if slot_data.isEnemyUnit == true:
-			if !GameData.debug_mode:
-				continue
+		
 		if slot_data.turn_over == true:
 			continue
 			
-		var slot = slot_data.current_slot
-		EncounterBus.action_request_ui.emit(slot)
-		found_slot = true
-		
-		await EncounterBus.unit_turn_ended
-		return true
+		if slot_data.unit_data.status == GameData.UNIT_STATUS.DEAD:
+			continue
+			
 		#Stop looping now that we found one
-		#break
+		return slot_data
+		
 	
-	
-	if found_slot == false:
-		# If it gets here, then no unit is available and we need to reset 
-		return false
+	# If it gets here, then no unit is available and we need to reset 
+	return null
 
 func get_potential_action_targets(slot_data: SlotData, action_data: ActionData) -> Array[SlotData]:
 	var slot_actioning = slot_data.current_slot
@@ -241,7 +260,8 @@ func get_potential_action_targets(slot_data: SlotData, action_data: ActionData) 
 	var actionable_slots: Array[SlotData] = []
 	for column in targeted_columns:
 		for slot in column.unit_grid.get_children():
-			actionable_slots.append(slot.slot_data)
+			if slot.slot_data.unit_data.status == GameData.UNIT_STATUS.ALIVE:
+				actionable_slots.append(slot.slot_data)
 	
 	return actionable_slots
 			

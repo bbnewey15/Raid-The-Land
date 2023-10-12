@@ -20,7 +20,11 @@ signal place_unit
 # warning-ignore:unused_signal
 signal action_request_ui(slot: Slot)
 # warning-ignore:unused_signal
+signal ai_action_request(slot_data: SlotData)
+# warning-ignore:unused_signal
 signal action_activated( slot_data: SlotData)
+
+
 
 # request_user_target_unit Uses GameData.ui_active_slot_data
 # warning-ignore:unused_signal

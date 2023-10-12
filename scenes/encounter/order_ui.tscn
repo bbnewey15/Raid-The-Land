@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://cv6dog5eil5g3"]
+[gd_scene load_steps=4 format=3 uid="uid://cv6dog5eil5g3"]
 
 [ext_resource type="Script" path="res://scripts/encounter/order_ui.gd" id="1_4mmp4"]
 [ext_resource type="PackedScene" uid="uid://ckx857ocp38pj" path="res://scenes/encounter/order_ui_panel.tscn" id="2_14eiw"]
+[ext_resource type="Theme" uid="uid://dl8v06n638p0x" path="res://raid_the_land.tres" id="3_jjdnd"]
 
 [node name="OrderUi" type="Control"]
 custom_minimum_size = Vector2(300, 20)
@@ -33,3 +34,5 @@ theme_override_constants/separation = 10
 
 [node name="OrderUiPanel" parent="PanelContainer/HBoxContainer" instance=ExtResource("2_14eiw")]
 layout_mode = 2
+theme = ExtResource("3_jjdnd")
+theme_type_variation = &"OrderUiPanel"

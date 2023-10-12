@@ -35,6 +35,9 @@ func load_from_slot_data():
 	var reordered_slot_datas = GameData.full_slot_array
 	
 	for slot_data in reordered_slot_datas:
+		# Probably should move this to the reordered_slot_datas setter
+		if slot_data.unit_data.status == GameData.UNIT_STATUS.DEAD:
+			continue
 		# Create new panel for each
 		var panel = order_ui_panel.instantiate()
 		panel.order_ui = self

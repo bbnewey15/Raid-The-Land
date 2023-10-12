@@ -2,11 +2,11 @@
 
 [ext_resource type="Texture2D" uid="uid://c85rwskrhnies" path="res://assets/spearman_ss.png" id="1_jwdjm"]
 [ext_resource type="Texture2D" uid="uid://d2d85xlrugfyf" path="res://assets/spearman_ref.png" id="1_q3vlo"]
-[ext_resource type="Shader" path="res://scenes/units/highlight.gdshader" id="1_yomuq"]
+[ext_resource type="Shader" path="res://scenes/units/spearman_highlight.gdshader" id="1_v0swr"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_rnmhs"]
-shader = ExtResource("1_yomuq")
-shader_parameter/outline_color = null
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_e7dvt"]
+shader = ExtResource("1_v0swr")
+shader_parameter/outline_color = Color(0, 0, 0, 1)
 
 [sub_resource type="Animation" id="Animation_oedba"]
 length = 0.001
@@ -502,14 +502,14 @@ _data = {
 }
 
 [node name="Spearman" type="Node2D"]
-position = Vector2(-6, 43)
+position = Vector2(0, 43)
 scale = Vector2(0.302, 0.302)
 
 [node name="Polygons" type="Node2D" parent="."]
+material = SubResource("ShaderMaterial_e7dvt")
 position = Vector2(172.185, 344.371)
 
 [node name="LegR" type="Polygon2D" parent="Polygons"]
-material = SubResource("ShaderMaterial_rnmhs")
 position = Vector2(6.62296, -205.298)
 offset = Vector2(-179.623, -200.702)
 texture = ExtResource("1_jwdjm")
@@ -520,7 +520,6 @@ polygons = [PackedInt32Array(1, 14, 15, 0), PackedInt32Array(1, 2, 13, 14), Pack
 bones = ["hip", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "hip/chest", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "hip/chest/head", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "hip/chest/armR", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "hip/chest/armR/handR", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "hip/chest/armL", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "hip/chest/armL/handL", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "hip/legL", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "hip/legR", PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1)]
 
 [node name="LegL" type="Polygon2D" parent="Polygons"]
-material = SubResource("ShaderMaterial_rnmhs")
 position = Vector2(-6.62207, -205.298)
 offset = Vector2(-127.378, -199.702)
 texture = ExtResource("1_jwdjm")
@@ -530,7 +529,6 @@ uv = PackedVector2Array(34.237, 276.826, 24.8214, 321.956, 23.5227, 355.885, 19.
 bones = ["hip", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "hip/chest", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "hip/chest/head", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "hip/chest/armR", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "hip/chest/armR/handR", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "hip/chest/armL", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "hip/chest/armL/handL", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "hip/legL", PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1), "hip/legR", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)]
 
 [node name="Torso" type="Polygon2D" parent="Polygons"]
-material = SubResource("ShaderMaterial_rnmhs")
 position = Vector2(6.62299, -198.676)
 offset = Vector2(-490.623, -287.324)
 texture = ExtResource("1_jwdjm")
@@ -540,7 +538,6 @@ uv = PackedVector2Array(373.06, 274.569, 384.483, 241.81, 359.267, 212.931, 373.
 bones = ["hip", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "hip/chest", PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1), "hip/chest/head", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "hip/chest/armR", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "hip/chest/armR/handR", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "hip/chest/armL", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "hip/chest/armL/handL", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "hip/legL", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "hip/legR", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)]
 
 [node name="ArmL" type="Polygon2D" parent="Polygons"]
-material = SubResource("ShaderMaterial_rnmhs")
 position = Vector2(0.000427246, -198.676)
 offset = Vector2(-622, -81.3244)
 texture = ExtResource("1_jwdjm")
@@ -551,7 +548,6 @@ polygons = [PackedInt32Array(5, 2, 3, 4), PackedInt32Array(6, 1, 2, 5), PackedIn
 bones = ["hip", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "hip/chest", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "hip/chest/head", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "hip/chest/armR", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "hip/chest/armR/handR", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "hip/chest/armL", PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1), "hip/chest/armL/handL", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "hip/legL", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "hip/legR", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)]
 
 [node name="Head" type="Polygon2D" parent="Polygons"]
-material = SubResource("ShaderMaterial_rnmhs")
 position = Vector2(9.9342, -195.364)
 offset = Vector2(-138.934, -248.636)
 texture = ExtResource("1_jwdjm")
@@ -561,7 +557,6 @@ uv = PackedVector2Array(35.483, 52.5457, 47.7546, 19.6475, 81.436, -1.7624, 152.
 bones = ["hip", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "hip/chest", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "hip/chest/head", PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1), "hip/chest/armR", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "hip/chest/armR/handR", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "hip/chest/armL", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "hip/chest/armL/handL", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "hip/legL", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "hip/legR", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)]
 
 [node name="ArmR" type="Polygon2D" parent="Polygons"]
-material = SubResource("ShaderMaterial_rnmhs")
 position = Vector2(0.000442505, -211.921)
 offset = Vector2(-211.92, -59.6024)
 texture = ExtResource("1_jwdjm")
@@ -571,7 +566,6 @@ uv = PackedVector2Array(328.075, 4.56778, 350.275, 13.998, 365.403, 28.3399, 373
 bones = ["hip", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "hip/chest", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "hip/chest/head", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "hip/chest/armR", PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1), "hip/chest/armR/handR", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "hip/chest/armL", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "hip/chest/armL/handL", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "hip/legL", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "hip/legR", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)]
 
 [node name="Spear" type="Polygon2D" parent="Polygons"]
-material = SubResource("ShaderMaterial_rnmhs")
 position = Vector2(0.000427246, -208.609)
 offset = Vector2(-462, -420.391)
 texture = ExtResource("1_jwdjm")
@@ -581,7 +575,6 @@ uv = PackedVector2Array(793.447, 417.232, 810.94, 429.504, 849.582, 417.494, 902
 bones = ["hip", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "hip/chest", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "hip/chest/head", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "hip/chest/armR", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "hip/chest/armR/handR", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "hip/chest/armR/handR/spear", PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1), "hip/chest/armL", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "hip/chest/armL/handL", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "hip/legL", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "hip/legR", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0)]
 
 [node name="HandL" type="Polygon2D" parent="Polygons"]
-material = SubResource("ShaderMaterial_rnmhs")
 position = Vector2(0.000427246, -211.921)
 offset = Vector2(-745, -64.0794)
 texture = ExtResource("1_jwdjm")
@@ -591,7 +584,6 @@ uv = PackedVector2Array(550.875, 129.509, 559.804, 121.295, 594.268, 122.902, 60
 bones = ["hip", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0), "hip/chest", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0), "hip/chest/head", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0), "hip/chest/armR", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0), "hip/chest/armR/handR", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0), "hip/chest/armR/handR/spear", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0), "hip/chest/armL", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0), "hip/chest/armL/handL", PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1), "hip/legL", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0), "hip/legR", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0)]
 
 [node name="HandR" type="Polygon2D" parent="Polygons"]
-material = SubResource("ShaderMaterial_rnmhs")
 position = Vector2(3.31169, -198.676)
 offset = Vector2(-232.312, -149.324)
 texture = ExtResource("1_jwdjm")

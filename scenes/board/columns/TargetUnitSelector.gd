@@ -24,6 +24,9 @@ func _ready():
 	
 	
 func _process(delta):
+	pass
+
+func _physics_process(delta: float) -> void:
 	if active:
 		# Make the 
 		# Create a path from slot_data unit to mouse/target

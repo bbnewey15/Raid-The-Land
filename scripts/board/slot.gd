@@ -83,8 +83,11 @@ func _on_mouse_exited():
 	pass # Replace with function body.
 
 func unit_action(action_data: ActionData, target: SlotData):
+	await self.unit_ui.action_displayer.display_action( action_data, self.slot_data)
 	match action_data.action_type:
 		GameData.UNIT_ACTIONS.ATTACK:
+			await self.attack(target)
+		GameData.UNIT_ACTIONS.DEBUFF:
 			await self.attack(target)
 		GameData.UNIT_ACTIONS.DEFEND:
 			await self.defend()
@@ -95,7 +98,7 @@ func unit_action(action_data: ActionData, target: SlotData):
 			
 	# end turn for now
 	self.slot_data.turn_over = true
-	EncounterBus.unit_turn_ended.emit()
+	EncounterBus.unit_turn_ended.emit(slot_data)
 	
 
 func attack(defending_slot_data: SlotData):
@@ -214,6 +217,9 @@ func die() -> void:
 	# Add the animation to the Tween
 	tween.tween_property(unit_node, "rotation_degrees", 90, 1)
 	await tween.finished
+	
+	# Let order know to update order
+	EncounterBus.request_recalculate_unit_order.emit()
 
 func highlight_unit() -> void:
 	print("highlighting")

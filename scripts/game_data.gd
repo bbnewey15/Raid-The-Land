@@ -71,7 +71,7 @@ const BACK = "back"
 enum MOVE_DIRECTION {LEFT = 0, RIGHT = 1}
 
 # Action related
-enum UNIT_ACTIONS {ATTACK  , DEFEND , SUPPORT }
+enum UNIT_ACTIONS {ATTACK  , DEFEND , SUPPORT, DEBUFF }
 
 const ATTACK_ICON = preload("res://assets/attack_icon.png")
 const DEFENSE_ICON = preload("res://assets/defense_icon.png")

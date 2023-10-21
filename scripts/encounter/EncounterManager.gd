@@ -54,7 +54,7 @@ func _ready():
 	aiActionManager.encounter_manager = self as EncounterManager
 	add_child(aiActionManager)
 	
-	#order_ui.load_from_slot_data_group(playerSlotDatas)
+	order_ui.encounter_manager = self as EncounterManager
 	
 	encounter_ui.encounter_manager = self as EncounterManager
 	

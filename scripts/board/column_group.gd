@@ -59,6 +59,11 @@ func load_from_slot_data_group(data: SlotDataGroup) -> void:
 		print("slot_data.column_name:  %s"  % slot_data.column_name)
 		print(GameData[GameData.COLUMN_STRING.keys()[slot_data.column_name]])
 		column_dict[GameData.getColumnStringByIndex(slot_data.column_name)].add_slot(slot_data, false)
+		
+	var tmp_slot_array : Array[SlotData] 
+	tmp_slot_array.append_array(playerSlotDatas)
+	tmp_slot_array.append_array(enemySlotDatas)
+	GameData.full_slot_array = tmp_slot_array
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -80,25 +85,7 @@ func _physics_process(delta):
 	
 
 
-func on_slot_data_changed(update_action_order: bool = true):
-	if update_action_order == true || GameData.full_slot_array == null:
-		# Current way to update ui
-		var tmp_slot_array : Array[SlotData] 
-		tmp_slot_array.append_array(playerSlotDatas)
-		tmp_slot_array.append_array(enemySlotDatas)
-		
-		var sorted_array = GameData.sort_full_slot_datas(tmp_slot_array)
-		
-		# Set the action order
-#		var action_order = 1;
-#		for slot_data in sorted_array:
-#			slot_data.action_order = action_order
-#			action_order = action_order + 1
-		
-		GameData.full_slot_array = sorted_array
-		# weird way to run UI updates and avoid an endless loop
-		EncounterBus.slot_data_changed.emit(false)
-	
+func on_slot_data_changed():	
 	var encounter_manager = get_node("../")
 	
 	
@@ -174,8 +161,6 @@ func fight() -> void:
 		var all_enemies_dead = false
 		var all_enemies = GameData.full_slot_array.filter(func(x): return x.isEnemyUnit)
 		var lam = func(y):  
-			print( "Status %s" % y.unit_data.status)
-			print( "UNIT data for alive: %s" % GameData.UNIT_STATUS.ALIVE )
 			return y.unit_data.status == GameData.UNIT_STATUS.ALIVE 
 		var test2 = all_enemies.any(lam)
 		if test2 == false:

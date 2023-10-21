@@ -99,7 +99,7 @@ func on_unit_selected(slot_data: SlotData, button: int) -> void:
 		_:
 			print("default")
 			
-func on_unit_turn_ended():
+func on_unit_turn_ended(slot_data: SlotData):
 	self.update_actionUI()
 		
 func on_action_request_ui(slot: Slot):

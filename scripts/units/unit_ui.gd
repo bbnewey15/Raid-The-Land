@@ -13,6 +13,8 @@ var slot : Slot
 @onready var action_control_texture_rect = %ActionControl/TextureRect
 @onready var active_highlighter = %ActiveHighlighter
 @onready var conditions: HBoxContainer = %Conditions
+@onready var action_displayer: Control = %ActionDisplayer
+
 
 var unit_data : UnitDataTest
 

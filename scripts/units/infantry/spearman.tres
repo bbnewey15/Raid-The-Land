@@ -19,3 +19,4 @@ status = 0
 eagerness = 10
 health = 100
 action_points = 5
+conditions = Array[Resource("res://datatypes/condition_data.gd")]([])

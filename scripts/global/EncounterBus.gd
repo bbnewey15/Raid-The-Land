@@ -9,7 +9,7 @@ signal draft_state_started
 signal draft_state_ended
 
 # warning-ignore:unused_signal
-signal slot_data_changed(update_action_order: bool)
+signal slot_data_changed()
 # warning-ignore:unused_signal
 
 # warning-ignore:unused_signal
@@ -38,7 +38,7 @@ signal fight_state_started
 signal fight_state_stopped
 
 # warning-ignore:unused_signal
-signal unit_turn_ended
+signal unit_turn_ended(slot_data : SlotData)
 
 # warning-ignore:unused_signal
 #signal slot_attacked(slot_data: SlotData, unit_attacking: SlotData)
@@ -70,3 +70,8 @@ signal debug_ui(debug: bool)
 # UI 
 # warning-ignore:unused_signal
 signal ui_active_slot_data_changed 
+
+# warning-ignore:unused_signal
+signal request_recalculate_unit_order
+# warning-ignore:unused_signal
+signal finished_recalculate_unit_order

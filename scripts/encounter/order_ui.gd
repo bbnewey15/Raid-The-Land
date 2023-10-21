@@ -2,6 +2,8 @@ extends Control
 class_name OrderUi
 @onready var v_box_container = $PanelContainer/HBoxContainer
 
+var order_array : Array[SlotData] = []
+var encounter_manager : EncounterManager
 
 var order_ui_panel = preload("res://scenes/encounter/order_ui_panel.tscn")
 var allow_movement : bool = false
@@ -9,6 +11,9 @@ var allow_movement : bool = false
 @export var allowed_states : Array[String] = [GameData.FIGHT, GameData.DRAFT]
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	
+	await self.get_parent().ready
+	
 	# Connect to Encounter State Machine signals
 	self.hide()
 	
@@ -16,20 +21,38 @@ func _ready():
 	
 	EncounterBus.encounter_state_changed.connect(self.on_encounter_state_changed)
 	EncounterBus.slot_data_changed.connect(self.on_slot_data_changed)
+	EncounterBus.unit_turn_ended.connect(self.on_unit_turn_ended)
+	EncounterBus.request_recalculate_unit_order.connect(self.on_request_recalculate_unit_order)
+	EncounterBus.finished_recalculate_unit_order.connect(self.load_from_slot_data)
+	
+	# intialize the order
+	self.on_request_recalculate_unit_order()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	pass
 	
-	
-func on_slot_data_changed():
+func on_request_recalculate_unit_order():
 	# Current way to update ui
-	self.load_from_slot_data()
+	var sorted_array = GameData.sort_full_slot_datas(GameData.full_slot_array)
+	
+	# Set the action order
+#		var action_order = 1;
+#		for slot_data in sorted_array:
+#			slot_data.action_order = action_order
+#			action_order = action_order + 1
+	
+	GameData.full_slot_array = sorted_array
+	# weird way to run UI updates and avoid an endless loop
+	
+	EncounterBus.finished_recalculate_unit_order.emit()
+	
+
 
 func load_from_slot_data():
-	# TODO: Dont reinstance every time
 	for child in v_box_container.get_children():
-		child.queue_free()
+		child.remove()
+		#child.queue_free()
 		
 	# Full slot array is source of truth on order 
 	var reordered_slot_datas = GameData.full_slot_array
@@ -41,16 +64,32 @@ func load_from_slot_data():
 		# Create new panel for each
 		var panel = order_ui_panel.instantiate()
 		panel.order_ui = self
-		panel.slot_data = slot_data
-		panel.get_node("%UnitImage").texture = slot_data.unit_data.texture
-		panel.get_node("%NameLabel").text = str(slot_data.unit_data.name)
-		#panel.get_node("%OrderLabel").text = str(slot_data.action_order)
-		panel.get_node("%HealthBar").update(slot_data.unit_data)
+		panel.set_slot_data(slot_data)
 		
 		v_box_container.add_child(panel)
 		panel.update_ui()
 		
+func on_slot_data_changed():
+	# Current way to update ui
+	self.update_from_slot_data()
 		
+func update_from_slot_data():
+	# Full slot array is source of truth on order 
+	var reordered_slot_datas = GameData.full_slot_array
+	
+	for panel in v_box_container.get_children():
+		for slot_data in reordered_slot_datas:
+			if panel.slot_data == slot_data:
+				panel.set_slot_data(slot_data)
+		#panel.update_ui()
+		
+func on_unit_turn_ended(slot_data: SlotData):
+	# Find slot data in panels
+	for child in v_box_container.get_children():
+		if child.slot_data == slot_data:
+#			await child.shrink_tween.run_tween(child)
+			pass
+	
 
 func on_encounter_state_changed(state: String):
 	match state:

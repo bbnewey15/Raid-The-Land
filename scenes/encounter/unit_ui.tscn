@@ -1,8 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://cj2sokxjbe72j"]
+[gd_scene load_steps=10 format=3 uid="uid://cj2sokxjbe72j"]
 
 [ext_resource type="Script" path="res://scripts/units/unit_ui.gd" id="1_y42an"]
 [ext_resource type="Script" path="res://scripts/encounter/Conditions.gd" id="2_cx813"]
+[ext_resource type="Script" path="res://scenes/encounter/unit_ui/ActionDisplayer.gd" id="2_sorbp"]
 [ext_resource type="FontFile" uid="uid://bux2d6r2ckfem" path="res://assets/fonts/vikingsquad/vikingsquadbold.ttf" id="2_ucouw"]
+[ext_resource type="FontFile" uid="uid://yf5bgg5euvia" path="res://assets/fonts/vikingsquad/vikingsquadcondital.ttf" id="3_46auq"]
 [ext_resource type="Texture2D" uid="uid://da6wl6gbj4c2y" path="res://assets/attack_icon.png" id="3_qda4a"]
 [ext_resource type="PackedScene" uid="uid://cvtnv6sepx2y8" path="res://scenes/encounter/unit_ui/condition.tscn" id="3_v2com"]
 
@@ -52,6 +54,35 @@ anchors_preset = 10
 anchor_right = 1.0
 offset_bottom = 4.0
 grow_horizontal = 2
+
+[node name="ActionDisplayer" type="Control" parent="VBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+script = ExtResource("2_sorbp")
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/ActionDisplayer"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="ActionLabel" type="Label" parent="VBoxContainer/ActionDisplayer/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 5
+theme_override_fonts/font = ExtResource("3_46auq")
+theme_override_font_sizes/font_size = 60
+text = "Test action"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="Conditions" type="HBoxContainer" parent="VBoxContainer"]
 unique_name_in_owner = true

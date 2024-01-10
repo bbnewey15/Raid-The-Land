@@ -2,11 +2,10 @@ extends Control
 
 var column_group : UnitColGroup
 var active : bool = false
-var active_action: GameData.UNIT_ACTIONS
+var active_action: ActionData
 var potential_targets : Array[SlotData] = []
 
 @onready var texture_rect = $TextureRect
-@onready var collision_shape_2d = $Area2D/CollisionShape2D
 
 # This Node recieves a signal when it should look for Slot selection to fill a unit's action targets
 # and emits a signal when action is set 
@@ -25,6 +24,9 @@ func _ready():
 	
 	
 func _process(delta):
+	pass
+
+func _physics_process(delta: float) -> void:
 	if active:
 		# Make the 
 		# Create a path from slot_data unit to mouse/target
@@ -38,17 +40,17 @@ func _process(delta):
 func quit_targeting():
 	self.hide()
 	self.active = false
-	self.active_action = 0
+	self.active_action = null
 	self.potential_targets = []
 
-func on_request_user_target_unit( action: GameData.UNIT_ACTIONS, potential_targets: Array[SlotData]):
+func on_request_user_target_unit( action_data: ActionData, potential_targets: Array[SlotData]):
 	assert(GameData.ui_active_slot_data)
-	assert(GameData.UNIT_ACTIONS.find_key(action))
+	assert(action_data)
 		
 	# Show the texture
 	self.show()
 	self.active = true
-	self.active_action = action
+	self.active_action = action_data
 	self.potential_targets = potential_targets
 
 
@@ -63,10 +65,12 @@ func _on_gui_input(event):
 
 func on_target_hovered(slot_data: SlotData):
 	if slot_data in potential_targets:
+		# Show target stats 
 		self.hide()
 	
 func on_target_hover_exited(slot_data: SlotData):
 	if active:
+		# hide target stats
 		self.show()
 	
 func on_target_selected(slot_data: SlotData, button: int):
@@ -75,15 +79,22 @@ func on_target_selected(slot_data: SlotData, button: int):
 		var adj_action_targets : Array[SlotData] = GameData.ui_active_slot_data.action_targets
 		# If Selecting
 		if slot_data not in GameData.ui_active_slot_data.action_targets:
-			if len(adj_action_targets) >= GameData.ui_active_slot_data.unit_data.number_of_targets(active_action) :
+			if len(adj_action_targets) >= GameData.ui_active_slot_data.action_data.number_of_targets:
+				# probably wont happen but leaving in case
 				adj_action_targets.pop_back()
 				adj_action_targets.append(slot_data)
 			else:
 				adj_action_targets.append(slot_data)
 		else:
-			# DE-selecting
+			# DE-selecting on multi-target
 			var test = adj_action_targets.find(slot_data)
 			adj_action_targets.remove_at(test)
 			
 		GameData.ui_active_slot_data.action_targets = adj_action_targets
-		EncounterBus.slot_data_changed.emit()
+		
+		# Start action on selecting ( unless there are multi )
+		if len(GameData.ui_active_slot_data.action_targets) == GameData.ui_active_slot_data.action_data.number_of_targets:
+			# emit signal to start actions
+			EncounterBus.action_activated.emit(GameData.ui_active_slot_data)
+		else:
+			EncounterBus.slot_data_changed.emit()

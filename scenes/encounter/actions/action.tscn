@@ -1,0 +1,29 @@
+[gd_scene load_steps=2 format=3 uid="uid://roew4pufu0gr"]
+
+[ext_resource type="Script" path="res://scenes/encounter/actions/action.gd" id="1_s80yb"]
+
+[node name="Action" type="MarginContainer"]
+custom_minimum_size = Vector2(110, 150)
+offset_right = 70.0
+offset_bottom = 36.0
+size_flags_vertical = 3
+mouse_filter = 0
+mouse_default_cursor_shape = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+script = ExtResource("1_s80yb")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+visible = false
+layout_mode = 2
+mouse_filter = 1
+color = Color(0.317647, 0.85098, 0.952941, 0.568627)
+
+[node name="AttackLabel" type="Label" parent="."]
+layout_mode = 2
+text = "ATTACK"
+horizontal_alignment = 1
+
+[connection signal="gui_input" from="." to="." method="_on_gui_input"]

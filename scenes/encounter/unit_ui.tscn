@@ -1,8 +1,121 @@
-[gd_scene load_steps=6 format=3 uid="uid://cj2sokxjbe72j"]
+[gd_scene load_steps=15 format=3 uid="uid://cj2sokxjbe72j"]
 
-[ext_resource type="Script" path="res://scripts/encounter/unit_ui.gd" id="1_y42an"]
+[ext_resource type="Script" path="res://scripts/units/unit_ui.gd" id="1_y42an"]
+[ext_resource type="Script" path="res://scripts/encounter/Conditions.gd" id="2_cx813"]
+[ext_resource type="PackedScene" uid="uid://cifxsod3pi21m" path="res://scenes/board/slot_highlighter.tscn" id="2_l7cgo"]
+[ext_resource type="Script" path="res://scenes/encounter/unit_ui/ActionDisplayer.gd" id="2_sorbp"]
 [ext_resource type="FontFile" uid="uid://bux2d6r2ckfem" path="res://assets/fonts/vikingsquad/vikingsquadbold.ttf" id="2_ucouw"]
+[ext_resource type="FontFile" uid="uid://yf5bgg5euvia" path="res://assets/fonts/vikingsquad/vikingsquadcondital.ttf" id="3_46auq"]
 [ext_resource type="Texture2D" uid="uid://da6wl6gbj4c2y" path="res://assets/attack_icon.png" id="3_qda4a"]
+[ext_resource type="PackedScene" uid="uid://cvtnv6sepx2y8" path="res://scenes/encounter/unit_ui/condition.tscn" id="3_v2com"]
+
+[sub_resource type="Animation" id="Animation_iae6e"]
+resource_name = "fade_out"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MarginContainer/ActionLabel:self_modulate")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_6tfwl"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MarginContainer/ActionLabel:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("%ActionLabel:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(),
+"transitions": PackedFloat32Array(),
+"update": 0,
+"values": []
+}
+tracks/2/type = "bezier"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:position:x")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/3/type = "bezier"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".:position:y")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/4/type = "bezier"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("MarginContainer:position:y")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(-2.5, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+
+[sub_resource type="Animation" id="Animation_jxiy6"]
+resource_name = "fade_in_out"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MarginContainer/ActionLabel:self_modulate")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 0.7, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("MarginContainer:position:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0, 0),
+"points": PackedFloat32Array(25, -0.25, 0, 0.25, 0, -2.5, -0.25, 0, 0.25, 0, -2.5, -0.25, 0, 0.25, 0, 10, -0.274951, -21.5, 0.25, 0),
+"times": PackedFloat32Array(0, 0.5, 0.8, 1)
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_o8xpa"]
+_data = {
+"RESET": SubResource("Animation_6tfwl"),
+"fade_in_out": SubResource("Animation_jxiy6"),
+"fade_out": SubResource("Animation_iae6e")
+}
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_f5ygy"]
 bg_color = Color(0.168627, 0.00784314, 0.00784314, 0.431373)
@@ -17,77 +130,141 @@ corner_radius_top_left = 3
 corner_radius_bottom_left = 3
 
 [node name="UnitUi" type="Control"]
+custom_minimum_size = Vector2(0, 300)
 layout_mode = 3
-anchors_preset = 0
-offset_right = 150.0
-offset_bottom = 150.0
+anchor_left = 0.026
+anchor_top = 0.046
+anchor_right = 0.026
+anchor_bottom = 0.046
+offset_left = -49.92
+offset_top = -49.68
+offset_right = 150.08
+offset_bottom = 250.32
+pivot_offset = Vector2(101, 102)
 mouse_filter = 2
 script = ExtResource("1_y42an")
 
-[node name="ActiveHighlighter" type="ColorRect" parent="."]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(150, 150)
+[node name="UnitContainer" type="MarginContainer" parent="."]
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+size_flags_vertical = 3
+theme_override_constants/margin_top = 125
+
+[node name="ActiveHighlighter" type="ColorRect" parent="UnitContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 150)
+layout_mode = 2
 mouse_filter = 1
 color = Color(1, 1, 1, 0)
 
-[node name="HealthBar" type="Control" parent="."]
-layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -45.0
-offset_right = 45.0
-offset_bottom = 20.0
-grow_horizontal = 2
-scale = Vector2(1, 0.559999)
+[node name="Targeter" parent="UnitContainer" instance=ExtResource("2_l7cgo")]
+unique_name_in_owner = true
+layout_mode = 2
+SUPPORTING_COLOR = Color(0.921569, 0.192157, 0.631373, 0.388235)
 
-[node name="HealthBarTexture" type="ProgressBar" parent="HealthBar"]
-layout_mode = 0
-offset_right = 92.0
-offset_bottom = 23.0
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 4.0
+grow_horizontal = 2
+
+[node name="ActionDisplayer" type="Control" parent="VBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+script = ExtResource("2_sorbp")
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/ActionDisplayer"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -17.0
+offset_top = -2.5
+offset_right = 17.0
+offset_bottom = 2.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="ActionLabel" type="Label" parent="VBoxContainer/ActionDisplayer/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 5
+theme_override_fonts/font = ExtResource("3_46auq")
+theme_override_font_sizes/font_size = 60
+text = "Test action"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="VBoxContainer/ActionDisplayer"]
+libraries = {
+"": SubResource("AnimationLibrary_o8xpa")
+}
+
+[node name="Conditions" type="HBoxContainer" parent="VBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+script = ExtResource("2_cx813")
+
+[node name="Condition" parent="VBoxContainer/Conditions" instance=ExtResource("3_v2com")]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="HealthBar" type="Control" parent="VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HealthBarTexture" type="ProgressBar" parent="VBoxContainer/HBoxContainer/HealthBar"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 theme_override_styles/background = SubResource("StyleBoxFlat_f5ygy")
 theme_override_styles/fill = SubResource("StyleBoxFlat_bw8q1")
 value = 50.0
 show_percentage = false
 
-[node name="HealthLabel" type="Label" parent="HealthBar"]
+[node name="HealthLabel" type="Label" parent="VBoxContainer/HBoxContainer/HealthBar"]
 layout_mode = 1
-anchors_preset = 8
+anchors_preset = 5
 anchor_left = 0.5
-anchor_top = 0.5
 anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -13.0
-offset_right = 20.0
-offset_bottom = 15.0
+offset_left = -13.0
+offset_right = 13.0
+offset_bottom = 19.0
 grow_horizontal = 2
-grow_vertical = 2
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 3
 theme_override_fonts/font = ExtResource("2_ucouw")
-theme_override_font_sizes/font_size = 34
+theme_override_font_sizes/font_size = 22
 text = "100"
 horizontal_alignment = 1
 
-[node name="OrderControl" type="Control" parent="."]
+[node name="OrderControl" type="Control" parent="VBoxContainer/HBoxContainer"]
 unique_name_in_owner = true
 visible = false
-layout_mode = 1
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
+layout_mode = 2
 mouse_filter = 2
 
-[node name="Label" type="Label" parent="OrderControl"]
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/OrderControl"]
 layout_mode = 0
 offset_left = -7.0
 offset_top = -12.0
@@ -100,23 +277,14 @@ theme_override_font_sizes/font_size = 50
 text = "1"
 horizontal_alignment = 1
 
-[node name="ActionControl" type="Control" parent="."]
+[node name="ActionControl" type="Control" parent="VBoxContainer/HBoxContainer"]
 unique_name_in_owner = true
-visible = false
-layout_mode = 1
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -30.0
-offset_top = -10.0
-offset_right = 10.0
-offset_bottom = 30.0
-grow_horizontal = 0
+layout_mode = 2
 mouse_filter = 2
 
-[node name="TextureRect" type="TextureRect" parent="ActionControl"]
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/HBoxContainer/ActionControl"]
 layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+offset_right = 20.0
+offset_bottom = 20.0
 texture = ExtResource("3_qda4a")
 expand_mode = 3

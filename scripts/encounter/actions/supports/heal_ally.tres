@@ -1,0 +1,31 @@
+[gd_resource type="Resource" script_class="ActionData" load_steps=5 format=3 uid="uid://yd658rue2ihb"]
+
+[ext_resource type="Script" path="res://datatypes/condition_data.gd" id="1_idrkn"]
+[ext_resource type="Texture2D" uid="uid://cinbvgi30ue0e" path="res://assets/support_icon.png" id="1_uyoqh"]
+[ext_resource type="Script" path="res://datatypes/action_data.gd" id="2_0uhp8"]
+
+[sub_resource type="Resource" id="Resource_0o2t1"]
+script = ExtResource("1_idrkn")
+condition = 0
+stacks = 3
+ratio = 0.5
+icon = ExtResource("1_uyoqh")
+
+[resource]
+script = ExtResource("2_0uhp8")
+name = "Heal Ally"
+description = "Add heal stacks to an ally"
+icon_path = ExtResource("1_uyoqh")
+level_required = 1
+upgrade_price = 1
+ap_cost = 2
+will_end_turn = false
+action_range = Array[int]([0, 1])
+action_type = 2
+target_type = 1
+action_amount_ratio = 0.3
+requires_target = true
+number_of_targets = 1
+number_of_actions = 1
+apply_condition = true
+conditions = Array[ExtResource("1_idrkn")]([SubResource("Resource_0o2t1")])

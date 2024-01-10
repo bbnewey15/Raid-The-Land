@@ -6,20 +6,17 @@ class_name UnitDataTest extends Resource
 @export var unit_node_path: String
 @export var column_type: GameData.COLUMN_TYPE
 @export var max_health: int = 100
+@export var max_ap : int = 5
 @export var damage: int = 35
 @export var support_amount : int = 15
 @export var defend_ratio: float = .60
-@export var status: String = "ALIVE"
-@export var attack_requires_target = true
-@export var defend_requires_target = false
-@export var support_requires_target = false
-@export var attack_number_target = 2
-@export var defend_number_target = 0
-@export var support_number_target = 1
-@export var attack_range = [1]
-@export var support_range = [0,1]
-
+@export var status: GameData.UNIT_STATUS =  GameData.UNIT_STATUS.ALIVE
+@export var eagerness = 10
 @export var health = max_health
+@export var action_points : int = max_ap
+@export var conditions : Array[ConditionData] = []
+@export var action_manager : ActionManager 
+
 
 signal unit_moved(id: int, direction: GameData.MOVE_DIRECTION)
 
@@ -31,39 +28,21 @@ func move_unit(direction: GameData.MOVE_DIRECTION ):
 func update_health(new_health: int):
 	health = new_health
 
-func requires_target(action: GameData.UNIT_ACTIONS):
-	match action:
-		GameData.UNIT_ACTIONS["ATTACK"]:
-			return attack_requires_target
-		GameData.UNIT_ACTIONS["DEFEND"]:
-			return defend_requires_target
-		GameData.UNIT_ACTIONS["SUPPORT"]:
-			return support_requires_target
-		_:
-			push_warning("Default value used in unit_data's requires_target")
-			return false
 
-func number_of_targets(action: GameData.UNIT_ACTIONS):
-	match action:
-		GameData.UNIT_ACTIONS["ATTACK"]:
-			return attack_number_target
-		GameData.UNIT_ACTIONS["DEFEND"]:
-			return defend_number_target
-		GameData.UNIT_ACTIONS["SUPPORT"]:
-			return support_number_target
-		_:
-			push_warning("Default value used in unit_data's number_of_targets")
-			return 0
-
-func get_range_by_action(action: GameData.UNIT_ACTIONS) -> Array:
-	match action:
-		GameData.UNIT_ACTIONS["ATTACK"]:
-			return self.attack_range
-		GameData.UNIT_ACTIONS["DEFEND"]:
-			return []
-		GameData.UNIT_ACTIONS["SUPPORT"]:
-			return self.support_range
-		_:
-			assert(false)
-			return []
+func add_condition(condition_data: ConditionData):
+	var same_condition : Array[ConditionData] = self.conditions.filter(func(x): return x.condition == condition_data.condition)
+	if len(same_condition)==0:
+		self.conditions.append(condition_data)
+	else:
+		var handled = false
+		for condition in same_condition: 
+			if condition.ratio == condition_data.ratio:
+				# Add stacks to existing
+				var idx = self.conditions.find(condition)
+				self.conditions[idx].stacks += condition_data.stacks
+				handled = true
+		if !handled:
+			self.conditions.append(condition_data)
+		
+	print(conditions)
 	

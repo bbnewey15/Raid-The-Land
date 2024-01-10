@@ -4,15 +4,17 @@ class_name EncounterManager
 
 
 const ActionUIScene = preload("res://scenes/encounter/action_ui.tscn")
+const AiActionManagerScene = preload("res://scenes/encounter/ai_action_manager.tscn")
 @export var columnGroupDataResourcePath: String
 @export var playerSlotDatasResourcePath: String
 @export var enemySlotDatasResourcePath: String
-const playerHandData : CardHandData = preload("res://resources/hand/player_hand.tres")
 const FiniteStateMachine = preload("res://scenes/encounter/encounter_state_machine.tscn")
-@onready var cardHandInterface = $CardHandInterface
 @onready var order_ui = $OrderUi
+@onready var encounter_ui = $EncounterUi
+
 
 var actionUI: ActionUI
+var aiActionManager : AiActionManager
 var loading: bool = true
 var encounterStateMachine : StateMachine
 var columnGroup : UnitColGroup
@@ -21,7 +23,6 @@ var columnGroup : UnitColGroup
 var columnGroupData : Resource
 var playerSlotDatas : Resource
 var enemySlotDatas : Resource
-var playerCardData : Resource
 # Called when the node enters the scene tree for the first time.
 func _ready():
 			
@@ -49,10 +50,13 @@ func _ready():
 	add_child(actionUI)
 	actionUI.hide()
 	
-	cardHandInterface.encounter_manager = self as EncounterManager
-	cardHandInterface.load_from_resource(playerHandData)
+	aiActionManager = AiActionManagerScene.instantiate()
+	aiActionManager.encounter_manager = self as EncounterManager
+	add_child(aiActionManager)
 	
-	order_ui.load_from_slot_data_group(playerSlotDatas)
+	order_ui.encounter_manager = self as EncounterManager
+	
+	encounter_ui.encounter_manager = self as EncounterManager
 	
 	# Connect to Encounter State Machine signals
 	EncounterBus.encounter_state_changed.connect(self.on_encounter_state_changed)
@@ -79,10 +83,6 @@ func on_encounter_state_changed(state_name : String) -> void:
 		"Start":
 			pass
 		"Draft":
-			pass
-		"Place":
-			pass
-		"Order":
 			pass
 		"Fight":
 			pass

@@ -1,7 +1,0 @@
-[gd_scene load_steps=3 format=3 uid="uid://bm25a5yfmhekw"]
-
-[ext_resource type="PackedScene" uid="uid://wjtj13m1p6ev" path="res://scenes/board/columns/unit_column.tscn" id="1_74atw"]
-[ext_resource type="Script" path="res://scripts/board/columns/siege_column.gd" id="2_gkwf1"]
-
-[node name="SiegeColumn" instance=ExtResource("1_74atw")]
-script = ExtResource("2_gkwf1")

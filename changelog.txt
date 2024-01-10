@@ -5,55 +5,100 @@
 5/12 - Added health bar/ health / dmg to unit_data -- also used unit_data as template; ToDo - add moving units in post
 5/12 - Added basic movement from column to column
 5/15 - Changed background image
-
-TODO: add_slot by unit_data instead of by slot data -- or handle the data better?
-
-TODO:
-EZ:
 ****Make Units Die on 0
 ****Update health bar to match max health instead of 100
 ****Fix movement ui - probably just move the UI to the bottom of the screen
+units do not attack full rows - must choose attack/def/supp and select target
 Add defense mode to unit ( counter attack = if a unit blocks damage, add a percentage of that dmg to the next attack )
-Add draw cards stage - for now just randomly pick 3 cards and add to hand
+**DONE* Limit columns to 2 v 1 ( + reinforcements )
+**DONE remove cards
+
+TODO:
+Make attack order include all units
+Move request_action from order state to fight
+Remove automatic fighting from unit_column and move to per turn based on eagerness
+
 Add simple ai
 
 Big Features:
-Create encounter upgrade cards ( round modifiers, phase modifiers (multiple rounds), encounter modifiers(multi phases) ) 
+Create encounter upgrades( round modifiers, phase modifiers (multiple rounds), encounter modifiers(multi phases) ) 
    Infantry gain +10 block, infantry gain +30% counter attack percentage), etc
-Create Unit item cards
-   Unit holding item gains leadership that boosts nearby units, get this card back on death, unit gains overshield if doesnt attack
+Create Unit items
+   Unit holding items gains leadership that boosts nearby units, unit gains overshield if doesnt attack
 Create a level up for each unit based on experience
 
 AI:
 Keep track of stats to use for AI
- Number of units, Number of each type of unit, Location of frontline
-Add simple ai for placing new units on next place stage
-Add simple ai drawing new cards
-AI for determining attack order
-AI for moving up unit
+Add simple ai for placing new units on reinforcements
+AI for action selection
 
-Possible Ideas:
-BIG CHANGE - units do not attack full rows - must choose attack/def/supp and select target
-Only allow for units to be placed 1 column away from frontline
-Have 3 different actions -- Attack/Defend/Heal
-Before encounter, draft your army
- = Pick a unit and adjust their stats (attack,defence,support)
-   = Based on the level - add up to 5 pts
-     = if attack = 3, defence = 2, support = 1 | 
-Each run has a # of reinforcements. Lose all your reinforcements in battle, then game over
-Unit Level ups carry over to next round?
 
-Brainstorm:
-Micro round thoughts:
-What are the unknowns when starting a fight?
- -Will my unit die before he acts?
- -Will the enemy attack/defend/heal?
- -Will the enemy place a game modifier for this round?
+Possible Encounter Change
+ Bring 3 Units to a battle
+   - You have to rest units back to full health
+ No movement foward in stage but 3 stages per encounter
+   - 1 piece of loot per stage increasing per difficulty
+ Can leave encounter penalty free after each stage 
+   - Risking health for better loot!
+ Can leave the encounter mid-stage with penalty
+ You lose the run if all of your units are dead
+ Between stages, you can scout ahead (+XP), camp (+hp), leave
+Encounter combat:
+ 3 units
+ Turn based 
+ Units level up over via XP over each stage
+ No cards
+ DND style for rolls to see damage / armor value
+ Action Points (so that we can defend and attack)
+ Make enemies lesser than - should not be equal 
 
-Encounter Big Picture thoughts:
- -Will win this round? Should I tank this round to try to win 2/3
- -Early Game Strat
-   - Try to win the first round
- -Late Game Strat
-   - Level up unit
- -Should I retreat to save men?
+Adjustments to new game:
+ Bring 3 units in on 2 columns 
+   - 1 column is active and 1 is passive
+     - a column can have 0 to 3 units in it
+     - this allows squishies to be safer while not totally immune and will be able to risk for bigger dmg
+ New identity of game is active + passive cohesion with actions/skill trees
+ Unit types:
+   Soldier, Archer, Tank, Rogue, Shaman
+ This gives the option to make each unit a certain archetype via skill trees
+ Enemies have a certain number of reinforcements per stage with warning of who is coming
+ Actions cost AP
+  - Moving back/foward costs 1 AP
+  - Strong actions take more AP
+  - Regular actions take less
+DND style for rolls to see damage / armor value
+3 characters available at a time
+ - if 1 dies, you start over with lvl 1 character
+ 
+Questions to ask my game?
+
+What does my game leverage?
+Probability based gameplay
+ User isnt totally in control which leads to a failed run
+ User is in control enough with class/move decisions 
+
+What emotions do I want my player to feel?
+  Mystery/Discovery
+  Smart for figuring out how to defeat encounter
+
+What could possibly be mysterious about a non-fiction environment?
+The mystery could be in discovery of hidden power - rewards per fight could be a gift from Odin
+
+Tasks:
+Research the gods and what they reward/punish
+
+Add 2 elements of war - 
+ actions use elements to work
+ elements are shared within the group
+ Wit(yellow) - spend to use buffs/heals/resource gain
+ Courage(green)- spend to attack - (add on hitting/ remove on getting hit)
+
+ Madness - sacrifice something for something,
+                    ie: take damage to attack
+ Defend to gain courage
+ 
+
+Between raids, you keep inventory but reset characters each raid.
+If you die, you lose all inventory but keep gold
+Every unit turn, choose a upgrade out of 3 upgrades,
+ every 3 unit turns, choose an action to add from skills tree

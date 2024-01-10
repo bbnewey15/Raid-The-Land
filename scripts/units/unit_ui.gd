@@ -5,13 +5,18 @@ class_name  UnitUi
 var slot : Slot
 
 @onready var debug_mode : bool = true
-@onready var health_bar_texture = $HealthBar/HealthBarTexture
-@onready var health_label = $HealthBar/HealthLabel
+@onready var health_bar_texture = %HealthBar/HealthBarTexture
+@onready var health_label = %HealthBar/HealthLabel
 @onready var order_control = %OrderControl
 @onready var order_control_label = %OrderControl/Label
 @onready var action_control = %ActionControl
 @onready var action_control_texture_rect = %ActionControl/TextureRect
 @onready var active_highlighter = %ActiveHighlighter
+@onready var conditions: HBoxContainer = %Conditions
+@onready var action_displayer: Control = %ActionDisplayer
+@onready var targeter = %Targeter
+
+signal loaded 
 
 var unit_data : UnitDataTest
 
@@ -28,6 +33,8 @@ func _ready():
 	
 	await get_parent().ready
 	assert(slot)
+	targeter.slot = self.slot as Slot
+	loaded.emit()
 
 func set_unit_data(data: UnitDataTest)-> void:
 	self.unit_data = data
@@ -36,14 +43,18 @@ func set_unit_data(data: UnitDataTest)-> void:
 	health_bar_texture.value= ( float(new_health) / unit_data.max_health ) * 100
 	health_label.text = str(new_health)
 	
+	conditions.set_unit_data(data)
+	
+	
 func set_slot_data(data: SlotData)->void:
-	order_control_label.text = str(data.action_order)
+#	order_control_label.text = str(data.action_order)
 	if data.action_set:
-		action_control_texture_rect.set_texture(GameData.get_icon_by_action(data.action))
+		action_control_texture_rect.set_texture(data.action_data.icon_path)
 	else:
 		action_control_texture_rect.set_texture(null)
-	if data.isEnemyUnit:
-		order_control_label.add_theme_color_override("font_color","#ff5555")
+#	if data.isEnemyUnit:
+#		order_control_label.add_theme_color_override("font_color","#ff5555")
+	targeter.slot = self.slot as Slot
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -51,8 +62,8 @@ func _process(delta):
 	
 
 func on_encounter_state_changed(state: String)-> void:
-	if state == "Order" or state == "Fight":
-		order_control.show()
+	if state == "Fight":
+		#order_control.show()
 		action_control.show()
 
 func on_ui_active_slot_data_changed():

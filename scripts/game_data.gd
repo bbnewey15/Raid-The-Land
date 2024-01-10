@@ -1,9 +1,13 @@
 extends Node
 
+#DEBUG
 var debug_mode : bool = true
+var acting_as_enemy : bool = false
+#
 
 # State
 var ui_active_slot_data : SlotData
+# All slots ordered according to Eagerness
 var full_slot_array: Array[SlotData] = []
 
 # setter
@@ -13,31 +17,29 @@ func set_ui_active_slot_data(slot_data: SlotData):
 
 # Encounter Data
 const UNIT_SIZE = Vector2(110,110)
-const COLUMN_SIZE = Vector2(150,614)
+const COLUMN_SIZE = Vector2(150,520)
 ## Player
-const siegeColumnLocation: Vector2 = Vector2(99, 20)
-const siegeColumnRotation: float = 6.8
-const infantryColumnLocation: Vector2 = Vector2(273, 20)
-const infantryColumnRotation: float = 3.6
-const rangedColumnLocation: Vector2 = Vector2(442, 20)
-const rangedColumnRotation: float = .8
+const backColumnLocation: Vector2 = Vector2(99, 0)
+const backColumnRotation: float = 6.8
+const frontColumnLocation: Vector2 = Vector2(273, 0)
+const frontColumnRotation: float = 3.6
+#const backColumnLocation: Vector2 = Vector2(442, 20)
+#const backColumnRotation: float = .8
 
 ## Enemey
-const siegeEnemyColumnLocation: Vector2 = Vector2(945, 20)
-const siegeEnemyColumnRotation: float = -6.8
-const infantryEnemyColumnLocation: Vector2 = Vector2(772, 20)
-const infantryEnemyColumnRotation: float = -3.6
-const rangedEnemyColumnLocation: Vector2 = Vector2(602, 20)
-const rangedEnemyColumnRotation: float = -.8
+#const backEnemyColumnLocation: Vector2 = Vector2(945, 20)
+#const backEnemyColumnRotation: float = -6.8
+const backEnemyColumnLocation: Vector2 = Vector2(772,0)
+const backEnemyColumnRotation: float = -3.6
+const frontEnemyColumnLocation: Vector2 = Vector2(602,0)
+const frontEnemyColumnRotation: float = -.8
 
 # Columns
-enum COLUMN_STRING {PLAYER_SIEGE_COL, PLAYER_RANGED_COL, PLAYER_INFANTRY_COL,ENEMY_INFANTRY_COL, ENEMY_RANGED_COL,ENEMY_SIEGE_COL  }
-const PLAYER_SIEGE_COL = "playerSiegeCol"
-const PLAYER_RANGED_COL = "playerRangedCol"
-const PLAYER_INFANTRY_COL = "playerInfantryCol"
-const ENEMY_SIEGE_COL = "enemySiegeCol" 
-const ENEMY_RANGED_COL ="enemyRangedCol"
-const ENEMY_INFANTRY_COL ="enemyInfantryCol"
+enum COLUMN_STRING {PLAYER_FRONT_COL, PLAYER_BACK_COL,ENEMY_FRONT_COL, ENEMY_BACK_COL  }
+const PLAYER_FRONT_COL = "playerFrontCol"
+const PLAYER_BACK_COL = "playerBackCol"
+const ENEMY_FRONT_COL = "enemyFrontCol" 
+const ENEMY_BACK_COL ="enemyBackCol"
 
 static func getColumnStringByIndex(index : int) -> String:
 	return GameData[GameData.COLUMN_STRING.keys()[index]]
@@ -48,82 +50,77 @@ func getColumnStringByColumnType(column_type: COLUMN_TYPE, isEnemy: bool =false)
 	
 	if isEnemy:
 		match GameData[COLUMN_TYPE.keys()[column_type]]:
-			SIEGE:
-				return_value = ENEMY_SIEGE_COL
-			RANGED:
-				return_value = ENEMY_RANGED_COL
-			INFANTRY:
-				return_value = ENEMY_INFANTRY_COL
+			FRONT:
+				return_value = ENEMY_FRONT_COL
+			BACK:
+				return_value = ENEMY_BACK_COL
 	else:
 		match GameData[COLUMN_TYPE.keys()[column_type]]:
-			SIEGE:
-				return_value = PLAYER_SIEGE_COL
-			RANGED:
-				return_value = PLAYER_RANGED_COL
-			INFANTRY:
-				return_value = PLAYER_INFANTRY_COL
+			FRONT:
+				return_value = PLAYER_FRONT_COL
+			BACK:
+				return_value = PLAYER_BACK_COL
 				
 	assert(return_value)
 	return return_value
 
-enum COLUMN_TYPE {SIEGE,RANGED,INFANTRY}
-const SIEGE = "siege"
-const RANGED = "ranged"
-const INFANTRY = "infantry"
+enum COLUMN_TYPE {FRONT,BACK}
+const FRONT = "front"
+const BACK = "back"
 
-enum MOVE_DIRECTION {LEFT, RIGHT}
-const LEFT = 0
-const RIGHT = 1
+enum MOVE_DIRECTION {LEFT = 0, RIGHT = 1}
 
 # Action related
-enum UNIT_ACTIONS {ATTACK, DEFEND, SUPPORT}
-const ATTACK = 0
-const DEFEND = 1
-const SUPPORT = 2
+enum UNIT_ACTIONS {ATTACK  , DEFEND , SUPPORT, DEBUFF }
 
 const ATTACK_ICON = preload("res://assets/attack_icon.png")
 const DEFENSE_ICON = preload("res://assets/defense_icon.png")
 const SUPPORT_ICON = preload("res://assets/support_icon.png")
 
-func get_icon_by_action(action: GameData.UNIT_ACTIONS)-> Texture:
-	assert(GameData.UNIT_ACTIONS.find_key(action))
-	
-	match action:
-			GameData.UNIT_ACTIONS.ATTACK:
-				return GameData.ATTACK_ICON
-			GameData.UNIT_ACTIONS.DEFEND:
-				return GameData.DEFENSE_ICON
-			GameData.UNIT_ACTIONS.SUPPORT:
-				return GameData.SUPPORT_ICON
-	
-	assert(false)
-	return null
+# Target Type
+enum ACTION_TARGET_TYPE { TARGET_SELF  , TARGET_ALLY , TARGET_ENEMY}
 
-## Cards
-enum CARD_TYPE {SKILL,UNIT}
-const SKILL = 0
-const UNIT = 1
+# CONDITIONS
+enum CONDITIONS { HEAL, WEAKEN,STRENGTHEN , SHAKEN, INSPIRED, INFECT , CURE}
+
+# STATUS
+enum UNIT_STATUS { ALIVE, DEAD }
+
 
 ## State 
-enum STATE_NAMES {START, DRAFT, PLACE, ORDER, FIGHT, POST_FIGHT}
+enum STATE_NAMES {START, DRAFT, FIGHT, POST_FIGHT}
 const START = "Start"
 const DRAFT = "Draft"
-const PLACE = "Place"
-const ORDER = "Order"
 const FIGHT = "Fight"
 const POST_FIGHT = "PostFight"
 
 
 const START_STATE_INTRO_TIMEOUT : float = 3.0
 
+func sort_full_slot_datas(full_array: Array[SlotData]) -> Array[SlotData]:
+	# We need to separate those who have already used their turn		
+	var turn_over : Array[SlotData] = full_array.filter(func(x): return x.turn_over == true) 		
+	var turn_not_over : Array[SlotData] = full_array.filter(func(x): return x.turn_over == false) 
+	
+	turn_over.sort_custom(GameData.eagernessOrderComparison)
+	turn_not_over.sort_custom(GameData.eagernessOrderComparison)
+	
+	var final_array : Array[SlotData] = []
+	final_array.append_array(turn_not_over)
+	final_array.append_array(turn_over)
+	return final_array
 
-func actionOrderComparison(a : SlotData, b : SlotData):
-	if !a.can_action():
-		return true
-	if !b.can_action():
-		return false
+func eagernessOrderComparison(a : SlotData, b : SlotData):
+	
+	
 		
-	if typeof(a.action_order) != typeof(b.action_order):
-		return typeof(a.action_order) < typeof(b.action_order)
+	if typeof(a.unit_data.eagerness) != typeof(b.unit_data.eagerness):
+		return typeof(a.unit_data.eagerness) > typeof(b.unit_data.eagerness)
 	else:
-		return a.action_order < b.action_order
+		if  a.unit_data.eagerness == b.unit_data.eagerness:
+			if !a.isEnemyUnit and b.isEnemyUnit:
+				return true
+			if !b.isEnemyUnit and a.isEnemyUnit:
+				return false
+				
+		return a.unit_data.eagerness > b.unit_data.eagerness

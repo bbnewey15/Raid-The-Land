@@ -6,8 +6,8 @@
 [ext_resource type="Script" path="res://scripts/GUI.gd" id="4_2brdk"]
 [ext_resource type="PackedScene" uid="uid://dwjqrihae367o" path="res://scenes/board/columns/column_group.tscn" id="5_acetr"]
 [ext_resource type="Script" path="res://scripts/encounter/EncounterManager.gd" id="5_v1psm"]
-[ext_resource type="PackedScene" uid="uid://p46rby3d6qhj" path="res://scenes/encounter/card_interface/card_hand_interface.tscn" id="6_4bypg"]
 [ext_resource type="PackedScene" uid="uid://cv6dog5eil5g3" path="res://scenes/encounter/order_ui.tscn" id="8_rx5hp"]
+[ext_resource type="PackedScene" uid="uid://3igdb1jenvn4" path="res://scenes/encounter/encounter_ui.tscn" id="9_3bn05"]
 
 [node name="Main" type="Node"]
 script = ExtResource("1_o075c")
@@ -39,12 +39,12 @@ enemySlotDatasResourcePath = "res://resources/ColumnGroupsTest/enemy_slot_data_g
 unique_name_in_owner = true
 top_level = true
 offset_left = 363.0
-offset_top = 360.0
+offset_top = 260.0
 offset_right = -366.0
-offset_bottom = -50.0
-
-[node name="CardHandInterface" parent="GUI/EncounterManager" instance=ExtResource("6_4bypg")]
-top_level = true
-offset_top = -150.0
+offset_bottom = -300.0
 
 [node name="OrderUi" parent="GUI/EncounterManager" instance=ExtResource("8_rx5hp")]
+
+[node name="EncounterUi" parent="GUI/EncounterManager" instance=ExtResource("9_3bn05")]
+size_flags_horizontal = 8
+size_flags_vertical = 8

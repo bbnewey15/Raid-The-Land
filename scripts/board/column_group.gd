@@ -1,9 +1,7 @@
 extends Control
 class_name UnitColGroup
 
-const SiegeColumnScene = preload("res://scenes/board/columns/siege_column.tscn")
-const InfantryColumnScene = preload("res://scenes/board/columns/ranged_column.tscn")
-const RangedColumnScene = preload("res://scenes/board/columns/infantry_column.tscn")
+const UnitColumnScene = preload("res://scenes/board/columns/unit_column.tscn")
 
 @onready var target_unit_selector = $TargetUnitSelector
 
@@ -12,8 +10,6 @@ var isEnemy: bool
 var loading: bool = true
 var playerSlotDatas : Array[SlotData]
 var enemySlotDatas : Array[SlotData]
-var active_slot_data : SlotData
-
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -23,12 +19,10 @@ func _ready():
 		# Init with params before adding child, ie before _ready() runs
 		
 		# Init all columns
-		GameData.PLAYER_SIEGE_COL : SiegeColumnScene.instantiate().init(false, GameData.COLUMN_TYPE.SIEGE),
-		GameData.PLAYER_RANGED_COL : RangedColumnScene.instantiate().init(false, GameData.COLUMN_TYPE.RANGED),
-		GameData.PLAYER_INFANTRY_COL : InfantryColumnScene.instantiate().init(false, GameData.COLUMN_TYPE.INFANTRY),
-		GameData.ENEMY_SIEGE_COL : SiegeColumnScene.instantiate().init(true, GameData.COLUMN_TYPE.SIEGE),
-		GameData.ENEMY_RANGED_COL : RangedColumnScene.instantiate().init(true, GameData.COLUMN_TYPE.RANGED),
-		GameData.ENEMY_INFANTRY_COL : InfantryColumnScene.instantiate().init(true, GameData.COLUMN_TYPE.INFANTRY)
+		GameData.PLAYER_FRONT_COL : UnitColumnScene.instantiate().init(false, GameData.COLUMN_TYPE.FRONT, GameData.frontColumnLocation),
+		GameData.PLAYER_BACK_COL : UnitColumnScene.instantiate().init(false, GameData.COLUMN_TYPE.BACK, GameData.backColumnLocation),
+		GameData.ENEMY_FRONT_COL : UnitColumnScene.instantiate().init(true, GameData.COLUMN_TYPE.FRONT, GameData.frontEnemyColumnLocation),
+		GameData.ENEMY_BACK_COL : UnitColumnScene.instantiate().init(true, GameData.COLUMN_TYPE.BACK, GameData.backEnemyColumnLocation)
 	}
 	
 	# Pass data down to components
@@ -38,11 +32,9 @@ func _ready():
 	# Add signals
 	EncounterBus.slot_data_changed.connect(self.on_slot_data_changed)
 	EncounterBus.fight_state_started.connect(self.on_fight_state_started)
-	EncounterBus.player_place_ended_turn.connect(Callable(self, "on_player_place_ended_turn"))
-	EncounterBus.order_state_started.connect(self.on_order_action_started)
 	
-	EncounterBus.card_slot_clicked.connect(Callable(self, "on_card_slot_clicked"))
-	EncounterBus.card_played.connect(Callable(self, "on_card_played"))
+	EncounterBus.action_activated.connect(self.on_action_activated)
+	
 #	# Connect to Encounter State Machine signals
 #	encounterStateMachine.encounter_state_changed.connect(self.on_encounter_state_changed)
 	
@@ -67,6 +59,11 @@ func load_from_slot_data_group(data: SlotDataGroup) -> void:
 		print("slot_data.column_name:  %s"  % slot_data.column_name)
 		print(GameData[GameData.COLUMN_STRING.keys()[slot_data.column_name]])
 		column_dict[GameData.getColumnStringByIndex(slot_data.column_name)].add_slot(slot_data, false)
+		
+	var tmp_slot_array : Array[SlotData] 
+	tmp_slot_array.append_array(playerSlotDatas)
+	tmp_slot_array.append_array(enemySlotDatas)
+	GameData.full_slot_array = tmp_slot_array
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -86,16 +83,9 @@ func _physics_process(delta):
 #
 #	update_actionUI()
 	
-	
 
-func on_slot_data_changed():
-	# Current way to update ui
-	var tmp_slot_array : Array[SlotData] 
-	tmp_slot_array.append_array(playerSlotDatas)
-	tmp_slot_array.append_array(enemySlotDatas)
-	tmp_slot_array.sort_custom(GameData.actionOrderComparison)
-	GameData.full_slot_array = tmp_slot_array
-	
+
+func on_slot_data_changed():	
 	var encounter_manager = get_node("../")
 	
 	
@@ -104,82 +94,129 @@ func on_slot_data_changed():
 			pass
 		"Fight":
 			pass
-		"Place":
-			pass
-		"Order":
-			#self.check_and_request_unit_action()
-			pass
 
+# func for handling order 
+# TODO move to a node
+func remove_and_append(start_idx : int , new_idx : int):
+	# Use start_idx or start of array
+	var saved_slot = GameData.full_slot_array.pop_at(start_idx if start_idx != null else 0)
+	# Use new_dx unless null then use end of array
+	GameData.full_slot_array.insert(new_idx if new_idx != null else len(GameData.full_slot_array)-1 , saved_slot)
+	EncounterBus.slot_data_changed.emit()
 	
 func on_fight_state_started() -> void:
 	self.fight()
+	
+	
+# Probably make a node for AllActionManager that can manage multiple actions at once
+func on_action_activated(slot_data  : SlotData):
+	assert(slot_data)
+	assert(slot_data.action_set)
+	assert(slot_data.action_data)
+	
+	if slot_data.action_data.requires_target:
+		var target_array = slot_data.action_targets
+		for target in target_array:
+			await slot_data.current_slot.unit_action(slot_data.action_data, target)
+			var action_data = slot_data.action_data
+			print("%s used [ %s] action %s " % [slot_data.unit_data.description, slot_data.action_data.name, target.unit_data.description])
+			#await EncounterBus.unit_attack_finished
+	else:
+		await slot_data.current_slot.unit_action(slot_data.action_data, null)
+		
+	# Reset slot_datas targets and action
+	slot_data.action_targets = []
+	slot_data.action_set = false
+	slot_data.action_data = null
+		
+	if slot_data.unit_data.action_points >= 0 or slot_data.action_data.will_end_turn:
+		# end units turn
+		slot_data.turn_over = true
+		EncounterBus.slot_data_changed.emit()
+	
+	pass
 
 func fight() -> void:
 	#UnitColumnGroup on state: "fight"
 	assert(GameData.full_slot_array)
 	
-	#unit_data
-	#for unit in units:
-	for slot_data in GameData.full_slot_array:
-		if slot_data.can_action() && slot_data.action_order:
+	var run : bool = true
+	# Find the first slot that needs an action
+	while run:
+		var result : SlotData = await self.check_and_request_unit_action()
+		
+		# reset slot_data.turn_over if result is null
+		if result == null:
+			print("EVERYONE HAS ATTACKED RESETTING")
+			for slot_data in GameData.full_slot_array:
+				slot_data.turn_over = false;
+			EncounterBus.slot_data_changed.emit()
+			continue
+		
+		# If slot found -> Apply conditions
+		if result:
+			await result.current_slot.resolve_conditions()
+		
+		# Check up on win condition
+		var all_enemies_dead = false
+		var all_enemies = GameData.full_slot_array.filter(func(x): return x.isEnemyUnit)
+		var lam = func(y):  
+			return y.unit_data.status == GameData.UNIT_STATUS.ALIVE 
+		var test2 = all_enemies.any(lam)
+		if test2 == false:
+			run = false;
+			continue
 			
-			if !slot_data.action_set:
-				continue
-			# Units act according to slot_data.action
+		# Request action
+		if result.isEnemyUnit == false:
+			var slot = result.current_slot
+			EncounterBus.action_request_ui.emit(slot)
+		else:
+			# Run AI action
+			EncounterBus.ai_action_request.emit(result)
 			
-			if slot_data.unit_data.requires_target(slot_data.action):
-				var target_array = slot_data.action_targets
-				for target in target_array:
-					await slot_data.current_slot.unit_action(slot_data.action, target)
-					print("%s attacked %s " % [slot_data.unit_data.description, target.unit_data.description])
-					#await EncounterBus.unit_attack_finished
-			else:
-				await slot_data.current_slot.unit_action(slot_data.action, null)
- 
+		
+		
+		# wait forever unil turn ended to solve action request
+		await EncounterBus.unit_turn_ended
+		
+		
+			
 	EncounterBus.fight_state_stopped.emit()
 	
-func on_order_action_started()-> void:
-	# Find the first slot that needs an action
-	self.check_and_request_unit_action()
 	
-func check_and_request_unit_action() -> void:
+	
+func check_and_request_unit_action():
 	assert(GameData.full_slot_array)
 	# Get First in attack order
 	for slot_data in GameData.full_slot_array:
-		if slot_data.isEnemyUnit == true:
-			if !GameData.debug_mode:
-				continue
-		if slot_data.action_set != false:
+		
+		if slot_data.turn_over == true:
 			continue
 			
-		var slot = slot_data.current_slot
-		EncounterBus.action_request_ui.emit(slot)
-		
+		if slot_data.unit_data.status == GameData.UNIT_STATUS.DEAD:
+			continue
+			
 		#Stop looping now that we found one
-		break
+		return slot_data
+		
 	
+	# If it gets here, then no unit is available and we need to reset 
+	return null
 
-func get_potential_action_targets(slot_data: SlotData, action: GameData.UNIT_ACTIONS) -> Array[SlotData]:
+func get_potential_action_targets(slot_data: SlotData, action_data: ActionData) -> Array[SlotData]:
 	var slot_actioning = slot_data.current_slot
 	assert(slot_actioning, "No slot found for slot_data")
 	
-	var should_select_friendly : bool = false
-	match action:
-		GameData.UNIT_ACTIONS["ATTACK"]:
-			pass
-		GameData.UNIT_ACTIONS["DEFEND"]:
-			pass
-		GameData.UNIT_ACTIONS["SUPPORT"]:
-			should_select_friendly = true
-		_:
-			push_warning("Default value used in unit_data's requires_target")
+	var should_select_friendly : bool =  \
+		true if action_data.target_type == GameData.ACTION_TARGET_TYPE.TARGET_ALLY else false
 			
 	var isEnemy = slot_data.isEnemyUnit
 	
 	var actioning_column : UnitColumn = slot_actioning.get_node("../../../")
 	
 	var targeted_columns : Array[UnitColumn] = []
-	var range: Array = slot_data.unit_data.get_range_by_action(action)
+	var range: Array = action_data.action_range
 	assert(range, "No Range set")
 	
 	var atk_col_index = actioning_column.column_data.colIndex
@@ -196,7 +233,7 @@ func get_potential_action_targets(slot_data: SlotData, action: GameData.UNIT_ACT
 				targeted_columns.append(tmp)
 			
 		# If player actioning at right end
-		if atk_col_index + distance <= 5:
+		if atk_col_index + distance <= len(GameData.COLUMN_STRING.keys())-1:
 			var tmp_index =atk_col_index + distance
 			
 			var tmp = column_dict[GameData.getColumnStringByIndex(tmp_index)]
@@ -208,7 +245,8 @@ func get_potential_action_targets(slot_data: SlotData, action: GameData.UNIT_ACT
 	var actionable_slots: Array[SlotData] = []
 	for column in targeted_columns:
 		for slot in column.unit_grid.get_children():
-			actionable_slots.append(slot.slot_data)
+			if slot.slot_data.unit_data.status == GameData.UNIT_STATUS.ALIVE:
+				actionable_slots.append(slot.slot_data)
 	
 	return actionable_slots
 			
@@ -217,92 +255,12 @@ func on_encounter_state_changed(state_name : String) -> void:
 	print("Signaled to on_encounter_state_changed %s" % state_name)
 	
 
+func find_available_columns_to_add_to(isEnemy: bool = false):
+	var adj_is_enemy : bool = isEnemy or GameData.acting_as_enemy
 	
-func on_card_slot_clicked(card_slot: CardSlot, column_type: GameData.COLUMN_TYPE, index: int, button: int)->void:
-	var encounter_manager = get_node("../")
-	
-	
-	match encounter_manager.encounterStateMachine.get_state_name():
-		"Start":
-			pass
-		"Fight":
-			pass
-		"Place":
-
-			if not card_slot.slot_data.abstract_card:
-				# Find available columns to add to
-				var columns_available = self.find_available_columns_to_add_to(card_slot)
-				# Highlight the columns
-				for column in columns_available:
-					column_dict[column].highlight_column()
-			
-		_:
-			print("default")
-	
-func on_card_played(card_slot: CardSlot, column_type: GameData.COLUMN_TYPE, index: int, button: int)->void:
-	var encounter_manager = get_node("../")
-	
-	
-	match encounter_manager.encounterStateMachine.get_state_name():
-		"Start":
-			pass
-		"Fight":
-			pass
-		"Place":
-				if not card_slot.slot_data.abstract_card:
-					# Add to card appropriate column
-					var column_to_add : UnitColumn = column_dict[GameData.getColumnStringByIndex(index)]
-					
-					# Create slot_data from card_slot_data
-					var slot_data = SlotData.new()
-					slot_data.init_unit_data(card_slot.slot_data.unit_data)
-					slot_data.isEnemyUnit = false
-					slot_data.column_name = GameData.getColumnStringByColumnType(column_type)
-					
-					var slot : Slot = column_to_add.add_slot(slot_data)
-					slot_data.current_slot = slot
-					
-					#Update the shared data
-					encounter_manager.columnGroup.playerSlotDatas.append(slot.slot_data)
-					EncounterBus.slot_data_changed.emit()
-					
-					# Emit signal to update CardHandInterface
-					EncounterBus.card_post_play.emit(card_slot, column_type, index, button)
-					
-					# Remove any highlights from columns
-					for column in column_dict:
-						column_dict[column].unhighlight_column()
-				else:
-					# Play it abstractly
-					pass
-		_:
-			print("default")
-
-func on_player_place_ended_turn()-> void:
-	var encounter_manager = get_node("../")
-	if encounter_manager.encounterStateMachine.get_state_name() == "Place":
-		# Handle any clean up before going to Attack Order state
-		EncounterBus.place_state_ended.emit()
-
-	
-
-func get_next_action_order(isEnemy: bool) -> int:
-	var data_to_check : Array[SlotData]
-
-	data_to_check = enemySlotDatas if isEnemy else playerSlotDatas
-	
-	var next_action_order : int = 1
-	for slot_data in data_to_check:
-		# Get highest action order
-		if slot_data.action_order >= next_action_order:
-			next_action_order = slot_data.action_order+1
-	
-	return next_action_order
-
-func find_available_columns_to_add_to(cardSlot: CardSlot, isEnemy: bool = false):
 	var columns_available = []
 	for column in column_dict:
-		if column_dict[column].isEnemy == isEnemy:
+		if column_dict[column].isEnemy == adj_is_enemy:
 			columns_available.append(column)
 	return columns_available
 

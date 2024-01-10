@@ -9,34 +9,26 @@ signal draft_state_started
 signal draft_state_ended
 
 # warning-ignore:unused_signal
-signal slot_data_changed
+signal slot_data_changed()
 # warning-ignore:unused_signal
-signal place_state_started
-# warning-ignore:unused_signal
-signal place_state_ended
-# warning-ignore:unused_signal
-signal player_place_ended_turn
-# warning-ignore:unused_signal
-signal card_slot_clicked(card_slot: CardSlot, column_type: GameData.COLUMN_TYPE, index: int, button: int)
-# warning-ignore:unused_signal
-signal card_played(card_slot: CardSlot, column_type: GameData.COLUMN_TYPE, index: int, button: int)
-# warning-ignore:unused_signal
-signal card_post_play(card_slot: CardSlot, column_type: GameData.COLUMN_TYPE, index: int, button: int)
+
 # warning-ignore:unused_signal
 signal column_clicked(column: UnitColumn, index: int, button:int)
 # warning-ignore:unused_signal
 signal place_unit
 
 # warning-ignore:unused_signal
-signal order_state_started
-# warning-ignore:unused_signal
-signal order_state_ended
-# warning-ignore:unused_signal
 signal action_request_ui(slot: Slot)
+# warning-ignore:unused_signal
+signal ai_action_request(slot_data: SlotData)
+# warning-ignore:unused_signal
+signal action_activated( slot_data: SlotData)
+
+
 
 # request_user_target_unit Uses GameData.ui_active_slot_data
 # warning-ignore:unused_signal
-signal request_user_target_unit(action: GameData.UNIT_ACTIONS, potential_targets: Array[SlotData])
+signal request_user_target_unit(action_data: ActionData, potential_targets: Array[SlotData])
 # warning-ignore:unused_signal
 signal end_request_user_target_unit
 
@@ -44,6 +36,10 @@ signal end_request_user_target_unit
 signal fight_state_started
 # warning-ignore:unused_signal
 signal fight_state_stopped
+
+# warning-ignore:unused_signal
+signal unit_turn_ended(slot_data : SlotData)
+
 # warning-ignore:unused_signal
 #signal slot_attacked(slot_data: SlotData, unit_attacking: SlotData)
 # warning-ignore:unused_signal
@@ -74,3 +70,8 @@ signal debug_ui(debug: bool)
 # UI 
 # warning-ignore:unused_signal
 signal ui_active_slot_data_changed 
+
+# warning-ignore:unused_signal
+signal request_recalculate_unit_order
+# warning-ignore:unused_signal
+signal finished_recalculate_unit_order

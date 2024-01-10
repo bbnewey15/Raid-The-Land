@@ -9,11 +9,11 @@ class_name SlotData
 @export var column_name: GameData.COLUMN_STRING
 @export var slotIndex: int
 var slot_position: Vector2
-@export var action_order: int = 0
 var action_targets : Array[SlotData]
-@export var action : GameData.UNIT_ACTIONS
+@export var action_data : ActionData
 @export var action_set : bool = false
 var current_slot : Slot
+@export var turn_over : bool = false
 
 func init_unit_data(data: UnitDataTest):
 	if data:
@@ -33,3 +33,4 @@ func can_action() -> bool:
 #		will_action = false
 	
 	return will_action
+

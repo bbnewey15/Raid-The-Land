@@ -22,7 +22,10 @@ func _ready():
 	EncounterBus.end_request_user_target_unit.connect(self.on_end_request_user_target_unit)
 	EncounterBus.ui_active_slot_data_changed.connect(self.on_ui_active_slot_data_changed)
 	
-	await get_parent().ready
+	# Hacky
+	var test = get_parent().get_parent()
+	
+	await test.loaded
 	self.unhighlight_slot()
 	assert(slot)
 	

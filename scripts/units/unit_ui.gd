@@ -14,7 +14,9 @@ var slot : Slot
 @onready var active_highlighter = %ActiveHighlighter
 @onready var conditions: HBoxContainer = %Conditions
 @onready var action_displayer: Control = %ActionDisplayer
+@onready var targeter = %Targeter
 
+signal loaded 
 
 var unit_data : UnitDataTest
 
@@ -31,6 +33,8 @@ func _ready():
 	
 	await get_parent().ready
 	assert(slot)
+	targeter.slot = self.slot as Slot
+	loaded.emit()
 
 func set_unit_data(data: UnitDataTest)-> void:
 	self.unit_data = data
@@ -50,6 +54,7 @@ func set_slot_data(data: SlotData)->void:
 		action_control_texture_rect.set_texture(null)
 #	if data.isEnemyUnit:
 #		order_control_label.add_theme_color_override("font_color","#ff5555")
+	targeter.slot = self.slot as Slot
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):

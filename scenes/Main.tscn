@@ -39,9 +39,9 @@ enemySlotDatasResourcePath = "res://resources/ColumnGroupsTest/enemy_slot_data_g
 unique_name_in_owner = true
 top_level = true
 offset_left = 363.0
-offset_top = 360.0
+offset_top = 260.0
 offset_right = -366.0
-offset_bottom = -200.0
+offset_bottom = -300.0
 
 [node name="OrderUi" parent="GUI/EncounterManager" instance=ExtResource("8_rx5hp")]
 

@@ -2,15 +2,14 @@ extends PanelContainer
 class_name Slot
 
 @onready var control_node = %UnitNode
-@onready var unit_ui = $UnitUi
-@onready var targeter = %Targeter
+@onready var unit_ui = %UnitUi
+
 var slot_data : SlotData 
 var unit_node : Node2D
 var basic_attack_path = "res://scripts/encounter/actions/attacks/basic_attack.tres"
 var heal_path = "res://scripts/encounter/actions/supports/heal_ally.tres"
 
 func _ready():
-	targeter.slot = self as Slot
 	unit_ui.slot = self as Slot
 	EncounterBus.slot_data_changed.connect(self.on_slot_data_changed)
 	
@@ -58,7 +57,7 @@ func set_slot_data(data: SlotData) -> void:
 func on_slot_data_changed():
 	# Current way to update ui
 	set_slot_data(slot_data)
-	targeter.slot = self as Slot
+	
 	
 func _process(delta):
 	pass

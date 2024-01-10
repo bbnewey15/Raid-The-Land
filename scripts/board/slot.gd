@@ -83,11 +83,17 @@ func _on_mouse_exited():
 
 func unit_action(action_data: ActionData, target: SlotData):
 	await self.unit_ui.action_displayer.display_action( action_data, self.slot_data)
+	
+	var hit_value = GameData.ACTION_SLIDER_HIT.HIT
+	if !slot_data.isEnemyUnit:
+		EncounterBus.action_slider_requested.emit(slot_data.action_data, slot_data, target)
+		hit_value = await EncounterBus.action_slider_completed
+	
 	match action_data.action_type:
 		GameData.UNIT_ACTIONS.ATTACK:
-			await self.attack(target)
+			await self.attack(target, hit_value)
 		GameData.UNIT_ACTIONS.DEBUFF:
-			await self.attack(target)
+			await self.attack(target, hit_value)
 		GameData.UNIT_ACTIONS.DEFEND:
 			await self.defend()
 		GameData.UNIT_ACTIONS.SUPPORT:
@@ -100,22 +106,17 @@ func unit_action(action_data: ActionData, target: SlotData):
 	EncounterBus.unit_turn_ended.emit(slot_data)
 	
 
-func attack(defending_slot_data: SlotData):
+func attack(defending_slot_data: SlotData, hit_value: GameData.ACTION_SLIDER_HIT):
 	# show animation, sound, update in data
 	var animation_player : AnimationPlayer = unit_node.get_node("AnimationPlayer")
 	animation_player.play("attack",-1,3)
 	#var a = await animation_player.animation_finished
 	await get_tree().create_timer(.6).timeout
 	#EncounterBus.slot_attacked.emit(self.slot_data, defending_slot_data)
-	await defending_slot_data.current_slot.receive_attack(self.slot_data as SlotData)
-	# 		is self dead? 
-	# 		//show animation, sound, update in data
-	
-	#await get_tree().create_timer(1.0).timeout
-
-	
-	# let EncounterBus know that we are done attacking
-	#EncounterBus.unit_attack_finished.emit(slot_data)
+	if hit_value == GameData.ACTION_SLIDER_HIT.MISS:
+		await self.miss_action(defending_slot_data)
+	else:
+		await defending_slot_data.current_slot.receive_attack(self.slot_data as SlotData)
 	
 
 func receive_attack(attackingUnit : SlotData):
@@ -180,6 +181,13 @@ func receive_support(supporting_unit : SlotData):
 
 	# Update UI to show new health
 	EncounterBus.slot_data_changed.emit()
+	
+func miss_action(target: SlotData):
+	var animation_player : AnimationPlayer = unit_node.get_node("AnimationPlayer")
+	animation_player.play("attack",-1,3)
+	await self.unit_ui.action_displayer.display_custom("MISS!", self.slot_data)
+	
+	await get_tree().create_timer(.6).timeout
 	
 func apply_condition(action_data: ActionData, slot_to_apply: SlotData):
 	assert(action_data)

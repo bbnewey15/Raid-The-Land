@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://cjn0k0cjh438d"]
+[gd_scene load_steps=10 format=3 uid="uid://cjn0k0cjh438d"]
 
 [ext_resource type="Script" path="res://scripts/Main.gd" id="1_o075c"]
 [ext_resource type="Script" path="res://scripts/World.gd" id="2_arvqx"]
@@ -8,6 +8,7 @@
 [ext_resource type="Script" path="res://scripts/encounter/EncounterManager.gd" id="5_v1psm"]
 [ext_resource type="PackedScene" uid="uid://cv6dog5eil5g3" path="res://scenes/encounter/order_ui.tscn" id="8_rx5hp"]
 [ext_resource type="PackedScene" uid="uid://3igdb1jenvn4" path="res://scenes/encounter/encounter_ui.tscn" id="9_3bn05"]
+[ext_resource type="PackedScene" uid="uid://cfwn2htte8urv" path="res://scenes/encounter/action_slider.tscn" id="9_aa2sr"]
 
 [node name="Main" type="Node"]
 script = ExtResource("1_o075c")
@@ -48,3 +49,13 @@ offset_bottom = -300.0
 [node name="EncounterUi" parent="GUI/EncounterManager" instance=ExtResource("9_3bn05")]
 size_flags_horizontal = 8
 size_flags_vertical = 8
+
+[node name="ActionSlider" parent="GUI/EncounterManager" instance=ExtResource("9_aa2sr")]
+custom_minimum_size = Vector2(800, 480)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_right = 0.0
+offset_bottom = 0.0

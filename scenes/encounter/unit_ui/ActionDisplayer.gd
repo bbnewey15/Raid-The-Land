@@ -23,3 +23,10 @@ func display_action( action_data : ActionData, slot_data: SlotData) :
 	await animation_player.animation_finished
 	action_label.set_self_modulate(Color(0,0,0,0)) 
 	return
+
+func display_custom( custom_message: String, slot_data: SlotData):
+	action_label.text = custom_message
+	animation_player.play("fade_in_out")
+	await animation_player.animation_finished
+	action_label.set_self_modulate(Color(0,0,0,0)) 
+	return

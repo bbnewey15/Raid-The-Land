@@ -41,6 +41,8 @@ const PLAYER_BACK_COL = "playerBackCol"
 const ENEMY_FRONT_COL = "enemyFrontCol" 
 const ENEMY_BACK_COL ="enemyBackCol"
 
+
+
 static func getColumnStringByIndex(index : int) -> String:
 	return GameData[GameData.COLUMN_STRING.keys()[index]]
 	
@@ -86,6 +88,8 @@ enum CONDITIONS { HEAL, WEAKEN,STRENGTHEN , SHAKEN, INSPIRED, INFECT , CURE}
 # STATUS
 enum UNIT_STATUS { ALIVE, DEAD }
 
+# ACTION SLIDER
+enum ACTION_SLIDER_HIT { MISS = 0, SLIGHT = 1, HIT = 2 }
 
 ## State 
 enum STATE_NAMES {START, DRAFT, FIGHT, POST_FIGHT}

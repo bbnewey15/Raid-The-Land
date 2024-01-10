@@ -24,7 +24,10 @@ signal ai_action_request(slot_data: SlotData)
 # warning-ignore:unused_signal
 signal action_activated( slot_data: SlotData)
 
-
+# warning-ignore:unused_signal
+signal action_slider_requested(action_data: ActionData, slot_data: SlotData, target_slot_data: SlotData)
+# warning-ignore:unused_signal
+signal action_slider_completed(action_slider_type: GameData.ACTION_SLIDER_HIT)
 
 # request_user_target_unit Uses GameData.ui_active_slot_data
 # warning-ignore:unused_signal

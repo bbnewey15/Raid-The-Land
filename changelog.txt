@@ -87,3 +87,18 @@ The mystery could be in discovery of hidden power - rewards per fight could be a
 Tasks:
 Research the gods and what they reward/punish
 
+Add 2 elements of war - 
+ actions use elements to work
+ elements are shared within the group
+ Wit(yellow) - spend to use buffs/heals/resource gain
+ Courage(green)- spend to attack - (add on hitting/ remove on getting hit)
+
+ Madness - sacrifice something for something,
+                    ie: take damage to attack
+ Defend to gain courage
+ 
+
+Between raids, you keep inventory but reset characters each raid.
+If you die, you lose all inventory but keep gold
+Every unit turn, choose a upgrade out of 3 upgrades,
+ every 3 unit turns, choose an action to add from skills tree

@@ -15,6 +15,7 @@ var slot : Slot
 @onready var conditions: HBoxContainer = %Conditions
 @onready var action_displayer: Control = %ActionDisplayer
 @onready var targeter = %Targeter
+@onready var level_up_manager = %LevelUpManager
 
 signal loaded 
 
@@ -55,6 +56,8 @@ func set_slot_data(data: SlotData)->void:
 #	if data.isEnemyUnit:
 #		order_control_label.add_theme_color_override("font_color","#ff5555")
 	targeter.slot = self.slot as Slot
+	level_up_manager.slot_data = self.slot.slot_data as SlotData
+	level_up_manager.initialize()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):

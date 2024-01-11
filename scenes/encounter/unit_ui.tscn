@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://cj2sokxjbe72j"]
+[gd_scene load_steps=17 format=3 uid="uid://cj2sokxjbe72j"]
 
 [ext_resource type="Script" path="res://scripts/units/unit_ui.gd" id="1_y42an"]
 [ext_resource type="Script" path="res://scripts/encounter/Conditions.gd" id="2_cx813"]
@@ -8,13 +8,15 @@
 [ext_resource type="FontFile" uid="uid://yf5bgg5euvia" path="res://assets/fonts/vikingsquad/vikingsquadcondital.ttf" id="3_46auq"]
 [ext_resource type="Texture2D" uid="uid://da6wl6gbj4c2y" path="res://assets/attack_icon.png" id="3_qda4a"]
 [ext_resource type="PackedScene" uid="uid://cvtnv6sepx2y8" path="res://scenes/encounter/unit_ui/condition.tscn" id="3_v2com"]
+[ext_resource type="PackedScene" uid="uid://36kqmjxwjlws" path="res://scenes/encounter/unit_ui/level_up_panel.tscn" id="5_2homb"]
+[ext_resource type="Script" path="res://scripts/encounter/unit_ui/level_up_manager.gd" id="5_amqqv"]
 
 [sub_resource type="Animation" id="Animation_6tfwl"]
 length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("MarginContainer/ActionLabel:self_modulate")
+tracks/0/path = NodePath("ActionLabelContainer/ActionLabel:self_modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -26,7 +28,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("%ActionLabel:position")
+tracks/1/path = NodePath("ActionLabelContainer/ActionLabel:position")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -60,7 +62,7 @@ tracks/3/keys = {
 tracks/4/type = "bezier"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("MarginContainer:position:y")
+tracks/4/path = NodePath("ActionLabelContainer:position:y")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
@@ -74,7 +76,7 @@ resource_name = "fade_in_out"
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("MarginContainer/ActionLabel:self_modulate")
+tracks/0/path = NodePath("ActionLabelContainer/ActionLabel:self_modulate")
 tracks/0/interp = 2
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -86,7 +88,7 @@ tracks/0/keys = {
 tracks/1/type = "bezier"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("MarginContainer:position:y")
+tracks/1/path = NodePath("ActionLabelContainer:position:y")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -100,7 +102,7 @@ resource_name = "fade_out"
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("MarginContainer/ActionLabel:self_modulate")
+tracks/0/path = NodePath("ActionLabelContainer/ActionLabel:self_modulate")
 tracks/0/interp = 2
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -173,29 +175,37 @@ anchor_right = 1.0
 offset_bottom = 4.0
 grow_horizontal = 2
 
-[node name="ActionDisplayer" type="Control" parent="VBoxContainer"]
-unique_name_in_owner = true
+[node name="UpperUIContainer" type="Control" parent="VBoxContainer"]
 custom_minimum_size = Vector2(0, 60)
 layout_mode = 2
+
+[node name="ActionDisplayer" type="Control" parent="VBoxContainer/UpperUIContainer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+anchors_preset = 0
+offset_right = 200.0
+offset_bottom = 60.0
 script = ExtResource("2_sorbp")
 
-[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/ActionDisplayer"]
+[node name="ActionLabelContainer" type="MarginContainer" parent="VBoxContainer/UpperUIContainer/ActionDisplayer"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = -17.0
 offset_top = -2.5
-offset_right = 17.0
-offset_bottom = 2.5
+offset_right = 217.0
+offset_bottom = 62.5
 grow_horizontal = 2
 grow_vertical = 2
+pivot_offset = Vector2(386, 60.5)
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 
-[node name="ActionLabel" type="Label" parent="VBoxContainer/ActionDisplayer/MarginContainer"]
+[node name="ActionLabel" type="Label" parent="VBoxContainer/UpperUIContainer/ActionDisplayer/ActionLabelContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
@@ -206,10 +216,43 @@ text = "Test action"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="VBoxContainer/ActionDisplayer"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="VBoxContainer/UpperUIContainer/ActionDisplayer"]
 libraries = {
 "": SubResource("AnimationLibrary_o8xpa")
 }
+
+[node name="LevelUpManager" type="Control" parent="VBoxContainer/UpperUIContainer"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("5_amqqv")
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/UpperUIContainer/LevelUpManager"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PanelContainer" type="HBoxContainer" parent="VBoxContainer/UpperUIContainer/LevelUpManager/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 7
+alignment = 1
+
+[node name="Panel" parent="VBoxContainer/UpperUIContainer/LevelUpManager/MarginContainer/PanelContainer" instance=ExtResource("5_2homb")]
+layout_mode = 2
+
+[node name="Panel2" parent="VBoxContainer/UpperUIContainer/LevelUpManager/MarginContainer/PanelContainer" instance=ExtResource("5_2homb")]
+layout_mode = 2
+
+[node name="Panel3" parent="VBoxContainer/UpperUIContainer/LevelUpManager/MarginContainer/PanelContainer" instance=ExtResource("5_2homb")]
+layout_mode = 2
 
 [node name="Conditions" type="HBoxContainer" parent="VBoxContainer"]
 unique_name_in_owner = true

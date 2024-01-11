@@ -1,20 +1,20 @@
-[gd_resource type="Resource" script_class="UnitDataTest" load_steps=9 format=3 uid="uid://deook0vixfbqa"]
+[gd_resource type="Resource" script_class="UnitDataTest" load_steps=9 format=3 uid="uid://d3wt0dkf8fsgk"]
 
-[ext_resource type="Script" path="res://scripts/units/unit_data.gd" id="1_urgia"]
-[ext_resource type="Script" path="res://datatypes/skill_tree_data.gd" id="2_73m62"]
-[ext_resource type="Texture2D" uid="uid://cntmgxfgw1gmc" path="res://assets/spear_stolen.PNG" id="2_bk65b"]
-[ext_resource type="Script" path="res://datatypes/skill_tree_item_data.gd" id="3_4soam"]
+[ext_resource type="Script" path="res://scripts/units/unit_data.gd" id="1_ouccf"]
+[ext_resource type="Script" path="res://datatypes/skill_tree_data.gd" id="2_0gcoy"]
+[ext_resource type="Script" path="res://datatypes/skill_tree_item_data.gd" id="3_5cc7k"]
+[ext_resource type="Texture2D" uid="uid://cntmgxfgw1gmc" path="res://assets/spear_stolen.PNG" id="4_yiesw"]
 
 [sub_resource type="Resource" id="Resource_pkimo"]
-script = ExtResource("3_4soam")
-item_name = "Evasive"
-attribute_link = 7
+script = ExtResource("3_5cc7k")
+item_name = "Health"
+attribute_link = 0
 num_levels = 3
 current_level = 0
 unlock_actions = Array[Resource("res://datatypes/action_data.gd")]([])
 
 [sub_resource type="Resource" id="Resource_bh32t"]
-script = ExtResource("3_4soam")
+script = ExtResource("3_5cc7k")
 item_name = "Damage"
 attribute_link = 2
 num_levels = 3
@@ -22,7 +22,7 @@ current_level = 0
 unlock_actions = Array[Resource("res://datatypes/action_data.gd")]([])
 
 [sub_resource type="Resource" id="Resource_see12"]
-script = ExtResource("3_4soam")
+script = ExtResource("3_5cc7k")
 item_name = "Block"
 attribute_link = 4
 num_levels = 3
@@ -30,14 +30,14 @@ current_level = 0
 unlock_actions = Array[Resource("res://datatypes/action_data.gd")]([])
 
 [sub_resource type="Resource" id="Resource_2yn27"]
-script = ExtResource("2_73m62")
-skill_tree_level_1 = Array[ExtResource("3_4soam")]([SubResource("Resource_pkimo"), SubResource("Resource_bh32t"), SubResource("Resource_see12")])
+script = ExtResource("2_0gcoy")
+skill_tree_level_1 = Array[ExtResource("3_5cc7k")]([SubResource("Resource_pkimo"), SubResource("Resource_bh32t"), SubResource("Resource_see12")])
 
 [resource]
-script = ExtResource("1_urgia")
+script = ExtResource("1_ouccf")
 name = "Spearman"
 description = "A simple minded infantry unit."
-texture = ExtResource("2_bk65b")
+texture = ExtResource("4_yiesw")
 unit_node_path = "res://scenes/units/spearman.tscn"
 column_type = 2
 max_health = 100

@@ -25,7 +25,7 @@ func on_action_slider_requested(action_data: ActionData, slot_data: SlotData, ta
 	
 
 func get_speed_based_of_slider(action_data: ActionData, slot_data: SlotData, target_slot_data: SlotData) -> float:
-	return 2
+	return 6
 
 
 func _on_gui_input(event):
@@ -34,18 +34,22 @@ func _on_gui_input(event):
 		and event.is_pressed() and active == true:
 			# stop animation and find position
 			saved_position = slider_bar.get_global_position()
-
+			var slider_result : GameData.ACTION_SLIDER_HIT
 			var test_2_position = polygon_2d.get_global_position()
 
 			animation_player.stop(true)
 			await get_tree().create_timer(.6).timeout
 			# size of polygon2 is 20
 			if saved_position.x < test_2_position.x + 20 and saved_position.x >  test_2_position.x:
-				EncounterBus.action_slider_completed.emit(GameData.ACTION_SLIDER_HIT.HIT)
+				slider_result = GameData.ACTION_SLIDER_HIT.HIT
 				print("HIT")
-			else:
+			if saved_position.x < test_2_position.x + 100 and saved_position.x >  test_2_position.x - 80:
+				slider_result = GameData.ACTION_SLIDER_HIT.SLIGHT
+			
+			if slider_result == null:
 				print("MISS - slider_x: %s and test_2_x: %s" % [saved_position.x, test_2_position.x] )
-				EncounterBus.action_slider_completed.emit(GameData.ACTION_SLIDER_HIT.MISS)
+				slider_result = GameData.ACTION_SLIDER_HIT.MISS
 				
+			EncounterBus.action_slider_completed.emit(slider_result)
 			self.hide()
 			self.active = false

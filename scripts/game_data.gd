@@ -46,6 +46,9 @@ const ENEMY_BACK_COL ="enemyBackCol"
 static func getColumnStringByIndex(index : int) -> String:
 	return GameData[GameData.COLUMN_STRING.keys()[index]]
 	
+static func getStringEnumByIndex(enum_name: String, index : int) -> String:
+	return GameData[GameData["enum_name"].keys()[index]]
+	
 func getColumnStringByColumnType(column_type: COLUMN_TYPE, isEnemy: bool =false)-> String:
 	var return_value = null
 	var test = COLUMN_TYPE.keys()[column_type]
@@ -74,6 +77,17 @@ enum MOVE_DIRECTION {LEFT = 0, RIGHT = 1}
 
 # Action related
 enum UNIT_ACTIONS {ATTACK  , DEFEND , SUPPORT, DEBUFF }
+
+# UNIT DATA ATTRIBUTES
+enum UNIT_DATA_ATTRIBUTES { MAX_HEALTH, MAX_AP, DAMAGE, SUPPORT_AMOUNT, DEFEND_RATIO, EAGERNESS, HEALTH, EVASIVENESS}
+const MAX_HEALTH ="max_health"
+const MAX_AP = "max_ap"
+const DAMAGE= "damage"
+const SUPPORT_AMOUNT="support_amount"
+const DEFEND_RATIO="defend_ratio"
+const EAGERNESS="eagerness"
+const HEALTH="health"
+const EVASIVENESS="evasiveness"
 
 const ATTACK_ICON = preload("res://assets/attack_icon.png")
 const DEFENSE_ICON = preload("res://assets/defense_icon.png")

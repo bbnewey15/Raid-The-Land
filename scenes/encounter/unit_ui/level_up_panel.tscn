@@ -1,0 +1,84 @@
+[gd_scene load_steps=3 format=3 uid="uid://36kqmjxwjlws"]
+
+[ext_resource type="Script" path="res://scripts/encounter/unit_ui/level_up_panel.gd" id="1_1qogd"]
+[ext_resource type="FontFile" uid="uid://dik8lf5c5i8ae" path="res://assets/fonts/vikingsquad/vikingsquadsemital.ttf" id="1_lpd6t"]
+
+[node name="Panel" type="Panel"]
+custom_minimum_size = Vector2(60, 60)
+script = ExtResource("1_1qogd")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="Panel" type="Panel" parent="MarginContainer"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="MarginContainer/Panel/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 5
+theme_override_constants/shadow_outline_size = 0
+theme_override_fonts/font = ExtResource("1_lpd6t")
+theme_override_font_sizes/font_size = 17
+text = "+1 Attack"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/Panel/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 7
+
+[node name="IndicatorContainer" type="HBoxContainer" parent="MarginContainer/Panel/VBoxContainer/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="indicator" type="Polygon2D" parent="MarginContainer/Panel/VBoxContainer/MarginContainer/IndicatorContainer"]
+unique_name_in_owner = true
+visible = false
+position = Vector2(10, 1)
+color = Color(1, 0.839216, 0.168627, 1)
+offset = Vector2(-5, -4)
+polygon = PackedVector2Array(5, 7, 8, 10, 11, 7, 8, 4)
+
+[node name="indicator2" type="Polygon2D" parent="MarginContainer/Panel/VBoxContainer/MarginContainer/IndicatorContainer"]
+unique_name_in_owner = true
+visible = false
+position = Vector2(10, 1)
+color = Color(1, 0.839216, 0.168627, 1)
+offset = Vector2(-5, -4)
+polygon = PackedVector2Array(5, 7, 8, 10, 11, 7, 8, 4)
+
+[node name="indicator3" type="Polygon2D" parent="MarginContainer/Panel/VBoxContainer/MarginContainer/IndicatorContainer"]
+unique_name_in_owner = true
+visible = false
+position = Vector2(10, 1)
+color = Color(1, 0.839216, 0.168627, 1)
+offset = Vector2(-5, -4)
+polygon = PackedVector2Array(5, 7, 8, 10, 11, 7, 8, 4)
+
+[connection signal="gui_input" from="." to="." method="_on_gui_input"]
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]

@@ -5,17 +5,26 @@ class_name UnitDataTest extends Resource
 @export var texture: Texture
 @export var unit_node_path: String
 @export var column_type: GameData.COLUMN_TYPE
+
+# If you add an attribute, add to GameData.UNIT_DATA_ATTRIBUTES
 @export var max_health: int = 100
 @export var max_ap : int = 5
 @export var damage: int = 35
 @export var support_amount : int = 15
 @export var defend_ratio: float = .60
-@export var status: GameData.UNIT_STATUS =  GameData.UNIT_STATUS.ALIVE
-@export var eagerness = 10
 @export var health = max_health
 @export var action_points : int = max_ap
+@export var eagerness = 10
+@export var evasiveness = 10
+
+@export var status: GameData.UNIT_STATUS =  GameData.UNIT_STATUS.ALIVE
+
+
 @export var conditions : Array[ConditionData] = []
 @export var action_manager : ActionManager 
+@export var skill_tree : SkillTreeData
+
+
 
 
 signal unit_moved(id: int, direction: GameData.MOVE_DIRECTION)

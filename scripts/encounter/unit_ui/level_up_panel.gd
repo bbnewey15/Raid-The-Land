@@ -9,6 +9,8 @@ extends Panel
 @export var total_indicators: Array[Polygon2D]
 @export var skill_tree_item_data : SkillTreeItemData
 
+signal level_clicked(skill_tree_item_data: SkillTreeItemData)
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	for child in indicator_container.get_children():
@@ -41,7 +43,10 @@ func init_from_data():
 		
 
 func _on_gui_input(event):
-	pass # Replace with function body.
+	if event is InputEventMouseButton \
+		and (event.button_index == MOUSE_BUTTON_LEFT) \
+		and event.is_pressed():
+			self.level_clicked.emit(self.skill_tree_item_data)
 
 
 func _on_mouse_entered():

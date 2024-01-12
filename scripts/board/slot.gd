@@ -82,7 +82,7 @@ func _on_mouse_exited():
 	pass # Replace with function body.
 
 func unit_action(action_data: ActionData, target: SlotData):
-	await self.unit_ui.action_displayer.display_action( action_data, self.slot_data)
+	await self.unit_ui.action_displayer.display_action( action_data)
 	
 	var hit_value = GameData.ACTION_SLIDER_HIT.HIT
 	if !slot_data.isEnemyUnit:
@@ -185,7 +185,7 @@ func receive_support(supporting_unit : SlotData):
 func miss_action(target: SlotData):
 	var animation_player : AnimationPlayer = unit_node.get_node("AnimationPlayer")
 	animation_player.play("attack",-1,3)
-	await self.unit_ui.action_displayer.display_custom("MISS!", self.slot_data)
+	await self.unit_ui.action_displayer.display_custom("MISS!")
 	
 	await get_tree().create_timer(.6).timeout
 	

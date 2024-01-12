@@ -167,6 +167,12 @@ func fight() -> void:
 			run = false;
 			continue
 			
+		# Level up player unit
+		if !result.isEnemyUnit:
+			var slot = result.current_slot
+			EncounterBus.level_up_request_ui.emit(slot)
+			await EncounterBus.level_up_finished
+			
 		# Request action
 		if result.isEnemyUnit == false:
 			var slot = result.current_slot

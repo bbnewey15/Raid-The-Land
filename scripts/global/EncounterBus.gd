@@ -18,6 +18,11 @@ signal column_clicked(column: UnitColumn, index: int, button:int)
 signal place_unit
 
 # warning-ignore:unused_signal
+signal level_up_request_ui(slot: Slot)
+# warning-ignore:unused_signal
+signal level_up_finished
+
+# warning-ignore:unused_signal
 signal action_request_ui(slot: Slot)
 # warning-ignore:unused_signal
 signal ai_action_request(slot_data: SlotData)
@@ -28,6 +33,7 @@ signal action_activated( slot_data: SlotData)
 signal action_slider_requested(action_data: ActionData, slot_data: SlotData, target_slot_data: SlotData)
 # warning-ignore:unused_signal
 signal action_slider_completed(action_slider_type: GameData.ACTION_SLIDER_HIT)
+
 
 # request_user_target_unit Uses GameData.ui_active_slot_data
 # warning-ignore:unused_signal
@@ -78,3 +84,4 @@ signal ui_active_slot_data_changed
 signal request_recalculate_unit_order
 # warning-ignore:unused_signal
 signal finished_recalculate_unit_order
+

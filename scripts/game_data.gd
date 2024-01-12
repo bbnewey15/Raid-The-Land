@@ -47,7 +47,7 @@ static func getColumnStringByIndex(index : int) -> String:
 	return GameData[GameData.COLUMN_STRING.keys()[index]]
 	
 static func getStringEnumByIndex(enum_name: String, index : int) -> String:
-	return GameData[GameData["enum_name"].keys()[index]]
+	return GameData[GameData[enum_name].keys()[index]]
 	
 func getColumnStringByColumnType(column_type: COLUMN_TYPE, isEnemy: bool =false)-> String:
 	var return_value = null

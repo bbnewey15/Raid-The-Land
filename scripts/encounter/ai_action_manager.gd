@@ -75,7 +75,8 @@ func on_ai_action_request(slot_data: SlotData):
 	
 	var action_data = slot_data.unit_data.action_manager.get_random_action_by_weight(filter_for_actions, attack_weight, debuff_weight, heal_weight )
 	
-	GameData.set_ui_active_slot_data(slot_data)
+#	GameData.set_ui_active_slot_data(slot_data)
+	assert(GameData.ui_active_slot_data)
 	GameData.ui_active_slot_data.action_set = true
 	GameData.ui_active_slot_data.action_data = action_data
 	EncounterBus.slot_data_changed.emit()

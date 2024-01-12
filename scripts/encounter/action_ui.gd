@@ -15,7 +15,7 @@ var encounter_manager : EncounterManager
 func _ready():
 	
 	UiManager.register_ui_module(self as ActionUI)
-	
+
 	EncounterBus.unit_selected.connect(self.on_unit_selected)
 	EncounterBus.action_request_ui.connect(self.on_action_request_ui)
 	EncounterBus.ui_active_slot_data_changed.connect(self.update_actionUI)
@@ -100,19 +100,11 @@ func on_unit_selected(slot_data: SlotData, button: int) -> void:
 			print("default")
 			
 func on_unit_turn_ended(slot_data: SlotData):
-	self.update_actionUI()
+	self.hide()
+	#self.update_actionUI()
 		
 func on_action_request_ui(slot: Slot):
-	if GameData.ui_active_slot_data:
-		assert(GameData.ui_active_slot_data)
-		if GameData.ui_active_slot_data != slot.slot_data:
-			GameData.set_ui_active_slot_data(null)
-			EncounterBus.end_request_user_target_unit.emit()
-			
-			
 	
-	assert(slot)
-	GameData.set_ui_active_slot_data(slot.slot_data)
 	
 	if GameData.ui_active_slot_data.action_set:
 		self.get_potential_targets_and_emit(slot.slot_data.action_data)
@@ -121,6 +113,7 @@ func on_action_request_ui(slot: Slot):
 		"Start":
 			pass
 		"Fight":
+			self.show()
 			self.update_actionUI()
 		"PostFight":
 			pass
@@ -147,7 +140,7 @@ func update_actionUI() -> void:
 				for action in actions_available:
 					self.add_action(action)
 					
-				self.show()
+				
 				move_actions.hide()
 				unit_actions.show()
 			else:

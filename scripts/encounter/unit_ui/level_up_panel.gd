@@ -1,4 +1,5 @@
 extends Panel
+@onready var label = %Label
 
 @onready var indicator = %indicator
 @onready var indicator_2 = %indicator2
@@ -31,6 +32,10 @@ func on_slot_data_changed():
 	
 func init_from_data():
 	assert(self.skill_tree_item_data)
+	
+	#Set Label
+	label.text = "+1 " + GameData.getStringEnumByIndex( "UNIT_DATA_ATTRIBUTES", skill_tree_item_data.attribute_link)
+	
 	for child in indicator_container.get_children():
 		child.hide()
 	if self.skill_tree_item_data.current_level >= 1:

@@ -21,7 +21,6 @@ func initialize(slot: Slot):
 	assert(slot)
 	assert(slot.slot_data)
 	self.slot = slot
-	self.build_panels()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -45,6 +44,7 @@ func clean_up():
 	
 func build_panels():
 	assert(self.slot.slot_data)
+	self.remove_child_panels()
 	#Build panels 
 	for skill_tree_item_data in self.slot.slot_data.unit_data.skill_tree.skill_tree_level_1:
 		var panel = panel_scene.instantiate()
@@ -55,10 +55,10 @@ func build_panels():
 
 func on_level_clicked(skill_tree_item_data: SkillTreeItemData):
 	EncounterBus.level_up_finished.emit()
+	self.clean_up()
 	await self.slot.unit_ui.action_displayer.display_custom("+" + \
 	 GameData.getStringEnumByIndex( "UNIT_DATA_ATTRIBUTES", skill_tree_item_data.attribute_link) )
-	self.clean_up()
-
+	
 #func on_slot_data_changed():
 #	assert(self.slot_data)
 #	self.build_panels()

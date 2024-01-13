@@ -18,9 +18,11 @@ var current_slot : Slot
 func init_unit_data(data: UnitDataTest):
 	if data:
 		unit_data = data
+		unit_data.initialize()
 	else:
 		var resource_template = load(unit_data_path)
 		unit_data = resource_template.duplicate(true)
+		unit_data.initialize()
 
 func set_slot_position(pos: Vector2)->void:
 	slot_position = pos

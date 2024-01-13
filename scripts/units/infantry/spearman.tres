@@ -1,14 +1,15 @@
-[gd_resource type="Resource" script_class="UnitDataTest" load_steps=9 format=3 uid="uid://deook0vixfbqa"]
+[gd_resource type="Resource" script_class="UnitDataTest" load_steps=10 format=3 uid="uid://deook0vixfbqa"]
 
 [ext_resource type="Script" path="res://scripts/units/unit_data.gd" id="1_urgia"]
 [ext_resource type="Script" path="res://datatypes/skill_tree_data.gd" id="2_73m62"]
 [ext_resource type="Texture2D" uid="uid://cntmgxfgw1gmc" path="res://assets/spear_stolen.PNG" id="2_bk65b"]
 [ext_resource type="Script" path="res://datatypes/skill_tree_item_data.gd" id="3_4soam"]
+[ext_resource type="Resource" uid="uid://bndeq0fqi5fwk" path="res://scripts/units/infantry/spearman/spearman_stat_data.tres" id="4_24263"]
 
 [sub_resource type="Resource" id="Resource_pkimo"]
 script = ExtResource("3_4soam")
 item_name = "Evasive"
-attribute_link = 7
+attribute_link = 6
 num_levels = 3
 current_level = 0
 unlock_actions = Array[Resource("res://datatypes/action_data.gd")]([])
@@ -40,15 +41,9 @@ description = "A simple minded infantry unit."
 texture = ExtResource("2_bk65b")
 unit_node_path = "res://scenes/units/spearman.tscn"
 column_type = 2
-max_health = 100
-max_ap = 5
-damage = 35
-support_amount = 15
-defend_ratio = 0.6
-health = 100
-action_points = 5
-eagerness = 10
-evasiveness = 10
+stat_data = ExtResource("4_24263")
+action_points = 0
+health = 0
 status = 0
 conditions = Array[Resource("res://datatypes/condition_data.gd")]([])
 skill_tree = SubResource("Resource_2yn27")

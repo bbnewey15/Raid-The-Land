@@ -38,7 +38,7 @@ func on_ai_action_request(slot_data: SlotData):
 	
 	# What questions should the AI ask?
 	# Do I have low health?
-	var percentage_health : float = float(slot_data.unit_data.health) / slot_data.unit_data.max_health
+	var percentage_health : float = float(slot_data.unit_data.health) / slot_data.unit_data.stat_data.getAttribute(GameData.UNIT_DATA_ATTRIBUTES.MAX_HEALTH).value
 	
 	if percentage_health > 0 and percentage_health < .33:
 		heal_weight = 8
@@ -50,7 +50,7 @@ func on_ai_action_request(slot_data: SlotData):
 	# Does the enemy have low health?
 	var player_slots = GameData.full_slot_array.filter(func(x): return !x.isEnemyUnit)
 	for player_slot_data in player_slots:
-		var tmp_health_percentage : float = float(player_slot_data.unit_data.health) / player_slot_data.unit_data.max_health
+		var tmp_health_percentage : float = float(player_slot_data.unit_data.health) / player_slot_data.unit_data.stat_data.getAttribute(GameData.UNIT_DATA_ATTRIBUTES.MAX_HEALTH).value
 		if tmp_health_percentage > 0 and tmp_health_percentage < .33:
 			attack_weight = 15 if attack_weight < 15 else attack_weight
 		if percentage_health >= .34 and percentage_health < .66:

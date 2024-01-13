@@ -79,14 +79,13 @@ enum MOVE_DIRECTION {LEFT = 0, RIGHT = 1}
 enum UNIT_ACTIONS {ATTACK  , DEFEND , SUPPORT, DEBUFF }
 
 # UNIT DATA ATTRIBUTES
-enum UNIT_DATA_ATTRIBUTES { MAX_HEALTH, MAX_AP, DAMAGE, SUPPORT_AMOUNT, DEFEND_RATIO, EAGERNESS, HEALTH, EVASIVENESS}
+enum UNIT_DATA_ATTRIBUTES { MAX_HEALTH = 0, MAX_AP = 1, DAMAGE =2, SUPPORT_AMOUNT=3, DEFEND_RATIO=4, EAGERNESS=5, EVASIVENESS=6}
 const MAX_HEALTH ="max_health"
 const MAX_AP = "max_ap"
 const DAMAGE= "damage"
 const SUPPORT_AMOUNT="support_amount"
 const DEFEND_RATIO="defend_ratio"
 const EAGERNESS="eagerness"
-const HEALTH="health"
 const EVASIVENESS="evasiveness"
 
 const ATTACK_ICON = preload("res://assets/attack_icon.png")
@@ -129,16 +128,17 @@ func sort_full_slot_datas(full_array: Array[SlotData]) -> Array[SlotData]:
 	return final_array
 
 func eagernessOrderComparison(a : SlotData, b : SlotData):
-	
+	var a_eagerness = a.unit_data.stat_data.getAttribute(GameData.UNIT_DATA_ATTRIBUTES.EAGERNESS).value
+	var b_eagerness = b.unit_data.stat_data.getAttribute(GameData.UNIT_DATA_ATTRIBUTES.EAGERNESS).value
 	
 		
-	if typeof(a.unit_data.eagerness) != typeof(b.unit_data.eagerness):
-		return typeof(a.unit_data.eagerness) > typeof(b.unit_data.eagerness)
+	if typeof(a_eagerness) != typeof(b_eagerness):
+		return typeof(a_eagerness) > typeof(b_eagerness)
 	else:
-		if  a.unit_data.eagerness == b.unit_data.eagerness:
+		if  a_eagerness == b_eagerness:
 			if !a.isEnemyUnit and b.isEnemyUnit:
 				return true
 			if !b.isEnemyUnit and a.isEnemyUnit:
 				return false
 				
-		return a.unit_data.eagerness > b.unit_data.eagerness
+		return a_eagerness > b_eagerness

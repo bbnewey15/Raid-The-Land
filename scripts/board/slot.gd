@@ -13,15 +13,16 @@ func _ready():
 	unit_ui.slot = self as Slot
 	EncounterBus.slot_data_changed.connect(self.on_slot_data_changed)
 	
+func initialize(slot_data: SlotData):
+	self.slot_data = slot_data
+	self.slot_data.current_slot = self
+	slot_data.init_unit_data(slot_data.unit_data)
 
 func set_slot_data(data: SlotData) -> void:
 	if unit_node:
 		unit_node.queue_free()
 		
-	self.slot_data = data
-	self.slot_data.current_slot = self
 	
-	slot_data.init_unit_data(slot_data.unit_data)
 	#texture_rect.texture = unit_data.texture
 	var unit_node_scene = load(slot_data.unit_data.unit_node_path)
 	unit_node = unit_node_scene.instantiate()
@@ -127,16 +128,17 @@ func receive_attack(attackingUnit : SlotData):
 	tween.tween_property(unit_node, "modulate:v", 1, 0.25).from(15)
 	await tween.finished
 	
-	var damage_done = attackingUnit.unit_data.damage
+	var damage_done = attackingUnit.unit_data.stat_data.getAttribute(GameData.UNIT_DATA_ATTRIBUTES.DAMAGE).value
 	
 	# Check blocking
 	var adj_damage_done = damage_done
 #	if self.slot_data.action_data == GameData.UNIT_ACTIONS["DEFEND"]:
-#		adj_damage_done = damage_done - ( damage_done * self.slot_data.unit_data.defend_ratio )
+#		adj_damage_done = damage_done - ( damage_done * self.slot_data.unit_data.stat_data.getAttribute(GameData.UNIT_DATA_ATTRIBUTES.DEFEND).value )
 	
 	print("self.slot_data.unit_data.health - damage_done %s" % str(self.slot_data.unit_data.health - adj_damage_done))
 	var new_health = self.slot_data.unit_data.health - adj_damage_done
 	# Update unit datas new health
+	var unit_data = self.slot_data.unit_data
 	self.slot_data.unit_data.update_health(new_health)
 	
 	# Apply conditions

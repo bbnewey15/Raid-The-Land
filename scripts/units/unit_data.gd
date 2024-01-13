@@ -6,16 +6,19 @@ class_name UnitDataTest extends Resource
 @export var unit_node_path: String
 @export var column_type: GameData.COLUMN_TYPE
 
+@export var stat_data: UnitStatData
 # If you add an attribute, add to GameData.UNIT_DATA_ATTRIBUTES
-@export var max_health: int = 100
-@export var max_ap : int = 5
-@export var damage: int = 35
-@export var support_amount : int = 15
-@export var defend_ratio: float = .60
-@export var health = max_health
-@export var action_points : int = max_ap
-@export var eagerness = 10
-@export var evasiveness = 10
+#@export var max_health: int = 100
+#@export var max_ap : int = 5
+#@export var damage: int = 35
+#@export var support_amount : int = 15
+#@export var defend_ratio: float = .60
+
+#@export var eagerness = 10
+#@export var evasiveness = 10
+
+@export var action_points : int 
+@export var health : int
 
 @export var status: GameData.UNIT_STATUS =  GameData.UNIT_STATUS.ALIVE
 
@@ -25,7 +28,12 @@ class_name UnitDataTest extends Resource
 @export var skill_tree : SkillTreeData
 
 
-
+func initialize():
+	assert(stat_data)
+	assert(skill_tree)
+	assert(unit_node_path)
+	self.health = stat_data.getAttribute(GameData.UNIT_DATA_ATTRIBUTES.MAX_HEALTH).value
+	
 
 signal unit_moved(id: int, direction: GameData.MOVE_DIRECTION)
 
@@ -35,7 +43,9 @@ func move_unit(direction: GameData.MOVE_DIRECTION ):
 	unit_moved.emit(self.get_instance_id(), direction)
 	
 func update_health(new_health: int):
-	health = new_health
+	self.health = new_health
+	
+
 
 
 func add_condition(condition_data: ConditionData):

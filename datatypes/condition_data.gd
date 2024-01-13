@@ -11,13 +11,13 @@ func execute(unit_data: UnitDataTest):
 	# HEAL, WEAKEN,STRENGTHEN , SHAKEN, INSPIRED, INFECT , CURE
 	match condition:
 		GameData.CONDITIONS.HEAL:
-			var healing_done = unit_data.support_amount * ratio
+			var healing_done = unit_data.stat_data.getAttribute(GameData.UNIT_DATA_ATTRIBUTES.SUPPORT_AMOUNT).value * ratio
 			print("self.slot_data.unit_data.health - healing_done %s" % str(unit_data.health - healing_done))
 			var new_health = unit_data.health + healing_done
 		
 		
-			if new_health > unit_data.max_health:
-				new_health = unit_data.max_health
+			if new_health > unit_data.stat_data.getAttribute(GameData.UNIT_DATA_ATTRIBUTES.MAX_HEALTH).value:
+				new_health = unit_data.stat_data.getAttribute(GameData.UNIT_DATA_ATTRIBUTES.MAX_HEALTH).value
 		
 			# Update unit datas new health
 			unit_data.update_health(new_health)

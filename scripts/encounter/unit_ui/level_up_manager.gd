@@ -54,6 +54,10 @@ func build_panels():
 		panel.level_clicked.connect(self.on_level_clicked)
 
 func on_level_clicked(skill_tree_item_data: SkillTreeItemData):
+	# Update Attribute
+	slot.slot_data.unit_data.stat_data.updateAttribute(skill_tree_item_data.attribute_link, slot.slot_data.unit_data.stat_data.getAttribute(skill_tree_item_data.attribute_link).value + 1)
+	EncounterBus.slot_data_changed.emit()
+	
 	EncounterBus.level_up_finished.emit()
 	self.clean_up()
 	await self.slot.unit_ui.action_displayer.display_custom("+" + \

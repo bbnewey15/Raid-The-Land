@@ -59,7 +59,7 @@ icon = ExtResource("6_xh8j4")
 [sub_resource type="Resource" id="Resource_7x4qe"]
 script = ExtResource("1_3faeq")
 display_name = "Evasive"
-accessor = 7
+accessor = 6
 value = 10
 display_order = 6
 icon = ExtResource("3_pomq1")

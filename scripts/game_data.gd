@@ -73,6 +73,9 @@ enum COLUMN_TYPE {FRONT,BACK}
 const FRONT = "front"
 const BACK = "back"
 
+# Encounter Related
+enum ENCOUNTER_DIFFICULTY_LEVEL {EASY = 0, MEDIUM = 1, HARD = 2}
+
 enum MOVE_DIRECTION {LEFT = 0, RIGHT = 1}
 
 # Action related

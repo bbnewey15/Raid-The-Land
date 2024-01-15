@@ -35,12 +35,7 @@ func initialize():
 	self.health = stat_data.getAttribute(GameData.UNIT_DATA_ATTRIBUTES.MAX_HEALTH).value
 	
 
-signal unit_moved(id: int, direction: GameData.MOVE_DIRECTION)
-
 # Put all methods for actions here?
-
-func move_unit(direction: GameData.MOVE_DIRECTION ):
-	unit_moved.emit(self.get_instance_id(), direction)
 	
 func update_health(new_health: int):
 	self.health = new_health

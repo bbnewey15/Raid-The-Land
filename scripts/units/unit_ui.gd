@@ -40,11 +40,7 @@ func _ready():
 func set_unit_data(data: UnitDataTest)-> void:
 	self.unit_data = data
 	var new_health = clamp(data.health, 0.0, unit_data.stat_data.getAttribute(GameData.UNIT_DATA_ATTRIBUTES.MAX_HEALTH).value)
-	print("data.health %s" % [data.health])
-	print("unit_data.stat_data.getAttribute(GameData.UNIT_DATA_ATTRIBUTES.MAX_HEALTH).value %s" % [unit_data.stat_data.getAttribute(GameData.UNIT_DATA_ATTRIBUTES.MAX_HEALTH).value])
 	health_bar_texture.value= ( float(new_health) / unit_data.stat_data.getAttribute(GameData.UNIT_DATA_ATTRIBUTES.MAX_HEALTH).value ) * 100
-	print("str(new_health) %s" % [str(new_health)])
-	print("----------")
 	health_label.set_text( str(new_health) )
 	
 	conditions.set_unit_data(data)

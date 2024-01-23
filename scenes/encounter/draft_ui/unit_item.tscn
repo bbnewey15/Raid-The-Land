@@ -1,0 +1,38 @@
+[gd_scene load_steps=3 format=3 uid="uid://bneivr25gd37t"]
+
+[ext_resource type="Texture2D" uid="uid://d2d85xlrugfyf" path="res://assets/spearman_ref.png" id="1_i0yds"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vcf6h"]
+bg_color = Color(0.180392, 0.431373, 0.603922, 1)
+
+[node name="PanelContainer" type="PanelContainer"]
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 267.0
+offset_bottom = 47.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_vcf6h")
+
+[node name="UnitItem" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UnitItem"]
+layout_mode = 2
+alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="UnitItem/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_stretch_ratio = 0.53
+texture = ExtResource("1_i0yds")
+expand_mode = 3
+
+[node name="Label" type="Label" parent="UnitItem/HBoxContainer"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Spearman Name"
+vertical_alignment = 1

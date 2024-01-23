@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="UnitDataTest" load_steps=10 format=3 uid="uid://bn0gbeagab3wg"]
 
-[ext_resource type="Script" path="res://scripts/units/unit_data.gd" id="1_oygbk"]
+[ext_resource type="Script" path="res://datatypes/unit_data.gd" id="1_oygbk"]
 [ext_resource type="Texture2D" uid="uid://cjjaq0ehia3qr" path="res://assets/stone_stolen.PNG" id="2_2l8b6"]
 [ext_resource type="Script" path="res://datatypes/skill_tree_data.gd" id="2_ntlvg"]
 [ext_resource type="Script" path="res://datatypes/skill_tree_item_data.gd" id="3_rgjdl"]

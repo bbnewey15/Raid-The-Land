@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="UnitDataTest" load_steps=10 format=3 uid="uid://i158mmkuhq3p"]
 
-[ext_resource type="Script" path="res://scripts/units/unit_data.gd" id="1_5o8el"]
+[ext_resource type="Script" path="res://datatypes/unit_data.gd" id="1_5o8el"]
 [ext_resource type="Texture2D" uid="uid://buu6ko7yo5qjr" path="res://assets/torch_stolen.PNG" id="2_2y3td"]
 [ext_resource type="Script" path="res://datatypes/skill_tree_data.gd" id="2_mer7v"]
 [ext_resource type="Script" path="res://datatypes/skill_tree_item_data.gd" id="3_8xr6g"]
@@ -47,3 +47,4 @@ health = 0
 status = 0
 conditions = Array[Resource("res://datatypes/condition_data.gd")]([])
 skill_tree = SubResource("Resource_en1x8")
+perk_list = Array[Resource("res://datatypes/perk_data.gd")]([])

@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="UnitDataTest" load_steps=10 format=3 uid="uid://deook0vixfbqa"]
 
-[ext_resource type="Script" path="res://scripts/units/unit_data.gd" id="1_urgia"]
+[ext_resource type="Script" path="res://datatypes/unit_data.gd" id="1_urgia"]
 [ext_resource type="Script" path="res://datatypes/skill_tree_data.gd" id="2_73m62"]
 [ext_resource type="Texture2D" uid="uid://cntmgxfgw1gmc" path="res://assets/spear_stolen.PNG" id="2_bk65b"]
 [ext_resource type="Script" path="res://datatypes/skill_tree_item_data.gd" id="3_4soam"]

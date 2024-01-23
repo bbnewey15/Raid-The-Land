@@ -11,8 +11,8 @@ func enter(_msg := {}) -> void:
 	state_machine.encounter_manager.add_child(encounter_message)
 	print("-- START ENTERED --")
 	await get_tree().create_timer(GameData.START_STATE_INTRO_TIMEOUT).timeout
-	state_machine.transition_to("Draft")
-	print("-- TRANSITION TO DRAFT --")
+	state_machine.transition_to("Fight")
+	print("-- TRANSITION TO Fight --")
 	pass
 	
 func update(delta: float) -> void:

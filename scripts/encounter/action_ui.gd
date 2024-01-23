@@ -46,8 +46,8 @@ func on_unit_selected(slot_data: SlotData, button: int) -> void:
 		"Fight":
 			# Update Self and UI (Targeter)
 			# GameData.ui_active_slot_data will update in action_request_ui
-			
-			#EncounterBus.action_request_ui.emit(slot_data.current_slot)
+
+			EncounterBus.action_request_ui.emit(slot_data.current_slot)
 			pass
 		"PostFight":
 			match [GameData.ui_active_slot_data, button]:

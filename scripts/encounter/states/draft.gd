@@ -11,7 +11,8 @@ func enter(_msg := {}) -> void:
 	
 func update(delta: float) -> void:
 	
-	EncounterBus.draft_state_ended.emit()
+	#EncounterBus.draft_state_ended.emit()
+	
 	#check here to prevent the last tick to hit after await
 	if state_machine.state.name == self.name:
 		# display start message

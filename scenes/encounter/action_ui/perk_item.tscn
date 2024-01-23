@@ -1,22 +1,23 @@
-[gd_scene load_steps=4 format=3 uid="uid://dfj55a8r1nreb"]
+[gd_scene load_steps=4 format=3 uid="uid://b7c343pd11m1n"]
 
-[ext_resource type="Script" path="res://scripts/encounter/action_ui/stat_item.gd" id="1_gdrl2"]
-[ext_resource type="Texture2D" uid="uid://da6wl6gbj4c2y" path="res://assets/attack_icon.png" id="1_kgvj0"]
-[ext_resource type="FontFile" uid="uid://bux2d6r2ckfem" path="res://assets/fonts/vikingsquad/vikingsquadbold.ttf" id="2_cbavv"]
+[ext_resource type="Script" path="res://scripts/encounter/action_ui/perk_item.gd" id="1_adgf8"]
+[ext_resource type="Texture2D" uid="uid://da6wl6gbj4c2y" path="res://assets/attack_icon.png" id="2_xkt6t"]
+[ext_resource type="FontFile" uid="uid://bux2d6r2ckfem" path="res://assets/fonts/vikingsquad/vikingsquadbold.ttf" id="3_r5buw"]
 
 [node name="MarginContainer" type="MarginContainer"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_right = -1733.0
+offset_bottom = -1046.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 0
-size_flags_vertical = 0
 theme_override_constants/margin_left = 15
 theme_override_constants/margin_top = 5
 theme_override_constants/margin_right = 15
 theme_override_constants/margin_bottom = 5
-script = ExtResource("1_gdrl2")
+script = ExtResource("1_adgf8")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 layout_mode = 2
@@ -28,7 +29,7 @@ alignment = 1
 [node name="TextureRect" type="TextureRect" parent="HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-texture = ExtResource("1_kgvj0")
+texture = ExtResource("2_xkt6t")
 expand_mode = 3
 stretch_mode = 5
 
@@ -36,8 +37,8 @@ stretch_mode = 5
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_fonts/font = ExtResource("2_cbavv")
+theme_override_fonts/font = ExtResource("3_r5buw")
 theme_override_font_sizes/font_size = 29
-text = "15"
+text = "Perk Item"
 horizontal_alignment = 1
 vertical_alignment = 1

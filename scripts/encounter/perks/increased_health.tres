@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="PerkIncreasedHealth" load_steps=2 format=3 uid="uid://cw440xiuo3hio"]
+
+[ext_resource type="Script" path="res://scripts/encounter/perks/increased_health.gd" id="1_o70ys"]
+
+[resource]
+script = ExtResource("1_o70ys")
+increase_amount = 10
+name = "Perk Name"
+description = "This is a perk"
+is_weakness = false
+perk_type = 0
+used = null

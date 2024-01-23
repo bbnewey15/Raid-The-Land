@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://cjn0k0cjh438d"]
+[gd_scene load_steps=12 format=3 uid="uid://cjn0k0cjh438d"]
 
 [ext_resource type="Script" path="res://scripts/Main.gd" id="1_o075c"]
 [ext_resource type="Script" path="res://scripts/World.gd" id="2_arvqx"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" path="res://scripts/GUI.gd" id="4_2brdk"]
 [ext_resource type="PackedScene" uid="uid://dwjqrihae367o" path="res://scenes/board/columns/column_group.tscn" id="5_acetr"]
 [ext_resource type="Script" path="res://scripts/encounter/EncounterManager.gd" id="5_v1psm"]
+[ext_resource type="Resource" uid="uid://bqa45qlg5vhjb" path="res://resources/ColumnGroupsTest/easy_1.tres" id="6_4dxmb"]
 [ext_resource type="PackedScene" uid="uid://cv6dog5eil5g3" path="res://scenes/encounter/order_ui.tscn" id="8_rx5hp"]
 [ext_resource type="PackedScene" uid="uid://3igdb1jenvn4" path="res://scenes/encounter/encounter_ui.tscn" id="9_3bn05"]
 [ext_resource type="PackedScene" uid="uid://cfwn2htte8urv" path="res://scenes/encounter/action_slider.tscn" id="9_aa2sr"]
@@ -35,7 +36,7 @@ script = ExtResource("4_2brdk")
 script = ExtResource("5_v1psm")
 columnGroupDataResourcePath = "res://resources/ColumnGroupsTest/column_group_test.tres"
 playerSlotDatasResourcePath = "res://resources/ColumnGroupsTest/player_slot_data_group.tres"
-enemySlotDatasResourcePath = "res://resources/ColumnGroupsTest/enemy_slot_data_group.tres"
+encounter_enemy_roster = ExtResource("6_4dxmb")
 
 [node name="PlayerColumnGroup" parent="GUI/EncounterManager" instance=ExtResource("5_acetr")]
 unique_name_in_owner = true

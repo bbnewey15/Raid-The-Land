@@ -17,7 +17,7 @@ func _ready():
 	# Connect to Encounter State Machine signals
 	self.hide()
 	
-	UiManager.register_ui_module(self as OrderUi)
+	UiManager.register_ui_module(self as OrderUi, true)
 	
 	EncounterBus.encounter_state_changed.connect(self.on_encounter_state_changed)
 	EncounterBus.slot_data_changed.connect(self.on_slot_data_changed)

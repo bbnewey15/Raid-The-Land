@@ -5,28 +5,35 @@ class_name UnitDataTest extends Resource
 @export var texture: Texture
 @export var unit_node_path: String
 @export var column_type: GameData.COLUMN_TYPE
-@export var max_health: int = 100
-@export var max_ap : int = 5
-@export var damage: int = 35
-@export var support_amount : int = 15
-@export var defend_ratio: float = .60
+
+# If you add an attribute, add to GameData.UNIT_DATA_ATTRIBUTES
+@export var stat_data: UnitStatData
+
+
+@export var action_points : int 
+@export var health : int
 @export var status: GameData.UNIT_STATUS =  GameData.UNIT_STATUS.ALIVE
-@export var eagerness = 10
-@export var health = max_health
-@export var action_points : int = max_ap
+
+
 @export var conditions : Array[ConditionData] = []
 @export var action_manager : ActionManager 
+@export var skill_tree : SkillTreeData
+@export var perk_list : Array[PerkData] = []
 
 
-signal unit_moved(id: int, direction: GameData.MOVE_DIRECTION)
+func initialize():
+	assert(stat_data)
+	assert(skill_tree)
+	assert(unit_node_path)
+	self.health = stat_data.getAttribute(GameData.UNIT_DATA_ATTRIBUTES.MAX_HEALTH).value
+	
 
 # Put all methods for actions here?
-
-func move_unit(direction: GameData.MOVE_DIRECTION ):
-	unit_moved.emit(self.get_instance_id(), direction)
 	
 func update_health(new_health: int):
-	health = new_health
+	self.health = new_health
+	
+
 
 
 func add_condition(condition_data: ConditionData):

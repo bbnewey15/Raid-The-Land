@@ -1,108 +1,135 @@
-[gd_scene load_steps=3 format=3 uid="uid://cdingdme3tu70"]
+[gd_scene load_steps=7 format=3 uid="uid://cdingdme3tu70"]
 
 [ext_resource type="Script" path="res://scripts/encounter/action_ui.gd" id="1_mjnjc"]
+[ext_resource type="PackedScene" uid="uid://dfj55a8r1nreb" path="res://scenes/encounter/action_ui/stat_item.tscn" id="2_6u8jh"]
+[ext_resource type="Script" path="res://scripts/encounter/action_ui/UnitStats.gd" id="2_ldia3"]
 [ext_resource type="PackedScene" uid="uid://roew4pufu0gr" path="res://scenes/encounter/actions/action.tscn" id="2_vco0l"]
+[ext_resource type="PackedScene" uid="uid://b7c343pd11m1n" path="res://scenes/encounter/action_ui/perk_item.tscn" id="4_1mww0"]
+[ext_resource type="Script" path="res://scripts/encounter/action_ui/UnitPerks.gd" id="4_1rrpp"]
 
 [node name="action_ui" type="PanelContainer"]
-custom_minimum_size = Vector2(1080, 150)
+custom_minimum_size = Vector2(1000, 180)
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -540.0
-offset_top = -150.0
-offset_right = 540.0
+offset_left = -500.0
+offset_top = -180.0
+offset_right = 500.0
 grow_horizontal = 2
 grow_vertical = 0
-pivot_offset = Vector2(595, 80)
 size_flags_horizontal = 3
-size_flags_vertical = 8
+size_flags_vertical = 3
 mouse_filter = 2
 script = ExtResource("1_mjnjc")
 
-[node name="MoveActions" type="MarginContainer" parent="."]
-unique_name_in_owner = true
-visible = false
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
 layout_mode = 2
-size_flags_vertical = 8
-mouse_filter = 2
-theme_override_constants/margin_left = 20
-theme_override_constants/margin_top = 20
-theme_override_constants/margin_right = 20
-theme_override_constants/margin_bottom = 20
+alignment = 1
 
-[node name="LeftMoveButton" type="ColorRect" parent="MoveActions"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(45, 26)
+[node name="UnitStats" type="MarginContainer" parent="HBoxContainer"]
 layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 4
-color = Color(0.607843, 0, 0.498039, 1)
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.7
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 15
+script = ExtResource("2_ldia3")
 
-[node name="Label" type="Label" parent="MoveActions/LeftMoveButton"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -15.0
-offset_top = -13.0
-offset_right = 15.0
-offset_bottom = 13.0
-grow_horizontal = 2
-grow_vertical = 2
-text = "Left"
-
-[node name="RightMoveButton" type="ColorRect" parent="MoveActions"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(45, 26)
+[node name="Panel" type="PanelContainer" parent="HBoxContainer/UnitStats"]
 layout_mode = 2
-size_flags_horizontal = 8
-size_flags_vertical = 4
-color = Color(0.607843, 0, 0.498039, 1)
 
-[node name="Label" type="Label" parent="MoveActions/RightMoveButton"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -15.0
-offset_top = -13.0
-offset_right = 15.0
-offset_bottom = 13.0
-grow_horizontal = 2
-grow_vertical = 2
-text = "Right"
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/UnitStats/Panel"]
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
 
-[node name="UnitActions" type="MarginContainer" parent="."]
+[node name="StatItemContainer" type="GridContainer" parent="HBoxContainer/UnitStats/Panel/MarginContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-size_flags_horizontal = 4
+theme_override_constants/h_separation = 50
+columns = 2
+
+[node name="StatItem" parent="HBoxContainer/UnitStats/Panel/MarginContainer/StatItemContainer" instance=ExtResource("2_6u8jh")]
+layout_mode = 2
+
+[node name="StatItem2" parent="HBoxContainer/UnitStats/Panel/MarginContainer/StatItemContainer" instance=ExtResource("2_6u8jh")]
+layout_mode = 2
+
+[node name="StatItem3" parent="HBoxContainer/UnitStats/Panel/MarginContainer/StatItemContainer" instance=ExtResource("2_6u8jh")]
+layout_mode = 2
+
+[node name="StatItem4" parent="HBoxContainer/UnitStats/Panel/MarginContainer/StatItemContainer" instance=ExtResource("2_6u8jh")]
+layout_mode = 2
+
+[node name="StatItem5" parent="HBoxContainer/UnitStats/Panel/MarginContainer/StatItemContainer" instance=ExtResource("2_6u8jh")]
+layout_mode = 2
+
+[node name="StatItem6" parent="HBoxContainer/UnitStats/Panel/MarginContainer/StatItemContainer" instance=ExtResource("2_6u8jh")]
+layout_mode = 2
+
+[node name="StatItem7" parent="HBoxContainer/UnitStats/Panel/MarginContainer/StatItemContainer" instance=ExtResource("2_6u8jh")]
+layout_mode = 2
+
+[node name="StatItem8" parent="HBoxContainer/UnitStats/Panel/MarginContainer/StatItemContainer" instance=ExtResource("2_6u8jh")]
+layout_mode = 2
+
+[node name="UnitPerks" type="MarginContainer" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.7
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 15
+script = ExtResource("4_1rrpp")
+
+[node name="Panel" type="PanelContainer" parent="HBoxContainer/UnitPerks"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/UnitPerks/Panel"]
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="PerkItemContainer" type="GridContainer" parent="HBoxContainer/UnitPerks/Panel/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/h_separation = 50
+columns = 2
+
+[node name="PerkItem" parent="HBoxContainer/UnitPerks/Panel/MarginContainer/PerkItemContainer" instance=ExtResource("4_1mww0")]
+layout_mode = 2
+
+[node name="UnitActions" type="MarginContainer" parent="HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 1.45
 mouse_filter = 2
 theme_override_constants/margin_left = 15
 theme_override_constants/margin_top = 15
 theme_override_constants/margin_right = 15
 theme_override_constants/margin_bottom = 15
 
-[node name="PanelContainer" type="PanelContainer" parent="UnitActions"]
+[node name="PanelContainer" type="PanelContainer" parent="HBoxContainer/UnitActions"]
 layout_mode = 2
 size_flags_horizontal = 4
 mouse_filter = 2
 
-[node name="Actions" type="HBoxContainer" parent="UnitActions/PanelContainer"]
+[node name="Actions" type="HBoxContainer" parent="HBoxContainer/UnitActions/PanelContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
 mouse_filter = 2
 theme_override_constants/separation = 5
 
-[node name="Action" parent="UnitActions/PanelContainer/Actions" instance=ExtResource("2_vco0l")]
+[node name="Action" parent="HBoxContainer/UnitActions/PanelContainer/Actions" instance=ExtResource("2_vco0l")]
 unique_name_in_owner = true
 layout_mode = 2
-
-[connection signal="gui_input" from="MoveActions/LeftMoveButton" to="." method="_on_move_gui_input" binds= [0]]
-[connection signal="gui_input" from="MoveActions/RightMoveButton" to="." method="_on_move_gui_input" binds= [1]]

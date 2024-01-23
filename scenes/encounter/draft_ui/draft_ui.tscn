@@ -1,0 +1,124 @@
+[gd_scene load_steps=6 format=3 uid="uid://byqhywpon3ktd"]
+
+[ext_resource type="PackedScene" uid="uid://cqykcrvwixkmj" path="res://scenes/encounter/draft_ui/draft_item_panel.tscn" id="1_0hyqc"]
+[ext_resource type="Script" path="res://scripts/encounter/draft_ui/draft_ui.gd" id="1_xluar"]
+[ext_resource type="PackedScene" uid="uid://bneivr25gd37t" path="res://scenes/encounter/draft_ui/unit_item.tscn" id="2_q32pq"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_r0cwx"]
+bg_color = Color(0.117647, 0.207843, 0.215686, 0.952941)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_i3026"]
+bg_color = Color(0.227451, 0.360784, 0.372549, 1)
+
+[node name="DraftUi" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_xluar")
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -439.5
+offset_top = -198.5
+offset_right = 439.5
+offset_bottom = 198.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_r0cwx")
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 50
+theme_override_constants/margin_bottom = 20
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="TitleLabel" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer"]
+layout_mode = 2
+text = "Title"
+
+[node name="MarginContainer2" type="MarginContainer" parent="PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_top = 50
+theme_override_constants/margin_right = 50
+theme_override_constants/margin_bottom = 50
+
+[node name="ContentContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer2"]
+layout_mode = 2
+alignment = 1
+
+[node name="PanelContainer" type="PanelContainer" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer2/ContentContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_i3026")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer2/ContentContainer/PanelContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 35
+alignment = 1
+
+[node name="DraftItemPanel" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer2/ContentContainer/PanelContainer/HBoxContainer" instance=ExtResource("1_0hyqc")]
+layout_mode = 2
+
+[node name="DraftItemPanel2" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer2/ContentContainer/PanelContainer/HBoxContainer" instance=ExtResource("1_0hyqc")]
+layout_mode = 2
+
+[node name="DraftItemPanel3" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer2/ContentContainer/PanelContainer/HBoxContainer" instance=ExtResource("1_0hyqc")]
+layout_mode = 2
+
+[node name="MarginContainer3" type="MarginContainer" parent="PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="ButtonContainer" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer3"]
+layout_mode = 2
+theme_override_constants/separation = 15
+alignment = 1
+
+[node name="UnitItem" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer3/ButtonContainer" instance=ExtResource("2_q32pq")]
+layout_mode = 2
+
+[node name="UnitItem2" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer3/ButtonContainer" instance=ExtResource("2_q32pq")]
+layout_mode = 2
+
+[node name="UnitItem3" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer3/ButtonContainer" instance=ExtResource("2_q32pq")]
+layout_mode = 2
+
+[node name="MarginContainer4" type="MarginContainer" parent="PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_top = 50
+theme_override_constants/margin_bottom = 20
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer4"]
+layout_mode = 2
+alignment = 1
+
+[node name="Button" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer4/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 2
+theme_override_font_sizes/font_size = 35
+text = "Reroll Items"
+
+[node name="Button2" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer/MarginContainer4/HBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 35
+text = "Accept"

@@ -17,7 +17,7 @@ func _ready():
 	end_turn_button.hide()
 	end_post_fight_button.hide()
 	
-	UiManager.register_ui_module(self as EncounterUi)
+	UiManager.register_ui_module(self as EncounterUi, true)
 	
 	EncounterBus.encounter_state_changed.connect(self.on_encounter_state_changed)
 	

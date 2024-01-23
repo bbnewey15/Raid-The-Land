@@ -167,6 +167,22 @@ func fight() -> void:
 			run = false;
 			continue
 			
+		# Set new active slot
+		if GameData.ui_active_slot_data:
+			assert(GameData.ui_active_slot_data)
+			if GameData.ui_active_slot_data != result.current_slot.slot_data:
+				GameData.set_ui_active_slot_data(null)
+				EncounterBus.end_request_user_target_unit.emit()
+			
+		assert(result.current_slot)
+		GameData.set_ui_active_slot_data(result.current_slot.slot_data)
+			
+		# Level up player unit
+		if !result.isEnemyUnit:
+			var slot = result.current_slot
+			EncounterBus.level_up_request_ui.emit(slot)
+			await EncounterBus.level_up_finished
+			
 		# Request action
 		if result.isEnemyUnit == false:
 			var slot = result.current_slot

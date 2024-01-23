@@ -7,11 +7,12 @@ const ActionUIScene = preload("res://scenes/encounter/action_ui.tscn")
 const AiActionManagerScene = preload("res://scenes/encounter/ai_action_manager.tscn")
 @export var columnGroupDataResourcePath: String
 @export var playerSlotDatasResourcePath: String
-@export var enemySlotDatasResourcePath: String
+@export var encounter_enemy_roster: EncEnemyRosterData
+@export var round : int = 0
 const FiniteStateMachine = preload("res://scenes/encounter/encounter_state_machine.tscn")
 @onready var order_ui = $OrderUi
 @onready var encounter_ui = $EncounterUi
-
+const slot_data_group_script = preload("res://datatypes/slot_data_group.gd")
 
 var actionUI: ActionUI
 var aiActionManager : AiActionManager
@@ -28,11 +29,13 @@ func _ready():
 			
 	columnGroupData = ResourceManager.load_specific_resources(columnGroupDataResourcePath)
 	playerSlotDatas = ResourceManager.load_specific_resources(playerSlotDatasResourcePath)
-	enemySlotDatas = ResourceManager.load_specific_resources(enemySlotDatasResourcePath)
+	
+	
+	
 		
 	# Encounter State Machine
 	encounterStateMachine = FiniteStateMachine.instantiate()
-	encounterStateMachine.state_start = 0
+	encounterStateMachine.state_start = GameData.STATE_NAMES.START
 	encounterStateMachine.encounter_manager = self as EncounterManager
 	add_child(encounterStateMachine)
 	
@@ -42,7 +45,9 @@ func _ready():
 	
 	# Add slot/slot_datas to columns from resource files
 	columnGroup.load_from_slot_data_group(playerSlotDatas)
-	columnGroup.load_from_slot_data_group(enemySlotDatas)
+	
+	self.build_enemies_by_round(self.round)
+	
 
 	# Instanciate and hide action UI
 	actionUI = ActionUIScene.instantiate()	
@@ -91,4 +96,19 @@ func on_encounter_state_changed(state_name : String) -> void:
 		
 	
 	
+func build_enemies_by_round(round: int) :
+	# Build enemies by round
+	var enemySlotDatasArray = []
+	assert(encounter_enemy_roster)
+	for roster_round in encounter_enemy_roster.encounter_roster:
+		for enemy_roster_unit in roster_round.encounter_roster:
+			if enemy_roster_unit.entry_delay == round:
+				enemySlotDatasArray.append(enemy_roster_unit.slot_data)
+				
+	# Add slot/slot_datas to enemy columns from enc_enemy_roster_data
+	var enemy_slot_data_group = slot_data_group_script.new()
+	enemy_slot_data_group.slot_datas.append_array(enemySlotDatasArray)
+	enemy_slot_data_group.isEnemy = true
+	
+	columnGroup.load_from_slot_data_group(enemy_slot_data_group)
 	

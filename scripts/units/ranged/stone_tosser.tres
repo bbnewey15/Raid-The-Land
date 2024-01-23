@@ -1,7 +1,38 @@
-[gd_resource type="Resource" script_class="UnitDataTest" load_steps=3 format=3 uid="uid://bn0gbeagab3wg"]
+[gd_resource type="Resource" script_class="UnitDataTest" load_steps=10 format=3 uid="uid://bn0gbeagab3wg"]
 
-[ext_resource type="Script" path="res://scripts/units/unit_data.gd" id="1_oygbk"]
+[ext_resource type="Script" path="res://datatypes/unit_data.gd" id="1_oygbk"]
 [ext_resource type="Texture2D" uid="uid://cjjaq0ehia3qr" path="res://assets/stone_stolen.PNG" id="2_2l8b6"]
+[ext_resource type="Script" path="res://datatypes/skill_tree_data.gd" id="2_ntlvg"]
+[ext_resource type="Script" path="res://datatypes/skill_tree_item_data.gd" id="3_rgjdl"]
+[ext_resource type="Resource" uid="uid://bndeq0fqi5fwk" path="res://scripts/units/infantry/spearman/spearman_stat_data.tres" id="4_4e7dm"]
+
+[sub_resource type="Resource" id="Resource_scqbn"]
+script = ExtResource("3_rgjdl")
+item_name = "Evasive"
+attribute_link = 6
+num_levels = 3
+current_level = 0
+unlock_actions = Array[Resource("res://datatypes/action_data.gd")]([])
+
+[sub_resource type="Resource" id="Resource_ydxm8"]
+script = ExtResource("3_rgjdl")
+item_name = "Damage"
+attribute_link = 2
+num_levels = 3
+current_level = 0
+unlock_actions = Array[Resource("res://datatypes/action_data.gd")]([])
+
+[sub_resource type="Resource" id="Resource_0pl1m"]
+script = ExtResource("3_rgjdl")
+item_name = "Support"
+attribute_link = 3
+num_levels = 3
+current_level = 0
+unlock_actions = Array[Resource("res://datatypes/action_data.gd")]([])
+
+[sub_resource type="Resource" id="Resource_swmom"]
+script = ExtResource("2_ntlvg")
+skill_tree_level_1 = Array[ExtResource("3_rgjdl")]([SubResource("Resource_scqbn"), SubResource("Resource_ydxm8"), SubResource("Resource_0pl1m")])
 
 [resource]
 script = ExtResource("1_oygbk")
@@ -10,12 +41,9 @@ description = "A simple minded ranged unit."
 texture = ExtResource("2_2l8b6")
 unit_node_path = "res://scenes/units/archer.tscn"
 column_type = 1
-max_health = 70
-max_ap = 5
-damage = 20
-support_amount = 20
-defend_ratio = 0.3
+stat_data = ExtResource("4_4e7dm")
+action_points = 0
+health = 0
 status = 0
-eagerness = 12
-health = 70
-action_points = 5
+conditions = Array[Resource("res://datatypes/condition_data.gd")]([])
+skill_tree = SubResource("Resource_swmom")

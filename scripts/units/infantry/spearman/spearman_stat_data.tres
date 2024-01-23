@@ -1,0 +1,70 @@
+[gd_resource type="Resource" script_class="UnitStatData" load_steps=15 format=3 uid="uid://bndeq0fqi5fwk"]
+
+[ext_resource type="Texture2D" uid="uid://da6wl6gbj4c2y" path="res://assets/attack_icon.png" id="1_2dj1i"]
+[ext_resource type="Script" path="res://datatypes/unit_stats/unit_stat_item_data.gd" id="1_3faeq"]
+[ext_resource type="Script" path="res://datatypes/unit_stats/unit_stat_data.gd" id="1_fc6qr"]
+[ext_resource type="Texture2D" uid="uid://cinbvgi30ue0e" path="res://assets/support_icon.png" id="3_pomq1"]
+[ext_resource type="Texture2D" uid="uid://br58nfgdau4fl" path="res://icon.svg" id="4_upgfk"]
+[ext_resource type="Texture2D" uid="uid://c8cb1jpvq4krf" path="res://assets/defense_icon.png" id="5_hcmba"]
+[ext_resource type="Texture2D" uid="uid://dh1cjff5yasnf" path="res://assets/target.png" id="6_xh8j4"]
+
+[sub_resource type="Resource" id="Resource_72i4r"]
+script = ExtResource("1_3faeq")
+display_name = "Damage"
+accessor = 2
+value = 15
+display_order = 0
+icon = ExtResource("1_2dj1i")
+
+[sub_resource type="Resource" id="Resource_3sy4c"]
+script = ExtResource("1_3faeq")
+display_name = "Max Health"
+accessor = 0
+value = 50
+display_order = 1
+icon = ExtResource("3_pomq1")
+
+[sub_resource type="Resource" id="Resource_1rchd"]
+script = ExtResource("1_3faeq")
+display_name = "Max AP"
+accessor = 1
+value = 3
+display_order = 2
+icon = ExtResource("4_upgfk")
+
+[sub_resource type="Resource" id="Resource_ek1bt"]
+script = ExtResource("1_3faeq")
+display_name = "Support"
+accessor = 3
+value = 15
+display_order = 3
+icon = ExtResource("3_pomq1")
+
+[sub_resource type="Resource" id="Resource_rkisa"]
+script = ExtResource("1_3faeq")
+display_name = "Defence"
+accessor = 4
+value = 1
+display_order = 4
+icon = ExtResource("5_hcmba")
+
+[sub_resource type="Resource" id="Resource_mqyuj"]
+script = ExtResource("1_3faeq")
+display_name = "Eagerness"
+accessor = 5
+value = 10
+display_order = 5
+icon = ExtResource("6_xh8j4")
+
+[sub_resource type="Resource" id="Resource_7x4qe"]
+script = ExtResource("1_3faeq")
+display_name = "Evasive"
+accessor = 6
+value = 10
+display_order = 6
+icon = ExtResource("3_pomq1")
+
+[resource]
+resource_local_to_scene = true
+script = ExtResource("1_fc6qr")
+attributes = Array[ExtResource("1_3faeq")]([SubResource("Resource_72i4r"), SubResource("Resource_3sy4c"), SubResource("Resource_1rchd"), SubResource("Resource_ek1bt"), SubResource("Resource_rkisa"), SubResource("Resource_mqyuj"), SubResource("Resource_7x4qe")])

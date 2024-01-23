@@ -15,6 +15,7 @@ var slot : Slot
 @onready var conditions: HBoxContainer = %Conditions
 @onready var action_displayer: Control = %ActionDisplayer
 @onready var targeter = %Targeter
+@onready var level_up_manager = %LevelUpManager
 
 signal loaded 
 
@@ -38,10 +39,9 @@ func _ready():
 
 func set_unit_data(data: UnitDataTest)-> void:
 	self.unit_data = data
-	var new_health = clamp(data.health, 0.0, unit_data.max_health)
-	
-	health_bar_texture.value= ( float(new_health) / unit_data.max_health ) * 100
-	health_label.text = str(new_health)
+	var new_health = clamp(data.health, 0.0, unit_data.stat_data.getAttribute(GameData.UNIT_DATA_ATTRIBUTES.MAX_HEALTH).value)
+	health_bar_texture.value= ( float(new_health) / unit_data.stat_data.getAttribute(GameData.UNIT_DATA_ATTRIBUTES.MAX_HEALTH).value ) * 100
+	health_label.set_text( str(new_health) )
 	
 	conditions.set_unit_data(data)
 	
@@ -55,6 +55,8 @@ func set_slot_data(data: SlotData)->void:
 #	if data.isEnemyUnit:
 #		order_control_label.add_theme_color_override("font_color","#ff5555")
 	targeter.slot = self.slot as Slot
+	level_up_manager.initialize(self.slot)
+	action_displayer.initialize(self.slot.slot_data)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):

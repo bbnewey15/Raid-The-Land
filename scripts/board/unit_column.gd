@@ -72,7 +72,7 @@ func add_slot(data: SlotData, shouldUpdateUI: bool = true) -> Slot:
 	slot.set_pivot_offset(slot.size/2)
 	#slot.set_rotation_degrees(-self.get_rotation_degrees())
 	
-	
+	slot.initialize(data)
 	slot.set_slot_data(data)
 	column_data.slot_datas.append(data)
 	

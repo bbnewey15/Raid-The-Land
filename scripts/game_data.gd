@@ -41,8 +41,13 @@ const PLAYER_BACK_COL = "playerBackCol"
 const ENEMY_FRONT_COL = "enemyFrontCol" 
 const ENEMY_BACK_COL ="enemyBackCol"
 
+
+
 static func getColumnStringByIndex(index : int) -> String:
 	return GameData[GameData.COLUMN_STRING.keys()[index]]
+	
+static func getStringEnumByIndex(enum_name: String, index : int) -> String:
+	return GameData[GameData[enum_name].keys()[index]]
 	
 func getColumnStringByColumnType(column_type: COLUMN_TYPE, isEnemy: bool =false)-> String:
 	var return_value = null
@@ -68,10 +73,23 @@ enum COLUMN_TYPE {FRONT,BACK}
 const FRONT = "front"
 const BACK = "back"
 
+# Encounter Related
+enum ENCOUNTER_DIFFICULTY_LEVEL {EASY = 0, MEDIUM = 1, HARD = 2}
+
 enum MOVE_DIRECTION {LEFT = 0, RIGHT = 1}
 
 # Action related
 enum UNIT_ACTIONS {ATTACK  , DEFEND , SUPPORT, DEBUFF }
+
+# UNIT DATA ATTRIBUTES
+enum UNIT_DATA_ATTRIBUTES { MAX_HEALTH = 0, MAX_AP = 1, DAMAGE =2, SUPPORT_AMOUNT=3, DEFEND_RATIO=4, EAGERNESS=5, EVASIVENESS=6}
+const MAX_HEALTH ="max_health"
+const MAX_AP = "max_ap"
+const DAMAGE= "damage"
+const SUPPORT_AMOUNT="support_amount"
+const DEFEND_RATIO="defend_ratio"
+const EAGERNESS="eagerness"
+const EVASIVENESS="evasiveness"
 
 const ATTACK_ICON = preload("res://assets/attack_icon.png")
 const DEFENSE_ICON = preload("res://assets/defense_icon.png")
@@ -83,9 +101,14 @@ enum ACTION_TARGET_TYPE { TARGET_SELF  , TARGET_ALLY , TARGET_ENEMY}
 # CONDITIONS
 enum CONDITIONS { HEAL, WEAKEN,STRENGTHEN , SHAKEN, INSPIRED, INFECT , CURE}
 
+# PERK_TYPES
+enum PERK_TYPE { STAT_ADJUST=0, PRE_TURN_CHECK = 1, POST_TURN_CHECK =2 }
+
 # STATUS
 enum UNIT_STATUS { ALIVE, DEAD }
 
+# ACTION SLIDER
+enum ACTION_SLIDER_HIT { MISS = 0, SLIGHT = 1, HIT = 2 }
 
 ## State 
 enum STATE_NAMES {START, DRAFT, FIGHT, POST_FIGHT}
@@ -111,16 +134,17 @@ func sort_full_slot_datas(full_array: Array[SlotData]) -> Array[SlotData]:
 	return final_array
 
 func eagernessOrderComparison(a : SlotData, b : SlotData):
-	
+	var a_eagerness = a.unit_data.stat_data.getAttribute(GameData.UNIT_DATA_ATTRIBUTES.EAGERNESS).value
+	var b_eagerness = b.unit_data.stat_data.getAttribute(GameData.UNIT_DATA_ATTRIBUTES.EAGERNESS).value
 	
 		
-	if typeof(a.unit_data.eagerness) != typeof(b.unit_data.eagerness):
-		return typeof(a.unit_data.eagerness) > typeof(b.unit_data.eagerness)
+	if typeof(a_eagerness) != typeof(b_eagerness):
+		return typeof(a_eagerness) > typeof(b_eagerness)
 	else:
-		if  a.unit_data.eagerness == b.unit_data.eagerness:
+		if  a_eagerness == b_eagerness:
 			if !a.isEnemyUnit and b.isEnemyUnit:
 				return true
 			if !b.isEnemyUnit and a.isEnemyUnit:
 				return false
 				
-		return a.unit_data.eagerness > b.unit_data.eagerness
+		return a_eagerness > b_eagerness

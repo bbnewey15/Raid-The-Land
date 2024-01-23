@@ -13,15 +13,16 @@ func _ready():
 	unit_ui.slot = self as Slot
 	EncounterBus.slot_data_changed.connect(self.on_slot_data_changed)
 	
+func initialize(slot_data: SlotData):
+	self.slot_data = slot_data
+	self.slot_data.current_slot = self
+	slot_data.init_unit_data(slot_data.unit_data)
 
 func set_slot_data(data: SlotData) -> void:
 	if unit_node:
 		unit_node.queue_free()
 		
-	self.slot_data = data
-	self.slot_data.current_slot = self
 	
-	slot_data.init_unit_data(slot_data.unit_data)
 	#texture_rect.texture = unit_data.texture
 	var unit_node_scene = load(slot_data.unit_data.unit_node_path)
 	unit_node = unit_node_scene.instantiate()
@@ -82,12 +83,18 @@ func _on_mouse_exited():
 	pass # Replace with function body.
 
 func unit_action(action_data: ActionData, target: SlotData):
-	await self.unit_ui.action_displayer.display_action( action_data, self.slot_data)
+	await self.unit_ui.action_displayer.display_action( action_data)
+	
+	var hit_value = GameData.ACTION_SLIDER_HIT.HIT
+	if !slot_data.isEnemyUnit:
+		EncounterBus.action_slider_requested.emit(slot_data.action_data, slot_data, target)
+		hit_value = await EncounterBus.action_slider_completed
+	
 	match action_data.action_type:
 		GameData.UNIT_ACTIONS.ATTACK:
-			await self.attack(target)
+			await self.attack(target, hit_value)
 		GameData.UNIT_ACTIONS.DEBUFF:
-			await self.attack(target)
+			await self.attack(target, hit_value)
 		GameData.UNIT_ACTIONS.DEFEND:
 			await self.defend()
 		GameData.UNIT_ACTIONS.SUPPORT:
@@ -100,22 +107,17 @@ func unit_action(action_data: ActionData, target: SlotData):
 	EncounterBus.unit_turn_ended.emit(slot_data)
 	
 
-func attack(defending_slot_data: SlotData):
+func attack(defending_slot_data: SlotData, hit_value: GameData.ACTION_SLIDER_HIT):
 	# show animation, sound, update in data
 	var animation_player : AnimationPlayer = unit_node.get_node("AnimationPlayer")
 	animation_player.play("attack",-1,3)
 	#var a = await animation_player.animation_finished
 	await get_tree().create_timer(.6).timeout
 	#EncounterBus.slot_attacked.emit(self.slot_data, defending_slot_data)
-	await defending_slot_data.current_slot.receive_attack(self.slot_data as SlotData)
-	# 		is self dead? 
-	# 		//show animation, sound, update in data
-	
-	#await get_tree().create_timer(1.0).timeout
-
-	
-	# let EncounterBus know that we are done attacking
-	#EncounterBus.unit_attack_finished.emit(slot_data)
+	if hit_value == GameData.ACTION_SLIDER_HIT.MISS:
+		await self.miss_action(defending_slot_data)
+	else:
+		await defending_slot_data.current_slot.receive_attack(self.slot_data as SlotData)
 	
 
 func receive_attack(attackingUnit : SlotData):
@@ -126,16 +128,17 @@ func receive_attack(attackingUnit : SlotData):
 	tween.tween_property(unit_node, "modulate:v", 1, 0.25).from(15)
 	await tween.finished
 	
-	var damage_done = attackingUnit.unit_data.damage
+	var damage_done = attackingUnit.unit_data.stat_data.getAttribute(GameData.UNIT_DATA_ATTRIBUTES.DAMAGE).value
 	
 	# Check blocking
 	var adj_damage_done = damage_done
 #	if self.slot_data.action_data == GameData.UNIT_ACTIONS["DEFEND"]:
-#		adj_damage_done = damage_done - ( damage_done * self.slot_data.unit_data.defend_ratio )
+#		adj_damage_done = damage_done - ( damage_done * self.slot_data.unit_data.stat_data.getAttribute(GameData.UNIT_DATA_ATTRIBUTES.DEFEND).value )
 	
 	print("self.slot_data.unit_data.health - damage_done %s" % str(self.slot_data.unit_data.health - adj_damage_done))
 	var new_health = self.slot_data.unit_data.health - adj_damage_done
 	# Update unit datas new health
+	var unit_data = self.slot_data.unit_data
 	self.slot_data.unit_data.update_health(new_health)
 	
 	# Apply conditions
@@ -180,6 +183,13 @@ func receive_support(supporting_unit : SlotData):
 
 	# Update UI to show new health
 	EncounterBus.slot_data_changed.emit()
+	
+func miss_action(target: SlotData):
+	var animation_player : AnimationPlayer = unit_node.get_node("AnimationPlayer")
+	animation_player.play("attack",-1,3)
+	await self.unit_ui.action_displayer.display_custom("MISS!")
+	
+	await get_tree().create_timer(.6).timeout
 	
 func apply_condition(action_data: ActionData, slot_to_apply: SlotData):
 	assert(action_data)

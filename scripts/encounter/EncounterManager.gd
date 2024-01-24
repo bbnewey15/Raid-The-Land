@@ -23,7 +23,7 @@ var columnGroup : UnitColGroup
 
 var columnGroupData : Resource
 var playerSlotDatas : Resource
-var enemySlotDatas : Resource
+var enemySlotDatas : Array[SlotData]
 # Called when the node enters the scene tree for the first time.
 func _ready():
 			
@@ -45,9 +45,7 @@ func _ready():
 	
 	# Add slot/slot_datas to columns from resource files
 	columnGroup.load_from_slot_data_group(playerSlotDatas)
-	
-	self.build_enemies_by_round(self.round)
-	
+		
 
 	# Instanciate and hide action UI
 	actionUI = ActionUIScene.instantiate()	
@@ -65,6 +63,7 @@ func _ready():
 	
 	# Connect to Encounter State Machine signals
 	EncounterBus.encounter_state_changed.connect(self.on_encounter_state_changed)
+	EncounterBus.new_round_started.connect(self.on_new_round_started)
 	
 	# Singal to everyone that slot data should be updated
 	EncounterBus.slot_data_changed.emit()
@@ -97,13 +96,17 @@ func on_encounter_state_changed(state_name : String) -> void:
 	
 	
 func build_enemies_by_round(round: int) :
+	
+	
 	# Build enemies by round
-	var enemySlotDatasArray = []
+	var enemySlotDatasArray: Array[SlotData] = []
 	assert(encounter_enemy_roster)
 	for roster_round in encounter_enemy_roster.encounter_roster:
 		for enemy_roster_unit in roster_round.encounter_roster:
 			if enemy_roster_unit.entry_delay == round:
 				enemySlotDatasArray.append(enemy_roster_unit.slot_data)
+				
+	self.enemySlotDatas.append_array(enemySlotDatasArray)
 				
 	# Add slot/slot_datas to enemy columns from enc_enemy_roster_data
 	var enemy_slot_data_group = slot_data_group_script.new()
@@ -112,3 +115,6 @@ func build_enemies_by_round(round: int) :
 	
 	columnGroup.load_from_slot_data_group(enemy_slot_data_group)
 	
+func on_new_round_started(round: int):
+	self.build_enemies_by_round(round)
+	EncounterBus.ai_intent_request.emit(round)

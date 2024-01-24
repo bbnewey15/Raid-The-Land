@@ -6,13 +6,27 @@ var encounter_manager : EncounterManager
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	EncounterBus.ai_action_request.connect(self.on_ai_action_request)
-
+	EncounterBus.ai_intent_request.connect(self.on_ai_intent_request)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	pass
+	
+func on_ai_intent_request(round: int):
+	assert(encounter_manager.enemySlotDatas)
+	
+	for slot_data in encounter_manager.enemySlotDatas:
+		self.set_intent(slot_data)
+		
 
 func on_ai_action_request(slot_data: SlotData):
+
+	await get_tree().create_timer(1.5).timeout
+	
+	EncounterBus.action_activated.emit(slot_data)
+
+func set_intent(slot_data: SlotData):
+	assert(slot_data)
 	var actions_available : Array[ActionData] = slot_data.unit_data.action_manager.actions_available
 	
 	var filter_for_actions = func(action):
@@ -76,9 +90,8 @@ func on_ai_action_request(slot_data: SlotData):
 	var action_data = slot_data.unit_data.action_manager.get_random_action_by_weight(filter_for_actions, attack_weight, debuff_weight, heal_weight )
 	
 #	GameData.set_ui_active_slot_data(slot_data)
-	assert(GameData.ui_active_slot_data)
-	GameData.ui_active_slot_data.action_set = true
-	GameData.ui_active_slot_data.action_data = action_data
+	slot_data.action_set = true
+	slot_data.action_data = action_data
 	EncounterBus.slot_data_changed.emit()
 	
 	# If requires target, request a target
@@ -97,7 +110,3 @@ func on_ai_action_request(slot_data: SlotData):
 			
 			
 		slot_data.action_targets = action_targets
-			
-	await get_tree().create_timer(1.5).timeout
-	
-	EncounterBus.action_activated.emit(GameData.ui_active_slot_data)

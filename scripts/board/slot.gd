@@ -14,19 +14,16 @@ func _ready():
 	EncounterBus.slot_data_changed.connect(self.on_slot_data_changed)
 	
 func initialize(slot_data: SlotData):
+	
+		
 	self.slot_data = slot_data
 	self.slot_data.current_slot = self
 	slot_data.init_unit_data(slot_data.unit_data)
-
-func set_slot_data(data: SlotData) -> void:
+	
 	if unit_node:
 		unit_node.queue_free()
-		
-	
-	#texture_rect.texture = unit_data.texture
 	var unit_node_scene = load(slot_data.unit_data.unit_node_path)
 	unit_node = unit_node_scene.instantiate()
-	
 	control_node.add_child(unit_node)
 	
 	if slot_data.isEnemyUnit:
@@ -34,8 +31,11 @@ func set_slot_data(data: SlotData) -> void:
 		unit_node.apply_scale(Vector2(-1,1))
 		#adjust for my shitty placement of anchor to unit
 		unit_node.set_position(Vector2(unit_node.get_position().x + self.size.x, unit_node.get_position().y))
+		
 	tooltip_text = "%s\n%s" % [slot_data.unit_data.name, slot_data.unit_data.description]
 	slot_data.set_slot_position(get_global_position() + size/2)
+
+func set_slot_data(data: SlotData) -> void:
 	
 	# Update Unit UI
 	unit_ui.set_unit_data(self.slot_data.unit_data)
@@ -57,7 +57,7 @@ func set_slot_data(data: SlotData) -> void:
 
 func on_slot_data_changed():
 	# Current way to update ui
-	set_slot_data(slot_data)
+	self.set_slot_data(slot_data)
 	
 	
 func _process(delta):

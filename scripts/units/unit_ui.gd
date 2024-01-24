@@ -14,6 +14,7 @@ var slot : Slot
 @onready var active_highlighter = %ActiveHighlighter
 @onready var conditions: HBoxContainer = %Conditions
 @onready var action_displayer: Control = %ActionDisplayer
+@onready var enemy_intent = %EnemyIntent
 @onready var targeter = %Targeter
 @onready var level_up_manager = %LevelUpManager
 
@@ -57,6 +58,7 @@ func set_slot_data(data: SlotData)->void:
 	targeter.slot = self.slot as Slot
 	level_up_manager.initialize(self.slot)
 	action_displayer.initialize(self.slot.slot_data)
+	enemy_intent.initialize(self.slot.slot_data)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):

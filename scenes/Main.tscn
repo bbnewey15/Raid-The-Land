@@ -66,3 +66,4 @@ offset_bottom = 240.0
 pivot_offset = Vector2(-707, 176)
 
 [node name="DraftUi" parent="GUI/EncounterManager" instance=ExtResource("10_5pe7g")]
+visible = false

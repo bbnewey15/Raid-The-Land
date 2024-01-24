@@ -27,6 +27,8 @@ signal action_request_ui(slot: Slot)
 # warning-ignore:unused_signal
 signal ai_action_request(slot_data: SlotData)
 # warning-ignore:unused_signal
+signal ai_intent_request(round: int)
+# warning-ignore:unused_signal
 signal action_activated( slot_data: SlotData)
 
 # warning-ignore:unused_signal
@@ -48,6 +50,9 @@ signal fight_state_stopped
 
 # warning-ignore:unused_signal
 signal unit_turn_ended(slot_data : SlotData)
+
+# warning-ignore:unused_signal
+signal new_round_started(round: int)
 
 # warning-ignore:unused_signal
 #signal slot_attacked(slot_data: SlotData, unit_attacking: SlotData)

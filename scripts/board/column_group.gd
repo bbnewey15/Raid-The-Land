@@ -8,8 +8,7 @@ const UnitColumnScene = preload("res://scenes/board/columns/unit_column.tscn")
 var column_dict : Dictionary
 var isEnemy: bool
 var loading: bool = true
-var playerSlotDatas : Array[SlotData]
-var enemySlotDatas : Array[SlotData]
+var round: int = 0
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -49,6 +48,9 @@ func load_from_resource(data: Resource) -> void:
 		#column_dict[column].column_data.column_interact.connect(on_column_interact)
 		
 func load_from_slot_data_group(data: SlotDataGroup) -> void:
+	var playerSlotDatas : Array[SlotData] = []
+	var enemySlotDatas : Array[SlotData] = []
+
 	# Save reference to Slot Data Arrays
 	if data.isEnemy:
 		enemySlotDatas = data.slot_datas
@@ -63,7 +65,10 @@ func load_from_slot_data_group(data: SlotDataGroup) -> void:
 	var tmp_slot_array : Array[SlotData] 
 	tmp_slot_array.append_array(playerSlotDatas)
 	tmp_slot_array.append_array(enemySlotDatas)
+	tmp_slot_array.append_array(GameData.full_slot_array)
 	GameData.full_slot_array = tmp_slot_array
+	EncounterBus.slot_data_changed.emit()
+	EncounterBus.request_recalculate_unit_order.emit()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -106,7 +111,7 @@ func remove_and_append(start_idx : int , new_idx : int):
 	
 func on_fight_state_started() -> void:
 	self.fight()
-	
+		
 	
 # Probably make a node for AllActionManager that can manage multiple actions at once
 func on_action_activated(slot_data  : SlotData):
@@ -140,17 +145,26 @@ func fight() -> void:
 	#UnitColumnGroup on state: "fight"
 	assert(GameData.full_slot_array)
 	
+	# Initialize first round
+	EncounterBus.new_round_started.emit(self.round)
+	
 	var run : bool = true
 	# Find the first slot that needs an action
 	while run:
 		var result : SlotData = await self.check_and_request_unit_action()
 		
+		# Restart round
 		# reset slot_data.turn_over if result is null
 		if result == null:
 			print("EVERYONE HAS ATTACKED RESETTING")
 			for slot_data in GameData.full_slot_array:
 				slot_data.turn_over = false;
 			EncounterBus.slot_data_changed.emit()
+			
+			self.round = self.round + 1
+			# Have enemies reset their intentions
+			EncounterBus.new_round_started.emit(self.round)
+			
 			continue
 		
 		# If slot found -> Apply conditions

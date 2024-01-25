@@ -35,6 +35,7 @@ script = ExtResource("2_ntlvg")
 skill_tree_level_1 = Array[ExtResource("3_rgjdl")]([SubResource("Resource_scqbn"), SubResource("Resource_ydxm8"), SubResource("Resource_0pl1m")])
 
 [resource]
+resource_local_to_scene = true
 script = ExtResource("1_oygbk")
 name = "Stone Tosser"
 description = "A simple minded ranged unit."
@@ -47,3 +48,4 @@ health = 0
 status = 0
 conditions = Array[Resource("res://datatypes/condition_data.gd")]([])
 skill_tree = SubResource("Resource_swmom")
+perk_list = Array[Resource("res://datatypes/perk_data.gd")]([])

@@ -86,9 +86,10 @@ func unit_action(action_data: ActionData, target: SlotData):
 	await self.unit_ui.action_displayer.display_action( action_data)
 	
 	var hit_value = GameData.ACTION_SLIDER_HIT.HIT
-	if !slot_data.isEnemyUnit:
-		EncounterBus.action_slider_requested.emit(slot_data.action_data, slot_data, target)
-		hit_value = await EncounterBus.action_slider_completed
+	# action slider - aka skill check to be removed 
+#	if !slot_data.isEnemyUnit:
+#		EncounterBus.action_slider_requested.emit(slot_data.action_data, slot_data, target)
+#		hit_value = await EncounterBus.action_slider_completed
 	
 	match action_data.action_type:
 		GameData.UNIT_ACTIONS.ATTACK:

@@ -2,7 +2,6 @@ extends Resource
 class_name SlotData
 
 
-
 @export var unit_data_path :String
 @export var unit_data: UnitDataTest
 @export var isEnemyUnit: bool

@@ -25,6 +25,11 @@ func initialize():
 	assert(stat_data)
 	assert(skill_tree)
 	assert(unit_node_path)
+	self.stat_data = self.stat_data.duplicate(true)
+	self.stat_data.initialize()
+	self.skill_tree = self.skill_tree.duplicate(true)
+	self.perk_list = self.perk_list.duplicate(true)
+	
 	self.health = stat_data.getAttribute(GameData.UNIT_DATA_ATTRIBUTES.MAX_HEALTH).value
 	
 

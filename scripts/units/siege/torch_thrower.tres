@@ -35,6 +35,7 @@ script = ExtResource("2_mer7v")
 skill_tree_level_1 = Array[ExtResource("3_8xr6g")]([SubResource("Resource_6et8e"), SubResource("Resource_8r6q5"), SubResource("Resource_cp1d5")])
 
 [resource]
+resource_local_to_scene = true
 script = ExtResource("1_5o8el")
 name = "Torch Thrower"
 description = "A simple-minded siege unit."

@@ -4,6 +4,7 @@
 [ext_resource type="Script" path="res://datatypes/slot_data.gd" id="2_ff2sj"]
 
 [sub_resource type="Resource" id="Resource_cp4ha"]
+resource_local_to_scene = true
 script = ExtResource("2_ff2sj")
 unit_data_path = "res://scripts/units/infantry/spearman.tres"
 isEnemyUnit = false
@@ -13,6 +14,7 @@ action_set = false
 turn_over = false
 
 [sub_resource type="Resource" id="Resource_a8yci"]
+resource_local_to_scene = true
 script = ExtResource("2_ff2sj")
 unit_data_path = "res://scripts/units/ranged/stone_tosser.tres"
 isEnemyUnit = false
@@ -22,6 +24,7 @@ action_set = false
 turn_over = false
 
 [sub_resource type="Resource" id="Resource_dxycq"]
+resource_local_to_scene = true
 script = ExtResource("2_ff2sj")
 unit_data_path = "res://scripts/units/siege/torch_thrower.tres"
 isEnemyUnit = false
@@ -31,6 +34,7 @@ action_set = false
 turn_over = false
 
 [resource]
+resource_local_to_scene = true
 script = ExtResource("1_c0af3")
 slot_datas = Array[ExtResource("2_ff2sj")]([SubResource("Resource_cp4ha"), SubResource("Resource_a8yci"), SubResource("Resource_dxycq")])
 isEnemy = false

@@ -3,6 +3,7 @@ extends Control
 var column_group : UnitColGroup
 var active : bool = false
 var active_action: ActionData
+var active_card_data : CardSlotData
 var potential_targets : Array[SlotData] = []
 
 @onready var texture_rect = $TextureRect
@@ -41,9 +42,12 @@ func quit_targeting():
 	self.hide()
 	self.active = false
 	self.active_action = null
+	self.active_card_data = null
 	self.potential_targets = []
 
-func on_request_user_target_unit( action_data: ActionData, potential_targets: Array[SlotData]):
+func on_request_user_target_unit(  card_slot: CardSlot, potential_targets: Array[SlotData]):
+	assert(card_slot)
+	var action_data: ActionData = card_slot.slot_data.card_data.action_data
 	assert(GameData.ui_active_slot_data)
 	assert(action_data)
 		
@@ -51,6 +55,7 @@ func on_request_user_target_unit( action_data: ActionData, potential_targets: Ar
 	self.show()
 	self.active = true
 	self.active_action = action_data
+	self.active_card_data = card_slot.slot_data
 	self.potential_targets = potential_targets
 
 
@@ -74,12 +79,13 @@ func on_target_hover_exited(slot_data: SlotData):
 		self.show()
 	
 func on_target_selected(slot_data: SlotData, button: int):
+	assert(GameData.ui_active_card_slot.slot_data)
 	print("selected from target")
 	if active and GameData.ui_active_slot_data and slot_data in potential_targets:
 		var adj_action_targets : Array[SlotData] = GameData.ui_active_slot_data.action_targets
 		# If Selecting
 		if slot_data not in GameData.ui_active_slot_data.action_targets:
-			if len(adj_action_targets) >= GameData.ui_active_slot_data.action_data.number_of_targets:
+			if len(adj_action_targets) >= GameData.ui_active_card_slot.slot_data.card_data.action_data.number_of_targets:
 				# probably wont happen but leaving in case
 				adj_action_targets.pop_back()
 				adj_action_targets.append(slot_data)
@@ -93,8 +99,9 @@ func on_target_selected(slot_data: SlotData, button: int):
 		GameData.ui_active_slot_data.action_targets = adj_action_targets
 		
 		# Start action on selecting ( unless there are multi )
-		if len(GameData.ui_active_slot_data.action_targets) == GameData.ui_active_slot_data.action_data.number_of_targets:
+		if len(GameData.ui_active_slot_data.action_targets) == active_card_data.card_data.action_data.number_of_targets:
 			# emit signal to start actions
-			EncounterBus.action_activated.emit(GameData.ui_active_slot_data)
+			assert(GameData.ui_active_card_slot.slot_data.card_data.action_data)
+			EncounterBus.action_activated.emit(GameData.ui_active_slot_data, GameData.ui_active_card_slot.slot_data.card_data.action_data)
 		else:
 			EncounterBus.slot_data_changed.emit()

@@ -114,27 +114,27 @@ func on_fight_state_started() -> void:
 		
 	
 # Probably make a node for AllActionManager that can manage multiple actions at once
-func on_action_activated(slot_data  : SlotData):
+func on_action_activated(slot_data  : SlotData, action_data: ActionData):
 	assert(slot_data)
-	assert(slot_data.action_set)
-	assert(slot_data.action_data)
+	assert(action_data)
 	
-	if slot_data.action_data.requires_target:
+	if action_data.requires_target:
 		var target_array = slot_data.action_targets
 		for target in target_array:
-			await slot_data.current_slot.unit_action(slot_data.action_data, target)
-			var action_data = slot_data.action_data
-			print("%s used [ %s] action %s " % [slot_data.unit_data.description, slot_data.action_data.name, target.unit_data.description])
+			await slot_data.current_slot.unit_action(action_data, target)
+			print("%s used [ %s] action %s " % [slot_data.unit_data.description, action_data.name, target.unit_data.description])
 			#await EncounterBus.unit_attack_finished
 	else:
-		await slot_data.current_slot.unit_action(slot_data.action_data, null)
+		await slot_data.current_slot.unit_action(action_data, null)
+		
+	# Singal that action has been completed
+	EncounterBus.action_completed.emit(slot_data)
 		
 	# Reset slot_datas targets and action
 	slot_data.action_targets = []
-	slot_data.action_set = false
-	slot_data.action_data = null
+	GameData.set_ui_active_card_slot( null )
 		
-	if slot_data.unit_data.action_points >= 0 or slot_data.action_data.will_end_turn:
+	if slot_data.unit_data.action_points >= 0 or action_data.will_end_turn:
 		# end units turn
 		slot_data.turn_over = true
 		EncounterBus.slot_data_changed.emit()
@@ -185,17 +185,21 @@ func fight() -> void:
 		if GameData.ui_active_slot_data:
 			assert(GameData.ui_active_slot_data)
 			if GameData.ui_active_slot_data != result.current_slot.slot_data:
+				# New turn
 				GameData.set_ui_active_slot_data(null)
 				EncounterBus.end_request_user_target_unit.emit()
+				EncounterBus.unit_turn_started.emit(result.current_slot.slot_data)
+				
 			
 		assert(result.current_slot)
 		GameData.set_ui_active_slot_data(result.current_slot.slot_data)
+		
 			
-		# Level up player unit
-		if !result.isEnemyUnit:
-			var slot = result.current_slot
-			EncounterBus.level_up_request_ui.emit(slot)
-			await EncounterBus.level_up_finished
+#		# Level up player unit
+#		if !result.isEnemyUnit:
+#			var slot = result.current_slot
+#			EncounterBus.level_up_request_ui.emit(slot)
+#			await EncounterBus.level_up_finished
 			
 		# Request action
 		if result.isEnemyUnit == false:

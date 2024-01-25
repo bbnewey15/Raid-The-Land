@@ -9,10 +9,13 @@ class_name SlotData
 @export var slotIndex: int
 var slot_position: Vector2
 var action_targets : Array[SlotData]
-@export var action_data : ActionData
-@export var action_set : bool = false
 var current_slot : Slot
 @export var turn_over : bool = false
+# Enemy uses the following:
+@export var action_data : ActionData
+@export var action_set : bool = false
+##
+
 
 func init_unit_data(data: UnitDataTest):
 	if data:

@@ -1,0 +1,43 @@
+[gd_resource type="Resource" script_class="CardHandData" load_steps=14 format=3 uid="uid://cxvmb76yix0m4"]
+
+[ext_resource type="Script" path="res://datatypes/card_hand_data.gd" id="1_ca4nw"]
+[ext_resource type="Script" path="res://datatypes/card_data.gd" id="2_2kyxw"]
+[ext_resource type="Resource" uid="uid://bgpamuxm42x7r" path="res://scripts/encounter/actions/attacks/basic_attack.tres" id="2_05pyy"]
+[ext_resource type="Texture2D" uid="uid://da6wl6gbj4c2y" path="res://assets/attack_icon.png" id="3_6vy5m"]
+[ext_resource type="Script" path="res://datatypes/card_slot_data.gd" id="4_saskf"]
+[ext_resource type="Resource" uid="uid://yd658rue2ihb" path="res://scripts/encounter/actions/supports/heal_ally.tres" id="6_6s3hk"]
+[ext_resource type="Texture2D" uid="uid://cinbvgi30ue0e" path="res://assets/support_icon.png" id="7_qnsoa"]
+
+[sub_resource type="Resource" id="Resource_a00rl"]
+script = ExtResource("2_2kyxw")
+name = "Test"
+description = "Test Desc"
+texture = ExtResource("3_6vy5m")
+action_data = ExtResource("2_05pyy")
+
+[sub_resource type="Resource" id="Resource_6ka5a"]
+script = ExtResource("4_saskf")
+card_data = SubResource("Resource_a00rl")
+
+[sub_resource type="Resource" id="Resource_ijl3u"]
+script = ExtResource("2_2kyxw")
+name = "Heal Ally"
+description = "Heal Ally"
+texture = ExtResource("7_qnsoa")
+action_data = ExtResource("6_6s3hk")
+
+[sub_resource type="Resource" id="Resource_ic4oe"]
+script = ExtResource("4_saskf")
+card_data = SubResource("Resource_ijl3u")
+
+[sub_resource type="Resource" id="Resource_w48wf"]
+script = ExtResource("4_saskf")
+card_data = SubResource("Resource_a00rl")
+
+[sub_resource type="Resource" id="Resource_mg7oa"]
+script = ExtResource("4_saskf")
+card_data = SubResource("Resource_ijl3u")
+
+[resource]
+script = ExtResource("1_ca4nw")
+slot_datas = Array[ExtResource("4_saskf")]([SubResource("Resource_6ka5a"), SubResource("Resource_ic4oe"), SubResource("Resource_w48wf"), SubResource("Resource_mg7oa")])

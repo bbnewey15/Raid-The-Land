@@ -31,14 +31,20 @@ func initialize():
 	self.perk_list = self.perk_list.duplicate(true)
 	
 	self.health = stat_data.getAttribute(GameData.UNIT_DATA_ATTRIBUTES.MAX_HEALTH).value
+	self.set_action_points_to_max()
 	
+	EncounterBus.new_round_started.connect(self.on_new_round_started)
 
 # Put all methods for actions here?
 	
 func update_health(new_health: int):
 	self.health = new_health
 	
-
+func update_action_points(new_action_points: int):
+	self.action_points = new_action_points
+	
+func set_action_points_to_max():
+	self.update_action_points(stat_data.getAttribute(GameData.UNIT_DATA_ATTRIBUTES.MAX_AP).value)
 
 
 func add_condition(condition_data: ConditionData):
@@ -57,4 +63,7 @@ func add_condition(condition_data: ConditionData):
 			self.conditions.append(condition_data)
 		
 	print(conditions)
+	
+func on_new_round_started(round: int):
+	self.set_action_points_to_max()
 	

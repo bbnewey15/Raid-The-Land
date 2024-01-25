@@ -10,11 +10,15 @@ const AiActionManagerScene = preload("res://scenes/encounter/ai_action_manager.t
 @export var encounter_enemy_roster: EncEnemyRosterData
 @export var round : int = 0
 const FiniteStateMachine = preload("res://scenes/encounter/encounter_state_machine.tscn")
-@onready var order_ui = $OrderUi
-@onready var encounter_ui = $EncounterUi
+@onready var order_ui = %OrderUi
+
+@onready var lower_screen = %LowerScreen
+@onready var card_hand_interface = %CardHandInterface
+@onready var action_ui = %action_ui
+@onready var encounter_ui = %EncounterUi
+
 const slot_data_group_script = preload("res://datatypes/slot_data_group.gd")
 
-var actionUI: ActionUI
 var aiActionManager : AiActionManager
 var loading: bool = true
 var encounterStateMachine : StateMachine
@@ -46,19 +50,14 @@ func _ready():
 	# Add slot/slot_datas to columns from resource files
 	columnGroup.load_from_slot_data_group(playerSlotDatas)
 		
-
-	# Instanciate and hide action UI
-	actionUI = ActionUIScene.instantiate()	
-	actionUI.encounter_manager = self as EncounterManager
-	add_child(actionUI)
-	actionUI.hide()
-	
 	aiActionManager = AiActionManagerScene.instantiate()
 	aiActionManager.encounter_manager = self as EncounterManager
 	add_child(aiActionManager)
 	
 	order_ui.encounter_manager = self as EncounterManager
 	
+	action_ui.encounter_manager = self as EncounterManager
+	card_hand_interface.encounter_manager = self as EncounterManager
 	encounter_ui.encounter_manager = self as EncounterManager
 	
 	# Connect to Encounter State Machine signals

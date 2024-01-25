@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://cj2sokxjbe72j"]
+[gd_scene load_steps=22 format=3 uid="uid://cj2sokxjbe72j"]
 
 [ext_resource type="Script" path="res://scripts/units/unit_ui.gd" id="1_y42an"]
 [ext_resource type="Script" path="res://scripts/encounter/Conditions.gd" id="2_cx813"]
@@ -11,6 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://36kqmjxwjlws" path="res://scenes/encounter/unit_ui/level_up_panel.tscn" id="5_2homb"]
 [ext_resource type="Script" path="res://scripts/encounter/unit_ui/level_up_manager.gd" id="5_amqqv"]
 [ext_resource type="Script" path="res://scenes/encounter/unit_ui/EnemyIntent.gd" id="7_6f88n"]
+[ext_resource type="FontFile" uid="uid://cwtqh8s1mmyuv" path="res://assets/fonts/vikingsquad/vikingsquadboldital.ttf" id="10_xm1s4"]
 
 [sub_resource type="Animation" id="Animation_6tfwl"]
 length = 0.001
@@ -233,7 +234,6 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_bottom = 60.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("2_sorbp")
@@ -243,9 +243,10 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = -17.0
 offset_top = -2.5
-offset_right = 234.0
-offset_bottom = 122.5
+offset_right = 17.0
+offset_bottom = 2.5
 grow_horizontal = 2
 grow_vertical = 2
 pivot_offset = Vector2(7, 2.5)
@@ -363,10 +364,28 @@ custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="HealthBar" type="Control" parent="VBoxContainer/HBoxContainer"]
+[node name="ApContainer" type="MarginContainer" parent="VBoxContainer/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.2
+
+[node name="ApLabel" type="Label" parent="VBoxContainer/HBoxContainer/ApContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 5
+theme_override_fonts/font = ExtResource("10_xm1s4")
+theme_override_font_sizes/font_size = 30
+text = "5"
+horizontal_alignment = 1
+
+[node name="HealthBar" type="Control" parent="VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
 
 [node name="HealthBarTexture" type="ProgressBar" parent="VBoxContainer/HBoxContainer/HealthBar"]
 layout_mode = 1

@@ -7,6 +7,7 @@ var acting_as_enemy : bool = false
 
 # State
 var ui_active_slot_data : SlotData
+var ui_active_card_slot : CardSlot
 # All slots ordered according to Eagerness
 var full_slot_array: Array[SlotData] = []
 
@@ -14,6 +15,11 @@ var full_slot_array: Array[SlotData] = []
 func set_ui_active_slot_data(slot_data: SlotData):
 	ui_active_slot_data = slot_data
 	EncounterBus.ui_active_slot_data_changed.emit()
+	
+# setter
+func set_ui_active_card_slot(card_slot: CardSlot):
+	ui_active_card_slot = card_slot
+	EncounterBus.ui_active_card_slot_changed.emit()
 
 # Encounter Data
 const UNIT_SIZE = Vector2(110,110)

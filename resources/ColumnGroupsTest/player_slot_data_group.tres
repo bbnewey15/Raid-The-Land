@@ -10,8 +10,8 @@ unit_data_path = "res://scripts/units/infantry/spearman.tres"
 isEnemyUnit = false
 column_name = 0
 slotIndex = 0
-action_set = false
 turn_over = false
+action_set = false
 
 [sub_resource type="Resource" id="Resource_a8yci"]
 resource_local_to_scene = true
@@ -20,8 +20,8 @@ unit_data_path = "res://scripts/units/ranged/stone_tosser.tres"
 isEnemyUnit = false
 column_name = 1
 slotIndex = 1
-action_set = false
 turn_over = false
+action_set = false
 
 [sub_resource type="Resource" id="Resource_dxycq"]
 resource_local_to_scene = true
@@ -30,8 +30,8 @@ unit_data_path = "res://scripts/units/siege/torch_thrower.tres"
 isEnemyUnit = false
 column_name = 0
 slotIndex = 2
-action_set = false
 turn_over = false
+action_set = false
 
 [resource]
 resource_local_to_scene = true

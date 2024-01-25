@@ -83,6 +83,9 @@ func _on_mouse_exited():
 	pass # Replace with function body.
 
 func unit_action(action_data: ActionData, target: SlotData):
+	# reset targets
+	EncounterBus.end_request_user_target_unit.emit()
+	
 	await self.unit_ui.action_displayer.display_action( action_data)
 	
 	var hit_value = GameData.ACTION_SLIDER_HIT.HIT
@@ -103,9 +106,21 @@ func unit_action(action_data: ActionData, target: SlotData):
 		_:
 			push_warning("Default value used in unit_data's requires_target")
 			
-	# end turn for now
-	self.slot_data.turn_over = true
-	EncounterBus.unit_turn_ended.emit(slot_data)
+	
+	# Enemy
+	if self.slot_data.isEnemyUnit:
+		self.slot_data.turn_over = true
+		EncounterBus.unit_turn_ended.emit(slot_data)
+		return
+	
+	
+	# end turn if AP is gone
+	self.slot_data.unit_data.update_action_points(self.slot_data.unit_data.action_points - action_data.ap_cost)
+	if self.slot_data.unit_data.action_points <= 0:
+		self.slot_data.turn_over = true
+		EncounterBus.unit_turn_ended.emit(slot_data)
+	
+	
 	
 
 func attack(defending_slot_data: SlotData, hit_value: GameData.ACTION_SLIDER_HIT):

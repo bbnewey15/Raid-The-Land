@@ -23,7 +23,7 @@ func on_ai_action_request(slot_data: SlotData):
 
 	await get_tree().create_timer(1.5).timeout
 	
-	EncounterBus.action_activated.emit(slot_data)
+	EncounterBus.action_activated.emit(slot_data, slot_data.action_data)
 
 func set_intent(slot_data: SlotData):
 	assert(slot_data)

@@ -17,6 +17,8 @@ var slot : Slot
 @onready var enemy_intent = %EnemyIntent
 @onready var targeter = %Targeter
 @onready var level_up_manager = %LevelUpManager
+@onready var ap_container = %ApContainer
+@onready var ap_label = %ApLabel
 
 signal loaded 
 
@@ -59,6 +61,10 @@ func set_slot_data(data: SlotData)->void:
 	level_up_manager.initialize(self.slot)
 	action_displayer.initialize(self.slot.slot_data)
 	enemy_intent.initialize(self.slot.slot_data)
+	if data.isEnemyUnit:
+		ap_label.hide()
+	else:
+		ap_label.set_text(str(self.slot.slot_data.unit_data.action_points))
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):

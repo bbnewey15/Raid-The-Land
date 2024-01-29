@@ -3,7 +3,7 @@ extends Panel
 var order_ui : OrderUi
 var slot_data : SlotData
 @onready var color_rect = %ColorRect
-@onready var action_texture_rect = %ActionControl/MarginContainer/TextureRect
+@onready var action_texture_rect = %TextureRect
 @onready var shrink_tween: Node2D = %ShrinkTween
 @onready var unit_image: TextureRect = %UnitImage
 

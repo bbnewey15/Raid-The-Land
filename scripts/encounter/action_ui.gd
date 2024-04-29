@@ -97,6 +97,11 @@ func on_action_selected(card_slot: CardSlot):
 	assert(action_data)
 	assert(GameData.ui_active_slot_data)
 	
+	# Determine if actions points available
+	if GameData.ui_active_slot_data.unit_data.action_points < card_slot.slot_data.card_data.action_data.ap_cost:
+		card_slot.show_insufficient_ap()
+		return
+	
 	# If previous action required targets and this one doesnt
 	EncounterBus.end_request_user_target_unit.emit()
 	# Set active slot's data

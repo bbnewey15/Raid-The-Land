@@ -36,7 +36,21 @@ func draw(num: int) -> Array[CardData]:
 			# Animate 
 			
 			# Shuffle deck
-			self.in_play_deck_data = shuffle(self.full_deck_data)
+			print("Shuffling deck...")
+			
+			# exclude cards already drawn or no longer available
+			var tmp_deck = self.full_deck_data.duplicate()
+			for card in drawn_cards:
+				var found_card_idx = tmp_deck.find(card)
+				if found_card_idx:
+					tmp_deck.remove_at(found_card_idx)
+			
+			if tmp_deck.size() == 0:
+				print("No cards left")
+				assert(false)
+				
+			
+			self.in_play_deck_data = shuffle(tmp_deck)
 		
 		drawn_cards.append(self.in_play_deck_data.pop_front())
 		

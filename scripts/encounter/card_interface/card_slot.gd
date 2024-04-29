@@ -2,6 +2,8 @@ class_name CardSlot extends PanelContainer
 
 @onready var card_image = %CardImage
 @onready var hand_ui = $CardUi
+@onready var texture_rect = %TextureRect
+
 var unit_node : Node2D
 var slot_data : CardSlotData 
 var highlighted : bool = false
@@ -56,4 +58,9 @@ func setHighlight(shouldHighlight: bool)-> void:
 		set_position(Vector2(position.x, position.y + 15))
 
 
-			
+func show_insufficient_ap():
+	print("Insufficient AP")
+	var tween = get_tree().create_tween()
+	var return_color = self.texture_rect.get_self_modulate()
+	await tween.tween_property(self.texture_rect, "modulate", Color.RED, .1).set_ease(Tween.EASE_IN_OUT)
+	await tween.tween_property(self.texture_rect, "modulate", return_color, .2).set_ease(Tween.EASE_IN_OUT)

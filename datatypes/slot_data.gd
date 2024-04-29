@@ -14,6 +14,7 @@ var current_slot : Slot
 # Enemy uses the following:
 @export var action_data : ActionData
 @export var action_set : bool = false
+@export var unit_deck : CardDeckData
 ##
 
 

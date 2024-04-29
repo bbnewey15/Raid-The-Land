@@ -100,7 +100,7 @@ func unit_action(action_data: ActionData, target: SlotData):
 		GameData.UNIT_ACTIONS.DEBUFF:
 			await self.attack(target, hit_value)
 		GameData.UNIT_ACTIONS.DEFEND:
-			await self.defend()
+			await self.support(target)
 		GameData.UNIT_ACTIONS.SUPPORT:
 			await self.support(target)
 		_:
@@ -217,8 +217,8 @@ func apply_condition(action_data: ActionData, slot_to_apply: SlotData):
 		slot_to_apply.unit_data.add_condition(condition.duplicate(true))
 	
 	# Trigger conditions for the first time, they will resolve at the start of their next turn
-	slot_to_apply.current_slot.resolve_conditions()
-	
+	slot_to_apply.current_slot.resolve_conditions()	
+
 func resolve_conditions():
 	if len(self.slot_data.unit_data.conditions) > 0:
 		for condition in self.slot_data.unit_data.conditions:
@@ -229,6 +229,7 @@ func resolve_conditions():
 			if condition.stacks <= 0:
 				# Remove
 				self.slot_data.unit_data.conditions.remove_at(self.slot_data.unit_data.conditions.find(condition))
+				EncounterBus.slot_data_changed.emit()
 				
 			# TODO
 			await get_tree().create_timer(.6).timeout

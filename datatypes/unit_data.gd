@@ -64,6 +64,11 @@ func add_condition(condition_data: ConditionData):
 		
 	print(conditions)
 	
+func remove_condition(condition_data: ConditionData):
+	var existing_cond : Array[ConditionData] = self.conditions.filter(func(x): return x.condition == condition_data.condition)
+	assert(len(existing_cond) > 0 )
+	
+	
 func on_new_round_started(round: int):
 	self.set_action_points_to_max()
 	

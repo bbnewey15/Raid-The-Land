@@ -6,9 +6,9 @@
 
 [sub_resource type="Resource" id="Resource_0o2t1"]
 script = ExtResource("2_d7u35")
-condition = 4
+condition = 7
 stacks = 1
-ratio = 1.0
+ratio = 1.5
 icon = ExtResource("1_r2lxb")
 
 [resource]

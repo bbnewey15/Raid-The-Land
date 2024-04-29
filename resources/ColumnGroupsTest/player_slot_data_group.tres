@@ -26,7 +26,7 @@ action_set = false
 [sub_resource type="Resource" id="Resource_dxycq"]
 resource_local_to_scene = true
 script = ExtResource("2_ff2sj")
-unit_data_path = "res://scripts/units/siege/torch_thrower.tres"
+unit_data_path = "res://scripts/units/infantry/tank.tres"
 isEnemyUnit = false
 column_name = 0
 slotIndex = 2

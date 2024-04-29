@@ -40,7 +40,7 @@ resource_local_to_scene = true
 script = ExtResource("1_3faeq")
 display_name = "Support"
 accessor = 3
-value = 15
+value = 5
 display_order = 3
 icon = ExtResource("3_pomq1")
 
@@ -49,7 +49,7 @@ resource_local_to_scene = true
 script = ExtResource("1_3faeq")
 display_name = "Defence"
 accessor = 4
-value = 1
+value = 8
 display_order = 4
 icon = ExtResource("5_hcmba")
 

@@ -8,6 +8,16 @@
 
 config_version=5
 
+[addons]
+
+resources_spreadsheet_view/array_color_tint=100.0
+resources_spreadsheet_view/color_rows=true
+resources_spreadsheet_view/array_min_width=128.0
+resources_spreadsheet_view/resource_preview_size=32.0
+resources_spreadsheet_view/clip_headers=false
+resources_spreadsheet_view/dupe_arrays=true
+resources_spreadsheet_view/context_menu_on_leftclick=false
+
 [application]
 
 config/name="RaidTheLand"
@@ -23,6 +33,7 @@ DataUtils="*res://scripts/utils/data.gd"
 EventBus="*res://scripts/global/EventBus.gd"
 EncounterBus="*res://scripts/global/EncounterBus.gd"
 UiManager="*res://scripts/encounter/ui_manager.gd"
+Signal_Debugger="*res://addons/SignalVisualizer/Debugger/SignalDebugger.gd"
 
 [display]
 
@@ -30,6 +41,10 @@ window/size/viewport_width=1920
 window/size/viewport_height=1080
 window/size/initial_position_type=0
 window/stretch/mode="canvas_items"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/SignalVisualizer/plugin.cfg", "res://addons/resources_spreadsheet_view/plugin.cfg")
 
 [gui]
 

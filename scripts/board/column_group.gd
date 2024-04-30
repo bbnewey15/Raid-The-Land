@@ -244,6 +244,10 @@ func get_potential_action_targets(slot_data: SlotData, action_data: ActionData) 
 	
 	var should_select_friendly : bool =  \
 		true if action_data.target_type == GameData.ACTION_TARGET_TYPE.TARGET_ALLY else false
+		
+	if action_data.target_type == GameData.ACTION_TARGET_TYPE.TARGET_SELF:
+		# Return self as target
+		return [slot_data]
 			
 	var isEnemy = slot_data.isEnemyUnit
 	

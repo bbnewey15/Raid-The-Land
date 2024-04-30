@@ -24,6 +24,7 @@ func _ready():
 	#EncounterBus.column_clicked.connect(self.on_column_clicked)
 	EncounterBus.action_request_ui.connect(self.on_action_request_ui)
 	EncounterBus.action_completed.connect(self.on_action_completed)
+	EncounterBus.ui_active_slot_data_changed.connect(self.on_ui_active_slot_data_changed)
 	
 	self.load_from_resource(example_hand)
 
@@ -120,3 +121,13 @@ func on_card_post_play(card_slot: CardSlot):
 
 func on_encounter_state_changed(state_name):
 	pass
+	
+func on_ui_active_slot_data_changed():
+	if GameData.ui_active_slot_data == null:
+		return
+		
+	assert(GameData.ui_active_slot_data)
+	
+	if GameData.ui_active_slot_data.isEnemyUnit:
+		# Hide the UI
+		self.hide()

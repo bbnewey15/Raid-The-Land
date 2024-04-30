@@ -61,4 +61,4 @@ func _on_end_turn_button_pressed():
 		place_button_container.hide()
 		end_turn_button.hide()
 		GameData.ui_active_slot_data.turn_over = true
-		EncounterBus.unit_turn_ended.emit()
+		EncounterBus.unit_turn_ended.emit(GameData.ui_active_slot_data)

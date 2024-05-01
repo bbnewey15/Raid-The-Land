@@ -148,10 +148,11 @@ func on_slot_move_columns(slot: Slot, column_name: GameData.COLUMN_STRING):
 	column_dict[GameData.getColumnStringByIndex(current_column)].remove_slot(slot.slot_data)
 	
 	# Add to new column
-	column_dict[GameData.getColumnStringByIndex(column_name)].add_slot(slot.slot_data, false)
+	var new_slot = column_dict[GameData.getColumnStringByIndex(column_name)].add_slot(slot.slot_data, false)
 	
 	# update slot_data to new column
 	slot.slot_data.column_name = column_name
+	
 	
 	EncounterBus.slot_data_changed.emit()
 

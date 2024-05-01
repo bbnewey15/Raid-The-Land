@@ -7,7 +7,7 @@
 resource_local_to_scene = true
 script = ExtResource("1_fafn7")
 slot_datas = Array[Resource("res://datatypes/slot_data.gd")]([])
-column_type = 2
+column_type = 1
 colIndex = 3
 
 [sub_resource type="Resource" id="Resource_56yiu"]
@@ -21,7 +21,7 @@ colIndex = 2
 resource_local_to_scene = true
 script = ExtResource("1_fafn7")
 slot_datas = Array[Resource("res://datatypes/slot_data.gd")]([])
-column_type = 0
+column_type = 1
 colIndex = 0
 
 [sub_resource type="Resource" id="Resource_l51ei"]

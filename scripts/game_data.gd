@@ -23,11 +23,11 @@ func set_ui_active_card_slot(card_slot: CardSlot):
 
 # Encounter Data
 const UNIT_SIZE = Vector2(110,110)
-const COLUMN_SIZE = Vector2(150,520)
+const COLUMN_SIZE = Vector2(220,520)
 ## Player
-const backColumnLocation: Vector2 = Vector2(99, 0)
+const backColumnLocation: Vector2 = Vector2(0, 0)
 const backColumnRotation: float = 6.8
-const frontColumnLocation: Vector2 = Vector2(273, 0)
+const frontColumnLocation: Vector2 = Vector2(243, 0)
 const frontColumnRotation: float = 3.6
 #const backColumnLocation: Vector2 = Vector2(442, 20)
 #const backColumnRotation: float = .8
@@ -35,9 +35,9 @@ const frontColumnRotation: float = 3.6
 ## Enemey
 #const backEnemyColumnLocation: Vector2 = Vector2(945, 20)
 #const backEnemyColumnRotation: float = -6.8
-const backEnemyColumnLocation: Vector2 = Vector2(772,0)
+const backEnemyColumnLocation: Vector2 = Vector2(962,0)
 const backEnemyColumnRotation: float = -3.6
-const frontEnemyColumnLocation: Vector2 = Vector2(602,0)
+const frontEnemyColumnLocation: Vector2 = Vector2(702,0)
 const frontEnemyColumnRotation: float = -.8
 
 # Columns

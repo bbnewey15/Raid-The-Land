@@ -78,22 +78,28 @@ func on_encounter_state_changed(state: String)-> void:
 	if state == "Fight":
 		#order_control.show()
 		action_control.show()
-
-func on_ui_active_slot_data_changed():
-	if GameData.ui_active_slot_data and self.slot.slot_data == GameData.ui_active_slot_data:
-		self.highlight_slot()
-	else:
-		self.unhighlight_slot()
 		
-func on_slot_data_changed():
+func update_ui():
+	self.unhighlight_slot()
 	self.left_arrow_container.hide()
 	self.right_arrow_container.hide()
-	if self.slot.slot_data == GameData.ui_active_slot_data:
-		if GameData.ui_active_slot_data.unit_data.action_points >= 1:
-			if GameData.ui_active_slot_data.column_name == GameData.COLUMN_STRING.PLAYER_BACK_COL:
-				right_arrow_container.show()
-			else:
-				left_arrow_container.show()
+	if GameData.ui_active_slot_data and self.slot.slot_data == GameData.ui_active_slot_data:
+		self.highlight_slot()
+		if !GameData.ui_active_slot_data.isEnemyUnit:
+			if GameData.ui_active_slot_data.unit_data.action_points >= 1:
+				if GameData.ui_active_slot_data.column_name == GameData.COLUMN_STRING.PLAYER_BACK_COL:
+					right_arrow_container.show()
+				else:
+					left_arrow_container.show()
+
+func on_ui_active_slot_data_changed():
+	update_ui()
+					
+
+func on_slot_data_changed():
+	update_ui()
+		
+		
 
 func highlight_slot(color: Color = DEFAULT_SELECT_COLOR):
 	self.active_highlighter.set_color(color)

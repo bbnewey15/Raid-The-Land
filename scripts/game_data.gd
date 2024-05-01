@@ -88,7 +88,7 @@ enum MOVE_DIRECTION {LEFT = 0, RIGHT = 1}
 enum UNIT_ACTIONS {ATTACK  , DEFEND , SUPPORT, DEBUFF }
 
 # UNIT DATA ATTRIBUTES
-enum UNIT_DATA_ATTRIBUTES { MAX_HEALTH = 0, MAX_AP = 1, DAMAGE =2, SUPPORT_AMOUNT=3, DEFEND_RATIO=4, EAGERNESS=5, EVASIVENESS=6}
+enum UNIT_DATA_ATTRIBUTES { MAX_HEALTH = 0, MAX_AP = 1, DAMAGE =2, SUPPORT_AMOUNT=3, DEFEND_RATIO=4, EAGERNESS=5, EVASIVENESS=6, PRECISION=7}
 const MAX_HEALTH ="max_health"
 const MAX_AP = "max_ap"
 const DAMAGE= "damage"
@@ -96,6 +96,7 @@ const SUPPORT_AMOUNT="support_amount"
 const DEFEND_RATIO="defend_ratio"
 const EAGERNESS="eagerness"
 const EVASIVENESS="evasiveness"
+const PRECISION="precision"
 
 const ATTACK_ICON = preload("res://assets/attack_icon.png")
 const DEFENSE_ICON = preload("res://assets/defense_icon.png")

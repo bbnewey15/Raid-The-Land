@@ -5,6 +5,7 @@
 [ext_resource type="FontFile" uid="uid://bux2d6r2ckfem" path="res://assets/fonts/vikingsquad/vikingsquadbold.ttf" id="3_ts6bo"]
 
 [node name="Condition" type="Control"]
+custom_minimum_size = Vector2(20, 20)
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0

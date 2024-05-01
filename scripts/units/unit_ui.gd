@@ -19,6 +19,8 @@ var slot : Slot
 @onready var level_up_manager = %LevelUpManager
 @onready var ap_container = %ApContainer
 @onready var ap_label = %ApLabel
+@onready var left_arrow_container = %left_arrow_container
+@onready var right_arrow_container = %right_arrow_container
 
 signal loaded 
 
@@ -34,6 +36,7 @@ func _ready():
 	action_control_texture_rect.set_texture(null)
 	EncounterBus.encounter_state_changed.connect(self.on_encounter_state_changed)
 	EncounterBus.ui_active_slot_data_changed.connect(self.on_ui_active_slot_data_changed)
+	EncounterBus.slot_data_changed.connect(self.on_slot_data_changed)
 	
 	await get_parent().ready
 	assert(slot)
@@ -81,9 +84,37 @@ func on_ui_active_slot_data_changed():
 		self.highlight_slot()
 	else:
 		self.unhighlight_slot()
+		
+func on_slot_data_changed():
+	self.left_arrow_container.hide()
+	self.right_arrow_container.hide()
+	if self.slot.slot_data == GameData.ui_active_slot_data:
+		if GameData.ui_active_slot_data.unit_data.action_points >= 1:
+			if GameData.ui_active_slot_data.column_name == GameData.COLUMN_STRING.PLAYER_BACK_COL:
+				right_arrow_container.show()
+			else:
+				left_arrow_container.show()
 
 func highlight_slot(color: Color = DEFAULT_SELECT_COLOR):
 	self.active_highlighter.set_color(color)
 	
 func unhighlight_slot():
 	self.active_highlighter.set_color(UNHIGHLIGHT_COLOR)
+
+
+func _on_left_arrow_container_gui_input(event):
+	if event is InputEventMouseButton \
+		and (event.button_index == MOUSE_BUTTON_LEFT) \
+		and event.is_pressed():
+			print("Left arrow Clicked %s" % event )
+			if GameData.ui_active_slot_data == self.slot.slot_data:
+				EncounterBus.slot_move_columns.emit(self.slot, GameData.COLUMN_STRING.PLAYER_BACK_COL)
+
+
+func _on_right_arrow_container_gui_input(event):
+	if event is InputEventMouseButton \
+		and (event.button_index == MOUSE_BUTTON_LEFT) \
+		and event.is_pressed():
+			print("Right arrow Clicked %s" % event )
+			if GameData.ui_active_slot_data == self.slot.slot_data:
+				EncounterBus.slot_move_columns.emit(self.slot, GameData.COLUMN_STRING.PLAYER_FRONT_COL)

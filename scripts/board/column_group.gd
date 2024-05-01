@@ -33,7 +33,7 @@ func _ready():
 	EncounterBus.fight_state_started.connect(self.on_fight_state_started)
 	
 	EncounterBus.action_activated.connect(self.on_action_activated)
-	
+	EncounterBus.slot_move_columns.connect(self.on_slot_move_columns)
 #	# Connect to Encounter State Machine signals
 #	encounterStateMachine.encounter_state_changed.connect(self.on_encounter_state_changed)
 	
@@ -140,6 +140,20 @@ func on_action_activated(slot_data  : SlotData, action_data: ActionData):
 		EncounterBus.slot_data_changed.emit()
 	
 	pass
+
+func on_slot_move_columns(slot: Slot, column_name: GameData.COLUMN_STRING):
+	var current_column : GameData.COLUMN_STRING = slot.slot_data.column_name
+	
+	# Remove slot from current column
+	column_dict[GameData.getColumnStringByIndex(current_column)].remove_slot(slot.slot_data)
+	
+	# Add to new column
+	column_dict[GameData.getColumnStringByIndex(column_name)].add_slot(slot.slot_data, false)
+	
+	# update slot_data to new column
+	slot.slot_data.column_name = column_name
+	
+	EncounterBus.slot_data_changed.emit()
 
 func fight() -> void:
 	#UnitColumnGroup on state: "fight"

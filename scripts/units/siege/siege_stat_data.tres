@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="UnitStatData" load_steps=15 format=3 uid="uid://cmbibcpa8bjgi"]
+[gd_resource type="Resource" script_class="UnitStatData" load_steps=16 format=3 uid="uid://cmbibcpa8bjgi"]
 
 [ext_resource type="Texture2D" uid="uid://da6wl6gbj4c2y" path="res://assets/attack_icon.png" id="1_ttt0v"]
 [ext_resource type="Script" path="res://datatypes/unit_stats/unit_stat_item_data.gd" id="2_icuil"]
@@ -23,7 +23,7 @@ script = ExtResource("2_icuil")
 display_name = "Max Health"
 accessor = 0
 value = 50
-display_order = 1
+display_order = 2
 icon = ExtResource("3_u4i54")
 
 [sub_resource type="Resource" id="Resource_1rchd"]
@@ -32,7 +32,7 @@ script = ExtResource("2_icuil")
 display_name = "Max AP"
 accessor = 1
 value = 3
-display_order = 2
+display_order = 3
 icon = ExtResource("4_fvl7j")
 
 [sub_resource type="Resource" id="Resource_ek1bt"]
@@ -41,7 +41,7 @@ script = ExtResource("2_icuil")
 display_name = "Support"
 accessor = 3
 value = 15
-display_order = 3
+display_order = 6
 icon = ExtResource("3_u4i54")
 
 [sub_resource type="Resource" id="Resource_rkisa"]
@@ -50,7 +50,7 @@ script = ExtResource("2_icuil")
 display_name = "Defence"
 accessor = 4
 value = 1
-display_order = 4
+display_order = 1
 icon = ExtResource("5_38qfi")
 
 [sub_resource type="Resource" id="Resource_mqyuj"]
@@ -59,7 +59,7 @@ script = ExtResource("2_icuil")
 display_name = "Eagerness"
 accessor = 5
 value = 13
-display_order = 5
+display_order = 7
 icon = ExtResource("6_yph15")
 
 [sub_resource type="Resource" id="Resource_7x4qe"]
@@ -68,10 +68,18 @@ script = ExtResource("2_icuil")
 display_name = "Evasive"
 accessor = 6
 value = 10
-display_order = 6
+display_order = 5
 icon = ExtResource("3_u4i54")
+
+[sub_resource type="Resource" id="Resource_cc710"]
+script = ExtResource("2_icuil")
+display_name = "Precision"
+accessor = 7
+value = 6
+display_order = 4
+icon = ExtResource("6_yph15")
 
 [resource]
 resource_local_to_scene = true
 script = ExtResource("7_wpf3k")
-attributes = Array[ExtResource("2_icuil")]([SubResource("Resource_72i4r"), SubResource("Resource_3sy4c"), SubResource("Resource_1rchd"), SubResource("Resource_ek1bt"), SubResource("Resource_rkisa"), SubResource("Resource_mqyuj"), SubResource("Resource_7x4qe")])
+attributes = Array[ExtResource("2_icuil")]([SubResource("Resource_72i4r"), SubResource("Resource_3sy4c"), SubResource("Resource_1rchd"), SubResource("Resource_ek1bt"), SubResource("Resource_rkisa"), SubResource("Resource_mqyuj"), SubResource("Resource_7x4qe"), SubResource("Resource_cc710")])

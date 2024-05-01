@@ -53,6 +53,9 @@ signal request_user_target_unit(card_slot: CardSlot, potential_targets: Array[Sl
 signal end_request_user_target_unit
 
 # warning-ignore:unused_signal
+signal slot_move_columns(slot: Slot, column_name: GameData.COLUMN_STRING)
+
+# warning-ignore:unused_signal
 signal fight_state_started
 # warning-ignore:unused_signal
 signal fight_state_stopped

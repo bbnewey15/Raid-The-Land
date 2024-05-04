@@ -43,8 +43,16 @@ func _ready():
 	targeter.slot = self.slot as Slot
 	loaded.emit()
 
-func set_unit_data(data: UnitDataTest)-> void:
+func set_unit_data(data: UnitDataTest)-> void:	
 	self.unit_data = data
+	
+	if data == null:
+		# Hide everything
+		self.hide()
+		return
+	else:
+		self.show()
+	
 	var new_health = clamp(data.health, 0.0, unit_data.stat_data.getAttribute(GameData.UNIT_DATA_ATTRIBUTES.MAX_HEALTH).value)
 	health_bar_texture.value= ( float(new_health) / unit_data.stat_data.getAttribute(GameData.UNIT_DATA_ATTRIBUTES.MAX_HEALTH).value ) * 100
 	health_label.set_text( str(new_health) )
@@ -124,3 +132,10 @@ func _on_right_arrow_container_gui_input(event):
 			print("Right arrow Clicked %s" % event )
 			if GameData.ui_active_slot_data == self.slot.slot_data:
 				EncounterBus.slot_move_columns.emit(self.slot, GameData.COLUMN_STRING.PLAYER_FRONT_COL)
+
+
+func _on_margin_container_4_gui_input(event):
+	if event is InputEventMouseButton \
+		and (event.button_index == MOUSE_BUTTON_LEFT) \
+		and event.is_pressed():
+			pass

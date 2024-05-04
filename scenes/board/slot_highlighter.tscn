@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://cifxsod3pi21m"]
 
-[ext_resource type="Script" path="res://scripts/encounter/Targeter.gd" id="1_bw14x"]
+[ext_resource type="Script" path="res://scripts/encounter/unit_ui/Targeter.gd" id="1_bw14x"]
 
 [node name="Targeter" type="Control"]
 layout_mode = 3

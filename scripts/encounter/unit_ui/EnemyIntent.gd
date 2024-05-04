@@ -20,6 +20,8 @@ func initialize(slot_data):
 	self.slot_data = slot_data
 
 func on_slot_data_changed():
+	if not self.slot_data:
+		return
 	assert(self.slot_data)
 	if slot_data.isEnemyUnit and slot_data.action_set:
 		if(!self.is_visible()):

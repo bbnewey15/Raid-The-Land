@@ -13,14 +13,19 @@ func _ready():
 	unit_ui.slot = self as Slot
 	EncounterBus.slot_data_changed.connect(self.on_slot_data_changed)
 	
-func initialize(slot_data: SlotData):
+func initialize(slot_data = null):
 	
+	if slot_data == null:
+		unit_ui.hide()
+		return
+	else:
+		unit_ui.show()
 		
 	self.slot_data = slot_data
 	self.slot_data.current_slot = self
 	slot_data.init_unit_data(slot_data.unit_data)
 	
-	if unit_node:
+	if is_instance_valid(unit_node):
 		unit_node.queue_free()
 	var unit_node_scene = load(slot_data.unit_data.unit_node_path)
 	unit_node = unit_node_scene.instantiate()
@@ -35,8 +40,19 @@ func initialize(slot_data: SlotData):
 	tooltip_text = "%s\n%s" % [slot_data.unit_data.name, slot_data.unit_data.description]
 	slot_data.set_slot_position(get_global_position() + size/2)
 
+func clear_slot():
+	self.slot_data = null
+	self.unit_node.queue_free()
+	self.set_slot_data(null)
+
 func set_slot_data(data: SlotData) -> void:
 	
+	if data == null:
+		unit_ui.hide()
+		return
+	else:
+		unit_ui.show()
+
 	# Update Unit UI
 	unit_ui.set_unit_data(self.slot_data.unit_data)
 	unit_ui.set_slot_data(self.slot_data)
@@ -64,7 +80,8 @@ func _process(delta):
 	pass
 	
 func _on_gui_input(event):
-	
+	if !slot_data:
+		return
 	if event is InputEventMouseButton \
 		and (event.button_index == MOUSE_BUTTON_LEFT) \
 		and event.is_pressed():

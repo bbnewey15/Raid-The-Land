@@ -27,7 +27,7 @@ const COLUMN_SIZE = Vector2(220,520)
 ## Player
 const backColumnLocation: Vector2 = Vector2(0, 0)
 const backColumnRotation: float = 6.8
-const frontColumnLocation: Vector2 = Vector2(243, 0)
+const frontColumnLocation: Vector2 = Vector2(283, 0)
 const frontColumnRotation: float = 3.6
 #const backColumnLocation: Vector2 = Vector2(442, 20)
 #const backColumnRotation: float = .8

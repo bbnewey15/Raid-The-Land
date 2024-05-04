@@ -1,16 +1,16 @@
 [gd_scene load_steps=23 format=3 uid="uid://cj2sokxjbe72j"]
 
-[ext_resource type="Script" path="res://scripts/units/unit_ui.gd" id="1_y42an"]
-[ext_resource type="Script" path="res://scripts/encounter/Conditions.gd" id="2_cx813"]
+[ext_resource type="Script" path="res://scripts/encounter/unit_ui/unit_ui.gd" id="1_2bb20"]
 [ext_resource type="PackedScene" uid="uid://cifxsod3pi21m" path="res://scenes/board/slot_highlighter.tscn" id="2_l7cgo"]
-[ext_resource type="Script" path="res://scenes/encounter/unit_ui/ActionDisplayer.gd" id="2_sorbp"]
+[ext_resource type="Script" path="res://scripts/encounter/unit_ui/ActionDisplayer.gd" id="2_qgtuh"]
 [ext_resource type="FontFile" uid="uid://bux2d6r2ckfem" path="res://assets/fonts/vikingsquad/vikingsquadbold.ttf" id="2_ucouw"]
 [ext_resource type="FontFile" uid="uid://yf5bgg5euvia" path="res://assets/fonts/vikingsquad/vikingsquadcondital.ttf" id="3_46auq"]
 [ext_resource type="Texture2D" uid="uid://da6wl6gbj4c2y" path="res://assets/attack_icon.png" id="3_qda4a"]
 [ext_resource type="PackedScene" uid="uid://cvtnv6sepx2y8" path="res://scenes/encounter/unit_ui/condition.tscn" id="3_v2com"]
 [ext_resource type="PackedScene" uid="uid://36kqmjxwjlws" path="res://scenes/encounter/unit_ui/level_up_panel.tscn" id="5_2homb"]
 [ext_resource type="Script" path="res://scripts/encounter/unit_ui/level_up_manager.gd" id="5_amqqv"]
-[ext_resource type="Script" path="res://scenes/encounter/unit_ui/EnemyIntent.gd" id="7_6f88n"]
+[ext_resource type="Script" path="res://scripts/encounter/unit_ui/EnemyIntent.gd" id="6_lnpxd"]
+[ext_resource type="Script" path="res://scripts/encounter/unit_ui/Conditions.gd" id="7_4rs1y"]
 [ext_resource type="FontFile" uid="uid://cwtqh8s1mmyuv" path="res://assets/fonts/vikingsquad/vikingsquadboldital.ttf" id="10_xm1s4"]
 
 [sub_resource type="Animation" id="Animation_6tfwl"]
@@ -214,7 +214,7 @@ offset_right = 300.0
 offset_bottom = 300.0
 pivot_offset = Vector2(101, 102)
 mouse_filter = 1
-script = ExtResource("1_y42an")
+script = ExtResource("1_2bb20")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 1
@@ -233,7 +233,7 @@ layout_mode = 2
 [node name="ActionDisplayer" type="Control" parent="VBoxContainer/MarginContainer3/UpperUIContainer"]
 unique_name_in_owner = true
 anchors_preset = 0
-script = ExtResource("2_sorbp")
+script = ExtResource("2_qgtuh")
 
 [node name="ActionLabelContainer" type="MarginContainer" parent="VBoxContainer/MarginContainer3/UpperUIContainer/ActionDisplayer"]
 layout_mode = 0
@@ -305,7 +305,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("7_6f88n")
+script = ExtResource("6_lnpxd")
 
 [node name="IntentLabelContainer" type="MarginContainer" parent="VBoxContainer/MarginContainer3/UpperUIContainer/EnemyIntent"]
 custom_minimum_size = Vector2(234, 65)
@@ -353,7 +353,7 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 size_flags_horizontal = 0
-script = ExtResource("2_cx813")
+script = ExtResource("7_4rs1y")
 
 [node name="Condition" parent="VBoxContainer/MarginContainer/Conditions" instance=ExtResource("3_v2com")]
 layout_mode = 2
@@ -471,7 +471,6 @@ alignment = 1
 unique_name_in_owner = true
 custom_minimum_size = Vector2(25, 45)
 layout_mode = 2
-mouse_filter = 0
 mouse_default_cursor_shape = 2
 
 [node name="left_arrow" type="Polygon2D" parent="VBoxContainer/MarginContainer4/HBoxContainer/left_arrow_container"]
@@ -499,9 +498,11 @@ offset = Vector2(-17, -8)
 polygon = PackedVector2Array(38, 31, 20, 8, 20, 53)
 
 [node name="UnitContainer" type="MarginContainer" parent="."]
+custom_minimum_size = Vector2(200, 0)
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
+anchors_preset = 13
+anchor_left = 0.5
+anchor_right = 0.5
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
@@ -517,7 +518,7 @@ color = Color(1, 1, 1, 0)
 [node name="Targeter" parent="UnitContainer" instance=ExtResource("2_l7cgo")]
 unique_name_in_owner = true
 layout_mode = 2
-SUPPORTING_COLOR = Color(0.921569, 0.192157, 0.631373, 0.388235)
 
+[connection signal="gui_input" from="VBoxContainer/MarginContainer4" to="." method="_on_margin_container_4_gui_input"]
 [connection signal="gui_input" from="VBoxContainer/MarginContainer4/HBoxContainer/left_arrow_container" to="." method="_on_left_arrow_container_gui_input"]
 [connection signal="gui_input" from="VBoxContainer/MarginContainer4/HBoxContainer/right_arrow_container" to="." method="_on_right_arrow_container_gui_input"]

@@ -27,7 +27,7 @@ script = ExtResource("2_a58xo")
 unit_data_path = "res://scripts/units/ranged/stone_tosser.tres"
 isEnemyUnit = true
 column_name = 2
-slotIndex = 4
+slotIndex = 1
 turn_over = false
 action_set = false
 

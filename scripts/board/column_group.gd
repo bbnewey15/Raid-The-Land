@@ -36,7 +36,7 @@ func _ready():
 	EncounterBus.slot_move_columns.connect(self.on_slot_move_columns)
 #	# Connect to Encounter State Machine signals
 #	encounterStateMachine.encounter_state_changed.connect(self.on_encounter_state_changed)
-	
+
 	loading = false
 	
 func load_from_resource(data: Resource) -> void:
@@ -48,6 +48,9 @@ func load_from_resource(data: Resource) -> void:
 		#column_dict[column].column_data.column_interact.connect(on_column_interact)
 		
 func load_from_slot_data_group(data: SlotDataGroup) -> void:
+	# INFO: Slots will all be loaded already, but maybe empty
+	# This will overwrite slots with new data according to index and column_name
+
 	var playerSlotDatas : Array[SlotData] = []
 	var enemySlotDatas : Array[SlotData] = []
 
@@ -59,10 +62,17 @@ func load_from_slot_data_group(data: SlotDataGroup) -> void:
 		
 	for slot_data in data.slot_datas:
 		print("slot_data.column_name:  %s"  % slot_data.column_name)
-		print(GameData[GameData.COLUMN_STRING.keys()[slot_data.column_name]])
-		column_dict[GameData.getColumnStringByIndex(slot_data.column_name)].add_slot(slot_data, false)
+		var column = column_dict[GameData.getColumnStringByIndex(slot_data.column_name)]
+		var index = slot_data.slotIndex
+		var slot = column.unit_grid.get_child(index)
 		
-	var tmp_slot_array : Array[SlotData] 
+		assert(slot)
+		# Update new_slot with slot
+		slot.initialize(slot_data)
+		#print(GameData[GameData.COLUMN_STRING.keys()[slot_data.column_name]])
+		
+		
+	var tmp_slot_array : Array[SlotData] = []
 	tmp_slot_array.append_array(playerSlotDatas)
 	tmp_slot_array.append_array(enemySlotDatas)
 	tmp_slot_array.append_array(GameData.full_slot_array)
@@ -144,16 +154,21 @@ func on_action_activated(slot_data  : SlotData, action_data: ActionData):
 func on_slot_move_columns(slot: Slot, column_name: GameData.COLUMN_STRING):
 	var current_column : GameData.COLUMN_STRING = slot.slot_data.column_name
 	
-	# Remove slot from current column
-	column_dict[GameData.getColumnStringByIndex(current_column)].remove_slot(slot.slot_data)
+	# Updatet empty slot in new column
+	# get index of empty slow of same current_slot_index
+	var current_slot_index = slot.slot_data.slotIndex
+	var new_slot = column_dict[GameData.getColumnStringByIndex(column_name)].unit_grid.get_child(current_slot_index)
+
+	# Update new_slot with slot
+	new_slot.initialize(slot.slot_data)
 	
-	# Add to new column
-	var new_slot = column_dict[GameData.getColumnStringByIndex(column_name)].add_slot(slot.slot_data, false)
-	
-	# update slot_data to new column
+	# Update column name
 	slot.slot_data.column_name = column_name
 	
+	# Update old slot to clear
+	slot.clear_slot()
 	
+	# This runs slot.set_slot_data also
 	EncounterBus.slot_data_changed.emit()
 
 func fight() -> void:
@@ -298,6 +313,9 @@ func get_potential_action_targets(slot_data: SlotData, action_data: ActionData) 
 	var actionable_slots: Array[SlotData] = []
 	for column in targeted_columns:
 		for slot in column.unit_grid.get_children():
+			if slot.slot_data == null:
+				continue
+				
 			if slot.slot_data.unit_data.status == GameData.UNIT_STATUS.ALIVE:
 				actionable_slots.append(slot.slot_data)
 	

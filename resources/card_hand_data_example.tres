@@ -1,0 +1,55 @@
+[gd_resource type="Resource" script_class="CardHandData" load_steps=17 format=3 uid="uid://cxvmb76yix0m4"]
+
+[ext_resource type="Script" path="res://datatypes/card_hand_data.gd" id="1_ca4nw"]
+[ext_resource type="Resource" uid="uid://bh5opjewnmba8" path="res://scripts/encounter/actions/supports/defend.tres" id="2_b1iyq"]
+[ext_resource type="Script" path="res://datatypes/card_data.gd" id="3_svy6m"]
+[ext_resource type="Texture2D" uid="uid://c8cb1jpvq4krf" path="res://assets/defense_icon.png" id="4_2h7la"]
+[ext_resource type="Script" path="res://datatypes/card_slot_data.gd" id="5_eywm5"]
+[ext_resource type="Resource" uid="uid://bgpamuxm42x7r" path="res://scripts/encounter/actions/attacks/basic_attack.tres" id="6_e8yxs"]
+[ext_resource type="Texture2D" uid="uid://cntmgxfgw1gmc" path="res://assets/spear_stolen.PNG" id="7_nu2xv"]
+
+[sub_resource type="Resource" id="Resource_7ds8b"]
+script = ExtResource("3_svy6m")
+name = "Defend"
+description = "Defend Self"
+texture = ExtResource("4_2h7la")
+action_data = ExtResource("2_b1iyq")
+
+[sub_resource type="Resource" id="Resource_v3to2"]
+script = ExtResource("5_eywm5")
+card_data = SubResource("Resource_7ds8b")
+
+[sub_resource type="Resource" id="Resource_plnks"]
+script = ExtResource("5_eywm5")
+card_data = SubResource("Resource_7ds8b")
+
+[sub_resource type="Resource" id="Resource_yy8x2"]
+script = ExtResource("5_eywm5")
+card_data = SubResource("Resource_7ds8b")
+
+[sub_resource type="Resource" id="Resource_tdar7"]
+script = ExtResource("3_svy6m")
+name = "Attack"
+description = "Attack"
+texture = ExtResource("7_nu2xv")
+action_data = ExtResource("6_e8yxs")
+
+[sub_resource type="Resource" id="Resource_5t3df"]
+script = ExtResource("5_eywm5")
+card_data = SubResource("Resource_tdar7")
+
+[sub_resource type="Resource" id="Resource_vdk2q"]
+script = ExtResource("5_eywm5")
+card_data = SubResource("Resource_tdar7")
+
+[sub_resource type="Resource" id="Resource_txae8"]
+script = ExtResource("5_eywm5")
+card_data = SubResource("Resource_tdar7")
+
+[sub_resource type="Resource" id="Resource_r480l"]
+script = ExtResource("5_eywm5")
+card_data = SubResource("Resource_tdar7")
+
+[resource]
+script = ExtResource("1_ca4nw")
+slot_datas = Array[ExtResource("5_eywm5")]([SubResource("Resource_v3to2"), SubResource("Resource_plnks"), SubResource("Resource_yy8x2"), SubResource("Resource_5t3df"), SubResource("Resource_vdk2q"), SubResource("Resource_txae8"), SubResource("Resource_r480l")])

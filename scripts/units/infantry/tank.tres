@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://datatypes/unit_data.gd" id="1_ouccf"]
 [ext_resource type="Script" path="res://datatypes/skill_tree_data.gd" id="2_0gcoy"]
 [ext_resource type="Script" path="res://datatypes/skill_tree_item_data.gd" id="3_5cc7k"]
-[ext_resource type="Resource" uid="uid://bndeq0fqi5fwk" path="res://scripts/units/infantry/spearman/spearman_stat_data.tres" id="4_prnwp"]
+[ext_resource type="Resource" uid="uid://c8e64gdb8wn46" path="res://scripts/units/infantry/spearman/tank_stat_data.tres" id="4_mngf7"]
 [ext_resource type="Texture2D" uid="uid://cntmgxfgw1gmc" path="res://assets/spear_stolen.PNG" id="4_yiesw"]
 
 [sub_resource type="Resource" id="Resource_pkimo"]
@@ -35,14 +35,15 @@ script = ExtResource("2_0gcoy")
 skill_tree_level_1 = Array[ExtResource("3_5cc7k")]([SubResource("Resource_pkimo"), SubResource("Resource_bh32t"), SubResource("Resource_see12")])
 
 [resource]
+resource_local_to_scene = true
 script = ExtResource("1_ouccf")
 name = "Spearman"
 description = "A simple minded infantry unit."
 texture = ExtResource("4_yiesw")
 unit_node_path = "res://scenes/units/spearman.tscn"
 column_type = 2
-stat_data = ExtResource("4_prnwp")
-action_points = 0
+stat_data = ExtResource("4_mngf7")
+action_points = 5
 health = 0
 status = 0
 conditions = Array[Resource("res://datatypes/condition_data.gd")]([])

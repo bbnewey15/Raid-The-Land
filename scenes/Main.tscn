@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://cjn0k0cjh438d"]
+[gd_scene load_steps=14 format=3 uid="uid://cjn0k0cjh438d"]
 
 [ext_resource type="Script" path="res://scripts/Main.gd" id="1_o075c"]
 [ext_resource type="Script" path="res://scripts/World.gd" id="2_arvqx"]
@@ -11,6 +11,8 @@
 [ext_resource type="PackedScene" uid="uid://3igdb1jenvn4" path="res://scenes/encounter/encounter_ui.tscn" id="9_3bn05"]
 [ext_resource type="PackedScene" uid="uid://cfwn2htte8urv" path="res://scenes/encounter/action_slider.tscn" id="9_aa2sr"]
 [ext_resource type="PackedScene" uid="uid://byqhywpon3ktd" path="res://scenes/encounter/draft_ui/draft_ui.tscn" id="10_5pe7g"]
+[ext_resource type="PackedScene" uid="uid://cdingdme3tu70" path="res://scenes/encounter/action_ui.tscn" id="11_8q4g8"]
+[ext_resource type="PackedScene" uid="uid://p46rby3d6qhj" path="res://scenes/encounter/card_interface/card_hand_interface.tscn" id="12_q8ayo"]
 
 [node name="Main" type="Node"]
 script = ExtResource("1_o075c")
@@ -42,17 +44,15 @@ encounter_enemy_roster = ExtResource("6_4dxmb")
 unique_name_in_owner = true
 top_level = true
 offset_left = 363.0
-offset_top = 260.0
+offset_top = 218.835
 offset_right = -366.0
-offset_bottom = -300.0
+offset_bottom = -341.165
 
 [node name="OrderUi" parent="GUI/EncounterManager" instance=ExtResource("8_rx5hp")]
-
-[node name="EncounterUi" parent="GUI/EncounterManager" instance=ExtResource("9_3bn05")]
-size_flags_horizontal = 8
-size_flags_vertical = 8
+unique_name_in_owner = true
 
 [node name="ActionSlider" parent="GUI/EncounterManager" instance=ExtResource("9_aa2sr")]
+visible = false
 custom_minimum_size = Vector2(800, 480)
 anchors_preset = 8
 anchor_left = 0.5
@@ -66,3 +66,40 @@ offset_bottom = 240.0
 pivot_offset = Vector2(-707, 176)
 
 [node name="DraftUi" parent="GUI/EncounterManager" instance=ExtResource("10_5pe7g")]
+visible = false
+
+[node name="LowerScreen" type="MarginContainer" parent="GUI/EncounterManager"]
+unique_name_in_owner = true
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -237.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 15
+
+[node name="HBoxContainer" type="HBoxContainer" parent="GUI/EncounterManager/LowerScreen"]
+layout_mode = 2
+alignment = 1
+
+[node name="action_ui" parent="GUI/EncounterManager/LowerScreen/HBoxContainer" instance=ExtResource("11_8q4g8")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_stretch_ratio = 0.5
+
+[node name="CardHandInterface" parent="GUI/EncounterManager/LowerScreen/HBoxContainer" instance=ExtResource("12_q8ayo")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_stretch_ratio = 2.01
+
+[node name="EncounterUi" parent="GUI/EncounterManager/LowerScreen/HBoxContainer" instance=ExtResource("9_3bn05")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(250, 225)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+size_flags_stretch_ratio = 0.5

@@ -31,10 +31,12 @@ current_level = 0
 unlock_actions = Array[Resource("res://datatypes/action_data.gd")]([])
 
 [sub_resource type="Resource" id="Resource_2yn27"]
+resource_local_to_scene = true
 script = ExtResource("2_73m62")
 skill_tree_level_1 = Array[ExtResource("3_4soam")]([SubResource("Resource_pkimo"), SubResource("Resource_bh32t"), SubResource("Resource_see12")])
 
 [resource]
+resource_local_to_scene = true
 script = ExtResource("1_urgia")
 name = "Spearman"
 description = "A simple minded infantry unit."
@@ -42,8 +44,9 @@ texture = ExtResource("2_bk65b")
 unit_node_path = "res://scenes/units/spearman.tscn"
 column_type = 2
 stat_data = ExtResource("4_24263")
-action_points = 0
+action_points = 5
 health = 0
 status = 0
 conditions = Array[Resource("res://datatypes/condition_data.gd")]([])
 skill_tree = SubResource("Resource_2yn27")
+perk_list = Array[Resource("res://datatypes/perk_data.gd")]([])

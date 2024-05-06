@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="CardDeckData" load_steps=4 format=3 uid="uid://cb1yxhk8aso55"]
+
+[ext_resource type="Script" path="res://datatypes/card_deck_data.gd" id="1_415ho"]
+[ext_resource type="Script" path="res://datatypes/card_data.gd" id="1_io80i"]
+
+[sub_resource type="Resource" id="Resource_wldkp"]
+script = ExtResource("1_io80i")
+name = ""
+description = ""
+
+[resource]
+script = ExtResource("1_415ho")
+name = ""
+full_deck_data = Array[ExtResource("1_io80i")]([SubResource("Resource_wldkp")])
+in_play_deck_data = Array[ExtResource("1_io80i")]([])

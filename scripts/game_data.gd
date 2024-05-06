@@ -7,6 +7,7 @@ var acting_as_enemy : bool = false
 
 # State
 var ui_active_slot_data : SlotData
+var ui_active_card_slot : CardSlot
 # All slots ordered according to Eagerness
 var full_slot_array: Array[SlotData] = []
 
@@ -14,14 +15,19 @@ var full_slot_array: Array[SlotData] = []
 func set_ui_active_slot_data(slot_data: SlotData):
 	ui_active_slot_data = slot_data
 	EncounterBus.ui_active_slot_data_changed.emit()
+	
+# setter
+func set_ui_active_card_slot(card_slot: CardSlot):
+	ui_active_card_slot = card_slot
+	EncounterBus.ui_active_card_slot_changed.emit()
 
 # Encounter Data
 const UNIT_SIZE = Vector2(110,110)
-const COLUMN_SIZE = Vector2(150,520)
+const COLUMN_SIZE = Vector2(220,520)
 ## Player
-const backColumnLocation: Vector2 = Vector2(99, 0)
+const backColumnLocation: Vector2 = Vector2(0, 0)
 const backColumnRotation: float = 6.8
-const frontColumnLocation: Vector2 = Vector2(273, 0)
+const frontColumnLocation: Vector2 = Vector2(283, 0)
 const frontColumnRotation: float = 3.6
 #const backColumnLocation: Vector2 = Vector2(442, 20)
 #const backColumnRotation: float = .8
@@ -29,9 +35,9 @@ const frontColumnRotation: float = 3.6
 ## Enemey
 #const backEnemyColumnLocation: Vector2 = Vector2(945, 20)
 #const backEnemyColumnRotation: float = -6.8
-const backEnemyColumnLocation: Vector2 = Vector2(772,0)
+const backEnemyColumnLocation: Vector2 = Vector2(962,0)
 const backEnemyColumnRotation: float = -3.6
-const frontEnemyColumnLocation: Vector2 = Vector2(602,0)
+const frontEnemyColumnLocation: Vector2 = Vector2(702,0)
 const frontEnemyColumnRotation: float = -.8
 
 # Columns
@@ -82,7 +88,7 @@ enum MOVE_DIRECTION {LEFT = 0, RIGHT = 1}
 enum UNIT_ACTIONS {ATTACK  , DEFEND , SUPPORT, DEBUFF }
 
 # UNIT DATA ATTRIBUTES
-enum UNIT_DATA_ATTRIBUTES { MAX_HEALTH = 0, MAX_AP = 1, DAMAGE =2, SUPPORT_AMOUNT=3, DEFEND_RATIO=4, EAGERNESS=5, EVASIVENESS=6}
+enum UNIT_DATA_ATTRIBUTES { MAX_HEALTH = 0, MAX_AP = 1, DAMAGE =2, SUPPORT_AMOUNT=3, DEFEND_RATIO=4, EAGERNESS=5, EVASIVENESS=6, PRECISION=7}
 const MAX_HEALTH ="max_health"
 const MAX_AP = "max_ap"
 const DAMAGE= "damage"
@@ -90,6 +96,7 @@ const SUPPORT_AMOUNT="support_amount"
 const DEFEND_RATIO="defend_ratio"
 const EAGERNESS="eagerness"
 const EVASIVENESS="evasiveness"
+const PRECISION="precision"
 
 const ATTACK_ICON = preload("res://assets/attack_icon.png")
 const DEFENSE_ICON = preload("res://assets/defense_icon.png")
@@ -99,7 +106,7 @@ const SUPPORT_ICON = preload("res://assets/support_icon.png")
 enum ACTION_TARGET_TYPE { TARGET_SELF  , TARGET_ALLY , TARGET_ENEMY}
 
 # CONDITIONS
-enum CONDITIONS { HEAL, WEAKEN,STRENGTHEN , SHAKEN, INSPIRED, INFECT , CURE}
+enum CONDITIONS { HEAL, WEAKEN,STRENGTHEN , SHAKEN, INSPIRED, INFECT , CURE, DEFEND}
 
 # PERK_TYPES
 enum PERK_TYPE { STAT_ADJUST=0, PRE_TURN_CHECK = 1, POST_TURN_CHECK =2 }

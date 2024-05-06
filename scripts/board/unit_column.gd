@@ -41,17 +41,30 @@ func set_is_enemy(value: bool) -> void:
 	self.isEnemy = value
 	
 
-# self must be in tree to run load_from_resource
+# Creates and loads all slots, empty or not from the resource
 func load_from_resource(data: UnitColumnData) -> void:
 	# i think we have to save it otherwise it gets removed? and the signal no longer works
 	column_data= data
 	
+	# We want to fill the column with slots empty or not
+	var row_size = 2
+	
 	
 	for child in unit_grid.get_children():
 			child.queue_free()
+
+	for i in range(row_size):
+		var i_slot_data = null
+
+		# is there a slot with this index set
+		for slot_data in data.slot_datas:
+			if slot_data.slotIndex == i:
+				i_slot_data = slot_data
+				break
+
+		# Add empty slots
+		add_slot( i_slot_data if i_slot_data else null, false )
 			
-	for slot_data in column_data.slot_datas:
-		add_slot(slot_data, false)
 			
 	# set pivot point for proper rotation
 	self.set_pivot_offset(size/2)
@@ -61,12 +74,13 @@ func load_from_resource(data: UnitColumnData) -> void:
 	
 	
 	
-func add_slot(data: SlotData, shouldUpdateUI: bool = true) -> Slot:
+func add_slot(data: SlotData, _shouldUpdateUI: bool = true) -> Slot:
 	var slot = Slot.instantiate()
 	
 	unit_grid.add_child(slot)
 	
-	data.slotIndex = slot.get_index()
+	#data.slotIndex = slot.get_index()
+	
 	# action order will be set later
 	# Rotate slot so it is on the right angle
 	slot.set_pivot_offset(slot.size/2)
@@ -74,13 +88,22 @@ func add_slot(data: SlotData, shouldUpdateUI: bool = true) -> Slot:
 	
 	slot.initialize(data)
 	slot.set_slot_data(data)
-	column_data.slot_datas.append(data)
+	if data:
+		column_data.slot_datas.append(data)
 	
-	var parent  = get_parent_control()
+	#var parent  = get_parent_control()
 		
 	
 	#slot.slot_clicked.connect(parent.)
 	return slot
+	
+func remove_slot(data: SlotData):
+
+	for slot in unit_grid.get_children():
+		if slot.slot_data == data:
+			slot.queue_free()
+		
+	
 	
 func _on_gui_input(event):
 	if event is InputEventMouseButton \

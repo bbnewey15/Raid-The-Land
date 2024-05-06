@@ -60,7 +60,9 @@ func on_action_request_ui(slot: Slot):
 #		self.highlight_slot()
 
 
-func on_request_user_target_unit( action_data: ActionData, potential_targets: Array[SlotData]):
+func on_request_user_target_unit( card_slot: CardSlot, potential_targets: Array[SlotData]):
+	assert(card_slot)
+	var action_data: ActionData = card_slot.slot_data.card_data.action_data
 	assert(GameData.ui_active_slot_data)
 	assert(action_data)
 	assert(potential_targets)

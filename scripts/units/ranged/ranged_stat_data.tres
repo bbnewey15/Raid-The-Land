@@ -1,0 +1,85 @@
+[gd_resource type="Resource" script_class="UnitStatData" load_steps=16 format=3 uid="uid://rr57k3q8q6y0"]
+
+[ext_resource type="Texture2D" uid="uid://da6wl6gbj4c2y" path="res://assets/attack_icon.png" id="1_qidg2"]
+[ext_resource type="Script" path="res://datatypes/unit_stats/unit_stat_item_data.gd" id="2_uqnbo"]
+[ext_resource type="Texture2D" uid="uid://cinbvgi30ue0e" path="res://assets/support_icon.png" id="3_10ryb"]
+[ext_resource type="Texture2D" uid="uid://br58nfgdau4fl" path="res://icon.svg" id="4_8bbso"]
+[ext_resource type="Texture2D" uid="uid://c8cb1jpvq4krf" path="res://assets/defense_icon.png" id="5_en7sl"]
+[ext_resource type="Texture2D" uid="uid://dh1cjff5yasnf" path="res://assets/target.png" id="6_jo78f"]
+[ext_resource type="Script" path="res://datatypes/unit_stats/unit_stat_data.gd" id="7_yeq22"]
+
+[sub_resource type="Resource" id="Resource_72i4r"]
+resource_local_to_scene = true
+script = ExtResource("2_uqnbo")
+display_name = "Damage"
+accessor = 2
+value = 12
+display_order = 0
+icon = ExtResource("1_qidg2")
+
+[sub_resource type="Resource" id="Resource_3sy4c"]
+resource_local_to_scene = true
+script = ExtResource("2_uqnbo")
+display_name = "Max Health"
+accessor = 0
+value = 40
+display_order = 2
+icon = ExtResource("3_10ryb")
+
+[sub_resource type="Resource" id="Resource_1rchd"]
+resource_local_to_scene = true
+script = ExtResource("2_uqnbo")
+display_name = "Max AP"
+accessor = 1
+value = 4
+display_order = 3
+icon = ExtResource("4_8bbso")
+
+[sub_resource type="Resource" id="Resource_ek1bt"]
+resource_local_to_scene = true
+script = ExtResource("2_uqnbo")
+display_name = "Support"
+accessor = 3
+value = 8
+display_order = 6
+icon = ExtResource("3_10ryb")
+
+[sub_resource type="Resource" id="Resource_rkisa"]
+resource_local_to_scene = true
+script = ExtResource("2_uqnbo")
+display_name = "Defence"
+accessor = 4
+value = 5
+display_order = 1
+icon = ExtResource("5_en7sl")
+
+[sub_resource type="Resource" id="Resource_mqyuj"]
+resource_local_to_scene = true
+script = ExtResource("2_uqnbo")
+display_name = "Eagerness"
+accessor = 5
+value = 11
+display_order = 7
+icon = ExtResource("6_jo78f")
+
+[sub_resource type="Resource" id="Resource_7x4qe"]
+resource_local_to_scene = true
+script = ExtResource("2_uqnbo")
+display_name = "Evasive"
+accessor = 6
+value = 15
+display_order = 5
+icon = ExtResource("3_10ryb")
+
+[sub_resource type="Resource" id="Resource_ehetw"]
+script = ExtResource("2_uqnbo")
+display_name = "Precision"
+accessor = 7
+value = 5
+display_order = 4
+icon = ExtResource("6_jo78f")
+
+[resource]
+resource_local_to_scene = true
+script = ExtResource("7_yeq22")
+attributes = Array[ExtResource("2_uqnbo")]([SubResource("Resource_72i4r"), SubResource("Resource_3sy4c"), SubResource("Resource_1rchd"), SubResource("Resource_ek1bt"), SubResource("Resource_rkisa"), SubResource("Resource_mqyuj"), SubResource("Resource_7x4qe"), SubResource("Resource_ehetw")])

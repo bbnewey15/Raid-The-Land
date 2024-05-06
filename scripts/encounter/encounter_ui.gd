@@ -20,6 +20,7 @@ func _ready():
 	UiManager.register_ui_module(self as EncounterUi, true)
 	
 	EncounterBus.encounter_state_changed.connect(self.on_encounter_state_changed)
+	EncounterBus.unit_turn_started.connect(self.on_unit_turn_started)
 	
 
 
@@ -38,6 +39,14 @@ func on_encounter_state_changed(state_name: String):
 		"PostFight":
 			place_button_container.show()
 			end_post_fight_button.show()
+			
+func on_unit_turn_started(slot_data: SlotData):
+	if slot_data.isEnemyUnit:
+		place_button_container.hide()
+		return
+		
+	place_button_container.show()
+	end_turn_button.show()
 
 
 func _on_end_post_fight_button_pressed():
@@ -48,7 +57,8 @@ func _on_end_post_fight_button_pressed():
 
 
 func _on_end_turn_button_pressed():
-	if encounter_manager.encounterStateMachine.get_state_name() == "PlayerFight":
+	if encounter_manager.encounterStateMachine.get_state_name() == "Fight":
 		place_button_container.hide()
 		end_turn_button.hide()
-		EncounterBus.fight_state_stopped.emit()
+		GameData.ui_active_slot_data.turn_over = true
+		EncounterBus.unit_turn_ended.emit(GameData.ui_active_slot_data)

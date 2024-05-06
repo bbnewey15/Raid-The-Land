@@ -6,38 +6,44 @@
 [ext_resource type="Script" path="res://datatypes/slot_data.gd" id="2_a58xo"]
 
 [sub_resource type="Resource" id="Resource_akrw4"]
+resource_local_to_scene = true
 script = ExtResource("2_a58xo")
 unit_data_path = "res://scripts/units/infantry/spearman.tres"
 isEnemyUnit = true
 column_name = 2
 slotIndex = 0
-action_set = false
 turn_over = false
+action_set = false
 
 [sub_resource type="Resource" id="Resource_svvfg"]
+resource_local_to_scene = true
 script = ExtResource("1_hbupm")
 entry_delay = 0
 slot_data = SubResource("Resource_akrw4")
 
 [sub_resource type="Resource" id="Resource_ebps2"]
+resource_local_to_scene = true
 script = ExtResource("2_a58xo")
-unit_data_path = "res://scripts/units/infantry/spearman.tres"
+unit_data_path = "res://scripts/units/ranged/stone_tosser.tres"
 isEnemyUnit = true
 column_name = 2
-slotIndex = 2
-action_set = false
+slotIndex = 1
 turn_over = false
+action_set = false
 
 [sub_resource type="Resource" id="Resource_ixuny"]
+resource_local_to_scene = true
 script = ExtResource("1_hbupm")
 entry_delay = 0
 slot_data = SubResource("Resource_ebps2")
 
 [sub_resource type="Resource" id="Resource_3lpx0"]
+resource_local_to_scene = true
 script = ExtResource("2_1o4hy")
 encounter_roster = Array[ExtResource("1_hbupm")]([SubResource("Resource_svvfg"), SubResource("Resource_ixuny")])
 
 [resource]
+resource_local_to_scene = true
 script = ExtResource("1_pfs67")
 encounter_roster = Array[ExtResource("2_1o4hy")]([SubResource("Resource_3lpx0")])
 difficulty = 0

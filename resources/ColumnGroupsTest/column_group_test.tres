@@ -4,24 +4,28 @@
 [ext_resource type="Script" path="res://datatypes/unit_col_group_data.gd" id="1_x1k23"]
 
 [sub_resource type="Resource" id="Resource_3xv05"]
+resource_local_to_scene = true
 script = ExtResource("1_fafn7")
 slot_datas = Array[Resource("res://datatypes/slot_data.gd")]([])
-column_type = 2
+column_type = 1
 colIndex = 3
 
 [sub_resource type="Resource" id="Resource_56yiu"]
+resource_local_to_scene = true
 script = ExtResource("1_fafn7")
 slot_datas = Array[Resource("res://datatypes/slot_data.gd")]([])
 column_type = 0
 colIndex = 2
 
 [sub_resource type="Resource" id="Resource_jvy3p"]
+resource_local_to_scene = true
 script = ExtResource("1_fafn7")
 slot_datas = Array[Resource("res://datatypes/slot_data.gd")]([])
-column_type = 0
+column_type = 1
 colIndex = 0
 
 [sub_resource type="Resource" id="Resource_l51ei"]
+resource_local_to_scene = true
 script = ExtResource("1_fafn7")
 slot_datas = Array[Resource("res://datatypes/slot_data.gd")]([])
 column_type = 0

@@ -25,15 +25,29 @@ func initialize():
 	assert(stat_data)
 	assert(skill_tree)
 	assert(unit_node_path)
-	self.health = stat_data.getAttribute(GameData.UNIT_DATA_ATTRIBUTES.MAX_HEALTH).value
+	self.stat_data = self.stat_data.duplicate(true)
+	self.stat_data.initialize()
+	self.skill_tree = self.skill_tree.duplicate(true)
+	self.perk_list = self.perk_list.duplicate(true)
 	
+	self.health = stat_data.getAttribute(GameData.UNIT_DATA_ATTRIBUTES.MAX_HEALTH).value
+	self.set_action_points_to_max()
+	
+	EncounterBus.new_round_started.connect(self.on_new_round_started)
 
 # Put all methods for actions here?
 	
 func update_health(new_health: int):
 	self.health = new_health
 	
-
+func update_action_points(new_action_points: int):
+	if new_action_points < 0:
+		assert(false)
+		
+	self.action_points = new_action_points
+	
+func set_action_points_to_max():
+	self.update_action_points(stat_data.getAttribute(GameData.UNIT_DATA_ATTRIBUTES.MAX_AP).value)
 
 
 func add_condition(condition_data: ConditionData):
@@ -52,4 +66,12 @@ func add_condition(condition_data: ConditionData):
 			self.conditions.append(condition_data)
 		
 	print(conditions)
+	
+func remove_condition(condition_data: ConditionData):
+	var existing_cond : Array[ConditionData] = self.conditions.filter(func(x): return x.condition == condition_data.condition)
+	assert(len(existing_cond) > 0 )
+	
+	
+func on_new_round_started(round: int):
+	self.set_action_points_to_max()
 	

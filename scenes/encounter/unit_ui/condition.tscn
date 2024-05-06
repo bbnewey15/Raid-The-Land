@@ -1,10 +1,11 @@
 [gd_scene load_steps=4 format=3 uid="uid://cvtnv6sepx2y8"]
 
-[ext_resource type="Script" path="res://scripts/encounter/Condition.gd" id="1_by6bx"]
+[ext_resource type="Script" path="res://scripts/encounter/unit_ui/Condition.gd" id="1_by6bx"]
 [ext_resource type="Texture2D" uid="uid://cinbvgi30ue0e" path="res://assets/support_icon.png" id="2_c57w3"]
 [ext_resource type="FontFile" uid="uid://bux2d6r2ckfem" path="res://assets/fonts/vikingsquad/vikingsquadbold.ttf" id="3_ts6bo"]
 
 [node name="Condition" type="Control"]
+custom_minimum_size = Vector2(20, 20)
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0

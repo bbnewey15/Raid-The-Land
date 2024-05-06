@@ -4,8 +4,8 @@
 
 [node name="UnitColumn" type="PanelContainer"]
 self_modulate = Color(1, 1, 1, 0)
-offset_right = 150.0
-offset_bottom = 614.0
+offset_right = 16.0
+offset_bottom = 16.0
 mouse_filter = 1
 script = ExtResource("1_yst5t")
 

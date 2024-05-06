@@ -1,15 +1,17 @@
-[gd_scene load_steps=17 format=3 uid="uid://cj2sokxjbe72j"]
+[gd_scene load_steps=23 format=3 uid="uid://cj2sokxjbe72j"]
 
-[ext_resource type="Script" path="res://scripts/units/unit_ui.gd" id="1_y42an"]
-[ext_resource type="Script" path="res://scripts/encounter/Conditions.gd" id="2_cx813"]
+[ext_resource type="Script" path="res://scripts/encounter/unit_ui/unit_ui.gd" id="1_2bb20"]
 [ext_resource type="PackedScene" uid="uid://cifxsod3pi21m" path="res://scenes/board/slot_highlighter.tscn" id="2_l7cgo"]
-[ext_resource type="Script" path="res://scenes/encounter/unit_ui/ActionDisplayer.gd" id="2_sorbp"]
+[ext_resource type="Script" path="res://scripts/encounter/unit_ui/ActionDisplayer.gd" id="2_qgtuh"]
 [ext_resource type="FontFile" uid="uid://bux2d6r2ckfem" path="res://assets/fonts/vikingsquad/vikingsquadbold.ttf" id="2_ucouw"]
 [ext_resource type="FontFile" uid="uid://yf5bgg5euvia" path="res://assets/fonts/vikingsquad/vikingsquadcondital.ttf" id="3_46auq"]
 [ext_resource type="Texture2D" uid="uid://da6wl6gbj4c2y" path="res://assets/attack_icon.png" id="3_qda4a"]
 [ext_resource type="PackedScene" uid="uid://cvtnv6sepx2y8" path="res://scenes/encounter/unit_ui/condition.tscn" id="3_v2com"]
 [ext_resource type="PackedScene" uid="uid://36kqmjxwjlws" path="res://scenes/encounter/unit_ui/level_up_panel.tscn" id="5_2homb"]
 [ext_resource type="Script" path="res://scripts/encounter/unit_ui/level_up_manager.gd" id="5_amqqv"]
+[ext_resource type="Script" path="res://scripts/encounter/unit_ui/EnemyIntent.gd" id="6_lnpxd"]
+[ext_resource type="Script" path="res://scripts/encounter/unit_ui/Conditions.gd" id="7_4rs1y"]
+[ext_resource type="FontFile" uid="uid://cwtqh8s1mmyuv" path="res://assets/fonts/vikingsquad/vikingsquadboldital.ttf" id="10_xm1s4"]
 
 [sub_resource type="Animation" id="Animation_6tfwl"]
 length = 0.001
@@ -71,8 +73,8 @@ tracks/4/keys = {
 "times": PackedFloat32Array(0)
 }
 
-[sub_resource type="Animation" id="Animation_jxiy6"]
-resource_name = "fade_in_out"
+[sub_resource type="Animation" id="Animation_10iwg"]
+resource_name = "fade_in"
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -80,10 +82,10 @@ tracks/0/path = NodePath("ActionLabelContainer/ActionLabel:self_modulate")
 tracks/0/interp = 2
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.5, 0.7, 1),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
 }
 tracks/1/type = "bezier"
 tracks/1/imported = false
@@ -92,13 +94,14 @@ tracks/1/path = NodePath("ActionLabelContainer:position:y")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"handle_modes": PackedInt32Array(0, 0, 0, 0),
-"points": PackedFloat32Array(25, -0.25, 0, 0.25, 0, -2.5, -0.25, 0, 0.25, 0, -2.5, -0.25, 0, 0.25, 0, 10, -0.274951, -21.5, 0.25, 0),
-"times": PackedFloat32Array(0, 0.5, 0.8, 1)
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(25, -0.25, 0, 0.25, 0, -2.5, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 0.5)
 }
 
-[sub_resource type="Animation" id="Animation_iae6e"]
-resource_name = "fade_out"
+[sub_resource type="Animation" id="Animation_jxiy6"]
+resource_name = "fade_in_out"
+length = 0.572
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -106,17 +109,101 @@ tracks/0/path = NodePath("ActionLabelContainer/ActionLabel:self_modulate")
 tracks/0/interp = 2
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 1),
+"times": PackedFloat32Array(0, 0.5),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("ActionLabelContainer:position:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(25, -0.25, 0, 0.25, 0, -2.5, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 0.5)
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_o8xpa"]
 _data = {
 "RESET": SubResource("Animation_6tfwl"),
-"fade_in_out": SubResource("Animation_jxiy6"),
-"fade_out": SubResource("Animation_iae6e")
+"fade_in": SubResource("Animation_10iwg"),
+"fade_in_out": SubResource("Animation_jxiy6")
+}
+
+[sub_resource type="Animation" id="Animation_ypilw"]
+length = 0.001
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("IntentLabelContainer:position:y")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(-25, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+
+[sub_resource type="Animation" id="Animation_lrntt"]
+resource_name = "fade_in"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("IntentLabelContainer/IntentLabel:self_modulate")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("IntentLabelContainer:position:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(25, -0.25, 0, 0.25, 0, -2.5, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 0.5)
+}
+
+[sub_resource type="Animation" id="Animation_frc10"]
+resource_name = "fade_out"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("IntentLabelContainer/IntentLabel:self_modulate")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("IntentLabelContainer:position:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(-2.5, -0.25, 0, 0.25, 0, -30, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 0.5)
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_3fe2o"]
+_data = {
+"RESET": SubResource("Animation_ypilw"),
+"fade_in": SubResource("Animation_lrntt"),
+"fade_out": SubResource("Animation_frc10")
 }
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_f5ygy"]
@@ -132,67 +219,34 @@ corner_radius_top_left = 3
 corner_radius_bottom_left = 3
 
 [node name="UnitUi" type="Control"]
-custom_minimum_size = Vector2(0, 300)
 layout_mode = 3
-anchor_left = 0.026
-anchor_top = 0.046
-anchor_right = 0.026
-anchor_bottom = 0.046
-offset_left = -49.92
-offset_top = -49.68
-offset_right = 150.08
-offset_bottom = 250.32
+anchors_preset = 0
+offset_right = 300.0
+offset_bottom = 300.0
 pivot_offset = Vector2(101, 102)
-mouse_filter = 2
-script = ExtResource("1_y42an")
-
-[node name="UnitContainer" type="MarginContainer" parent="."]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-size_flags_vertical = 3
-theme_override_constants/margin_top = 125
-
-[node name="ActiveHighlighter" type="ColorRect" parent="UnitContainer"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(150, 150)
-layout_mode = 2
 mouse_filter = 1
-color = Color(1, 1, 1, 0)
-
-[node name="Targeter" parent="UnitContainer" instance=ExtResource("2_l7cgo")]
-unique_name_in_owner = true
-layout_mode = 2
-SUPPORTING_COLOR = Color(0.921569, 0.192157, 0.631373, 0.388235)
+script = ExtResource("1_2bb20")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
-offset_bottom = 4.0
+offset_bottom = 316.0
 grow_horizontal = 2
 
-[node name="UpperUIContainer" type="Control" parent="VBoxContainer"]
+[node name="MarginContainer3" type="MarginContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="UpperUIContainer" type="Control" parent="VBoxContainer/MarginContainer3"]
 custom_minimum_size = Vector2(0, 60)
 layout_mode = 2
 
-[node name="ActionDisplayer" type="Control" parent="VBoxContainer/UpperUIContainer"]
+[node name="ActionDisplayer" type="Control" parent="VBoxContainer/MarginContainer3/UpperUIContainer"]
 unique_name_in_owner = true
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_right = 800.0
-offset_bottom = 540.0
-grow_horizontal = 2
-grow_vertical = 2
-script = ExtResource("2_sorbp")
+anchors_preset = 0
+script = ExtResource("2_qgtuh")
 
-[node name="ActionLabelContainer" type="MarginContainer" parent="VBoxContainer/UpperUIContainer/ActionDisplayer"]
-custom_minimum_size = Vector2(234, 65)
+[node name="ActionLabelContainer" type="MarginContainer" parent="VBoxContainer/MarginContainer3/UpperUIContainer/ActionDisplayer"]
 layout_mode = 0
 offset_top = -2.5
 offset_right = 234.0
@@ -203,9 +257,10 @@ theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 
-[node name="ActionLabel" type="Label" parent="VBoxContainer/UpperUIContainer/ActionDisplayer/ActionLabelContainer"]
+[node name="ActionLabel" type="Label" parent="VBoxContainer/MarginContainer3/UpperUIContainer/ActionDisplayer/ActionLabelContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_horizontal = 4
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 5
 theme_override_fonts/font = ExtResource("3_46auq")
@@ -214,12 +269,12 @@ text = "Test action"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="VBoxContainer/UpperUIContainer/ActionDisplayer"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="VBoxContainer/MarginContainer3/UpperUIContainer/ActionDisplayer"]
 libraries = {
 "": SubResource("AnimationLibrary_o8xpa")
 }
 
-[node name="LevelUpManager" type="Control" parent="VBoxContainer/UpperUIContainer"]
+[node name="LevelUpManager" type="Control" parent="VBoxContainer/MarginContainer3/UpperUIContainer"]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 15
@@ -230,7 +285,7 @@ grow_vertical = 2
 mouse_filter = 1
 script = ExtResource("5_amqqv")
 
-[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/UpperUIContainer/LevelUpManager"]
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/MarginContainer3/UpperUIContainer/LevelUpManager"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -238,41 +293,121 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="PanelContainer" type="HBoxContainer" parent="VBoxContainer/UpperUIContainer/LevelUpManager/MarginContainer"]
+[node name="PanelContainer" type="HBoxContainer" parent="VBoxContainer/MarginContainer3/UpperUIContainer/LevelUpManager/MarginContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/separation = 7
 alignment = 1
 
-[node name="Panel" parent="VBoxContainer/UpperUIContainer/LevelUpManager/MarginContainer/PanelContainer" instance=ExtResource("5_2homb")]
+[node name="Panel" parent="VBoxContainer/MarginContainer3/UpperUIContainer/LevelUpManager/MarginContainer/PanelContainer" instance=ExtResource("5_2homb")]
 layout_mode = 2
 
-[node name="Panel2" parent="VBoxContainer/UpperUIContainer/LevelUpManager/MarginContainer/PanelContainer" instance=ExtResource("5_2homb")]
+[node name="Panel2" parent="VBoxContainer/MarginContainer3/UpperUIContainer/LevelUpManager/MarginContainer/PanelContainer" instance=ExtResource("5_2homb")]
 layout_mode = 2
 
-[node name="Panel3" parent="VBoxContainer/UpperUIContainer/LevelUpManager/MarginContainer/PanelContainer" instance=ExtResource("5_2homb")]
+[node name="Panel3" parent="VBoxContainer/MarginContainer3/UpperUIContainer/LevelUpManager/MarginContainer/PanelContainer" instance=ExtResource("5_2homb")]
 layout_mode = 2
 
-[node name="Conditions" type="HBoxContainer" parent="VBoxContainer"]
+[node name="EnemyIntent" type="Control" parent="VBoxContainer/MarginContainer3/UpperUIContainer"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("6_lnpxd")
+
+[node name="IntentLabelContainer" type="MarginContainer" parent="VBoxContainer/MarginContainer3/UpperUIContainer/EnemyIntent"]
+custom_minimum_size = Vector2(234, 65)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -17.0
+offset_top = -25.0
+offset_right = 17.0
+offset_bottom = -20.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(7, 2.5)
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="IntentLabel" type="Label" parent="VBoxContainer/MarginContainer3/UpperUIContainer/EnemyIntent/IntentLabelContainer"]
+unique_name_in_owner = true
+modulate = Color(0.847059, 0.0392157, 0, 1)
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(0.239216, 0.00392157, 0, 1)
+theme_override_constants/outline_size = 5
+theme_override_fonts/font = ExtResource("3_46auq")
+theme_override_font_sizes/font_size = 60
+text = "X 26"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="VBoxContainer/MarginContainer3/UpperUIContainer/EnemyIntent"]
+libraries = {
+"": SubResource("AnimationLibrary_3fe2o")
+}
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 70
+theme_override_constants/margin_right = 70
+
+[node name="Conditions" type="HBoxContainer" parent="VBoxContainer/MarginContainer"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
-script = ExtResource("2_cx813")
+size_flags_horizontal = 0
+script = ExtResource("7_4rs1y")
 
-[node name="Condition" parent="VBoxContainer/Conditions" instance=ExtResource("3_v2com")]
+[node name="Condition" parent="VBoxContainer/MarginContainer/Conditions" instance=ExtResource("3_v2com")]
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+[node name="MarginContainer2" type="MarginContainer" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 25
+theme_override_constants/margin_right = 25
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/MarginContainer2"]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 size_flags_vertical = 3
+alignment = 1
 
-[node name="HealthBar" type="Control" parent="VBoxContainer/HBoxContainer"]
+[node name="ApContainer" type="MarginContainer" parent="VBoxContainer/MarginContainer2/HBoxContainer"]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(25, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="HealthBarTexture" type="ProgressBar" parent="VBoxContainer/HBoxContainer/HealthBar"]
+[node name="ApLabel" type="Label" parent="VBoxContainer/MarginContainer2/HBoxContainer/ApContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 5
+theme_override_fonts/font = ExtResource("10_xm1s4")
+theme_override_font_sizes/font_size = 30
+text = "5"
+horizontal_alignment = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/MarginContainer2/HBoxContainer"]
+layout_mode = 2
+size_flags_stretch_ratio = 4.0
+
+[node name="HealthBar" type="Control" parent="VBoxContainer/MarginContainer2/HBoxContainer/MarginContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(176.705, 20)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+size_flags_stretch_ratio = 0.5
+
+[node name="HealthBarTexture" type="ProgressBar" parent="VBoxContainer/MarginContainer2/HBoxContainer/MarginContainer/HealthBar"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -284,7 +419,7 @@ theme_override_styles/fill = SubResource("StyleBoxFlat_bw8q1")
 value = 50.0
 show_percentage = false
 
-[node name="HealthLabel" type="Label" parent="VBoxContainer/HBoxContainer/HealthBar"]
+[node name="HealthLabel" type="Label" parent="VBoxContainer/MarginContainer2/HBoxContainer/MarginContainer/HealthBar"]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 5
@@ -301,13 +436,13 @@ theme_override_font_sizes/font_size = 22
 text = "100"
 horizontal_alignment = 1
 
-[node name="OrderControl" type="Control" parent="VBoxContainer/HBoxContainer"]
+[node name="OrderControl" type="Control" parent="VBoxContainer/MarginContainer2/HBoxContainer"]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
 mouse_filter = 2
 
-[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/OrderControl"]
+[node name="Label" type="Label" parent="VBoxContainer/MarginContainer2/HBoxContainer/OrderControl"]
 layout_mode = 0
 offset_left = -7.0
 offset_top = -12.0
@@ -320,14 +455,80 @@ theme_override_font_sizes/font_size = 50
 text = "1"
 horizontal_alignment = 1
 
-[node name="ActionControl" type="Control" parent="VBoxContainer/HBoxContainer"]
+[node name="ActionControl" type="Control" parent="VBoxContainer/MarginContainer2/HBoxContainer"]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(25, 0)
 layout_mode = 2
 mouse_filter = 2
 
-[node name="TextureRect" type="TextureRect" parent="VBoxContainer/HBoxContainer/ActionControl"]
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/MarginContainer2/HBoxContainer/ActionControl"]
 layout_mode = 0
 offset_right = 20.0
 offset_bottom = 20.0
 texture = ExtResource("3_qda4a")
 expand_mode = 3
+
+[node name="MarginContainer4" type="MarginContainer" parent="VBoxContainer"]
+custom_minimum_size = Vector2(0, 200)
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/MarginContainer4"]
+layout_mode = 2
+size_flags_vertical = 4
+alignment = 1
+
+[node name="left_arrow_container" type="MarginContainer" parent="VBoxContainer/MarginContainer4/HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(25, 45)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+
+[node name="left_arrow" type="Polygon2D" parent="VBoxContainer/MarginContainer4/HBoxContainer/left_arrow_container"]
+unique_name_in_owner = true
+position = Vector2(0, -9)
+color = Color(0.0509804, 0.231373, 0.254902, 1)
+polygon = PackedVector2Array(2, 29, 20, 8, 20, 53)
+
+[node name="MarginContainer2" type="MarginContainer" parent="VBoxContainer/MarginContainer4/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="right_arrow_container" type="MarginContainer" parent="VBoxContainer/MarginContainer4/HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(25, 45)
+layout_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 2
+
+[node name="right_arrow" type="Polygon2D" parent="VBoxContainer/MarginContainer4/HBoxContainer/right_arrow_container"]
+unique_name_in_owner = true
+position = Vector2(0, -1)
+color = Color(0.0509804, 0.231373, 0.254902, 1)
+offset = Vector2(-17, -8)
+polygon = PackedVector2Array(38, 31, 20, 8, 20, 53)
+
+[node name="UnitContainer" type="MarginContainer" parent="."]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 1
+anchors_preset = 13
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 3
+theme_override_constants/margin_top = 125
+
+[node name="ActiveHighlighter" type="ColorRect" parent="UnitContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 1
+color = Color(1, 1, 1, 0)
+
+[node name="Targeter" parent="UnitContainer" instance=ExtResource("2_l7cgo")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[connection signal="gui_input" from="VBoxContainer/MarginContainer4" to="." method="_on_margin_container_4_gui_input"]
+[connection signal="gui_input" from="VBoxContainer/MarginContainer4/HBoxContainer/left_arrow_container" to="." method="_on_left_arrow_container_gui_input"]
+[connection signal="gui_input" from="VBoxContainer/MarginContainer4/HBoxContainer/right_arrow_container" to="." method="_on_right_arrow_container_gui_input"]

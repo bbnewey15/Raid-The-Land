@@ -980,7 +980,6 @@ rest = Transform2D(1, 0, 0, 1, -2, -125)
 
 [node name="chest" type="Bone2D" parent="Skeleton2D/hip"]
 position = Vector2(3, -84)
-scale = Vector2(1, 1)
 rest = Transform2D(1, 0, 0, 1, 3, -84)
 
 [node name="head" type="Bone2D" parent="Skeleton2D/hip/chest"]

@@ -29,6 +29,7 @@ theme_override_constants/margin_bottom = 15
 [node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
+size_flags_vertical = 0
 theme_override_constants/separation = 10
 
 [node name="OrderUiPanel" parent="PanelContainer/HBoxContainer" instance=ExtResource("2_14eiw")]

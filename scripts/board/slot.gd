@@ -13,20 +13,21 @@ func _ready():
 	unit_ui.slot = self as Slot
 	EncounterBus.slot_data_changed.connect(self.on_slot_data_changed)
 	
-func initialize(slot_data: SlotData):
+func initialize(slot_data = null):
 	self.slot_data = slot_data
+	if slot_data == null:
+		unit_ui.hide()
+		return
+	else:
+		unit_ui.show()
+		
 	self.slot_data.current_slot = self
 	slot_data.init_unit_data(slot_data.unit_data)
-
-func set_slot_data(data: SlotData) -> void:
-	if unit_node:
-		unit_node.queue_free()
-		
 	
-	#texture_rect.texture = unit_data.texture
+	if is_instance_valid(unit_node):
+		unit_node.queue_free()
 	var unit_node_scene = load(slot_data.unit_data.unit_node_path)
 	unit_node = unit_node_scene.instantiate()
-	
 	control_node.add_child(unit_node)
 	
 	if slot_data.isEnemyUnit:
@@ -34,11 +35,28 @@ func set_slot_data(data: SlotData) -> void:
 		unit_node.apply_scale(Vector2(-1,1))
 		#adjust for my shitty placement of anchor to unit
 		unit_node.set_position(Vector2(unit_node.get_position().x + self.size.x, unit_node.get_position().y))
+		
 	tooltip_text = "%s\n%s" % [slot_data.unit_data.name, slot_data.unit_data.description]
 	slot_data.set_slot_position(get_global_position() + size/2)
+
+func clear_slot():
+	self.slot_data = null
+	self.unit_node.queue_free()
+	self.set_slot_data(null)
+
+func set_slot_data(data: SlotData) -> void:
+	self.slot_data = data
+	
+	if data == null:
+		unit_ui.hide()
+		return
+	else:
+		unit_ui.show()
+	
+	var unit_data = self.slot_data.unit_data
 	
 	# Update Unit UI
-	unit_ui.set_unit_data(self.slot_data.unit_data)
+	unit_ui.set_unit_data(unit_data)
 	unit_ui.set_slot_data(self.slot_data)
 	
 	# set action manager 
@@ -57,14 +75,15 @@ func set_slot_data(data: SlotData) -> void:
 
 func on_slot_data_changed():
 	# Current way to update ui
-	set_slot_data(slot_data)
+	self.set_slot_data(slot_data)
 	
 	
 func _process(delta):
 	pass
 	
 func _on_gui_input(event):
-	
+	if !slot_data:
+		return
 	if event is InputEventMouseButton \
 		and (event.button_index == MOUSE_BUTTON_LEFT) \
 		and event.is_pressed():
@@ -83,12 +102,16 @@ func _on_mouse_exited():
 	pass # Replace with function body.
 
 func unit_action(action_data: ActionData, target: SlotData):
+	# reset targets
+	EncounterBus.end_request_user_target_unit.emit()
+	
 	await self.unit_ui.action_displayer.display_action( action_data)
 	
 	var hit_value = GameData.ACTION_SLIDER_HIT.HIT
-	if !slot_data.isEnemyUnit:
-		EncounterBus.action_slider_requested.emit(slot_data.action_data, slot_data, target)
-		hit_value = await EncounterBus.action_slider_completed
+	# action slider - aka skill check to be removed 
+#	if !slot_data.isEnemyUnit:
+#		EncounterBus.action_slider_requested.emit(slot_data.action_data, slot_data, target)
+#		hit_value = await EncounterBus.action_slider_completed
 	
 	match action_data.action_type:
 		GameData.UNIT_ACTIONS.ATTACK:
@@ -96,15 +119,18 @@ func unit_action(action_data: ActionData, target: SlotData):
 		GameData.UNIT_ACTIONS.DEBUFF:
 			await self.attack(target, hit_value)
 		GameData.UNIT_ACTIONS.DEFEND:
-			await self.defend()
+			await self.support(target)
 		GameData.UNIT_ACTIONS.SUPPORT:
 			await self.support(target)
 		_:
 			push_warning("Default value used in unit_data's requires_target")
 			
-	# end turn for now
-	self.slot_data.turn_over = true
-	EncounterBus.unit_turn_ended.emit(slot_data)
+	
+	# end turn if AP is gone
+	if !self.slot_data.isEnemyUnit:
+		self.slot_data.unit_data.update_action_points(self.slot_data.unit_data.action_points - action_data.ap_cost)
+	
+	
 	
 
 func attack(defending_slot_data: SlotData, hit_value: GameData.ACTION_SLIDER_HIT):
@@ -201,8 +227,8 @@ func apply_condition(action_data: ActionData, slot_to_apply: SlotData):
 		slot_to_apply.unit_data.add_condition(condition.duplicate(true))
 	
 	# Trigger conditions for the first time, they will resolve at the start of their next turn
-	slot_to_apply.current_slot.resolve_conditions()
-	
+	slot_to_apply.current_slot.resolve_conditions()	
+
 func resolve_conditions():
 	if len(self.slot_data.unit_data.conditions) > 0:
 		for condition in self.slot_data.unit_data.conditions:
@@ -213,6 +239,7 @@ func resolve_conditions():
 			if condition.stacks <= 0:
 				# Remove
 				self.slot_data.unit_data.conditions.remove_at(self.slot_data.unit_data.conditions.find(condition))
+				EncounterBus.slot_data_changed.emit()
 				
 			# TODO
 			await get_tree().create_timer(.6).timeout

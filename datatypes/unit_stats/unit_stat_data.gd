@@ -3,6 +3,16 @@ class_name UnitStatData
 
 @export var attributes : Array[UnitStatItemData]
 
+func initialize():
+	# We have to duplicate everything apparently
+	# otherwise all units share the same file
+	var duplicated_array: Array[UnitStatItemData] = []
+	for attribute in self.attributes:
+		var dubplicated_attribute = attribute.duplicate(true)
+		duplicated_array.append(dubplicated_attribute)
+		
+	self.attributes = duplicated_array
+
 func getAttribute(attribute_name: GameData.UNIT_DATA_ATTRIBUTES  )-> UnitStatItemData:
 	assert(attribute_name or attribute_name == 0)
 	for attribute in attributes:

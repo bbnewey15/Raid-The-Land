@@ -11,7 +11,7 @@ func _ready():
 		child.queue_free()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _process(_delta):
 	pass
 
 func on_ui_active_slot_data_changed():

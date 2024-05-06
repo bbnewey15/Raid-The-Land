@@ -16,12 +16,11 @@ var current_slot : Slot
 @export var action_set : bool = false
 @export var unit_deck : CardDeckData
 ##
-
+signal intent_ready(slot_data: SlotData)
 
 func init_unit_data(data: UnitDataTest):
 	if data:
 		unit_data = data
-		unit_data.initialize()
 	else:
 		var resource_template = load(unit_data_path)
 		unit_data = resource_template.duplicate(true)

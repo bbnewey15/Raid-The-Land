@@ -139,17 +139,25 @@ func on_action_activated(slot_data  : SlotData, action_data: ActionData):
 		
 	# Singal that action has been completed
 	EncounterBus.action_completed.emit(slot_data)
-		
+	
 	# Reset slot_datas targets and action
 	slot_data.action_targets = []
 	GameData.set_ui_active_card_slot( null )
+	
+	# Enemy
+	if slot_data.isEnemyUnit:
+		# Await for signals of things that need to be done before ending turn
+		# Improvement could be to await 1 slot_data.slot_ready and have slot_data await all depenecies 
+		await slot_data.intent_ready
+		slot_data.turn_over = true	
+		EncounterBus.unit_turn_ended.emit(slot_data)
+		return
 		
-	if slot_data.unit_data.action_points >= 0 or action_data.will_end_turn:
+	if action_data.will_end_turn: #slot_data.unit_data.action_points >= 0 or action_data.will_end_turn:
 		# end units turn
 		slot_data.turn_over = true
 		EncounterBus.slot_data_changed.emit()
 	
-	pass
 
 func on_slot_move_columns(slot: Slot, column_name: GameData.COLUMN_STRING):
 	var current_column : GameData.COLUMN_STRING = slot.slot_data.column_name
@@ -159,11 +167,21 @@ func on_slot_move_columns(slot: Slot, column_name: GameData.COLUMN_STRING):
 	var current_slot_index = slot.slot_data.slotIndex
 	var new_slot = column_dict[GameData.getColumnStringByIndex(column_name)].unit_grid.get_child(current_slot_index)
 
+	var unit_data = slot.slot_data.unit_data
+	var slot_data_to_move = slot.slot_data
+
+
+# 	Update column name
+	slot_data_to_move.column_name = column_name
 	# Update new_slot with slot
-	new_slot.initialize(slot.slot_data)
 	
-	# Update column name
-	slot.slot_data.column_name = column_name
+	var new_slot_slot_data = new_slot.slot_data
+	
+	new_slot.initialize(slot_data_to_move)
+	
+	new_slot.slot_data.unit_data.update_action_points(slot.slot_data.unit_data.action_points - 1)
+	
+	var new_slot_slot_data2 = new_slot.slot_data
 	
 	# Update old slot to clear
 	slot.clear_slot()

@@ -14,14 +14,13 @@ func _ready():
 	EncounterBus.slot_data_changed.connect(self.on_slot_data_changed)
 	
 func initialize(slot_data = null):
-	
+	self.slot_data = slot_data
 	if slot_data == null:
 		unit_ui.hide()
 		return
 	else:
 		unit_ui.show()
 		
-	self.slot_data = slot_data
 	self.slot_data.current_slot = self
 	slot_data.init_unit_data(slot_data.unit_data)
 	
@@ -46,15 +45,18 @@ func clear_slot():
 	self.set_slot_data(null)
 
 func set_slot_data(data: SlotData) -> void:
+	self.slot_data = data
 	
 	if data == null:
 		unit_ui.hide()
 		return
 	else:
 		unit_ui.show()
-
+	
+	var unit_data = self.slot_data.unit_data
+	
 	# Update Unit UI
-	unit_ui.set_unit_data(self.slot_data.unit_data)
+	unit_ui.set_unit_data(unit_data)
 	unit_ui.set_slot_data(self.slot_data)
 	
 	# set action manager 
@@ -124,18 +126,9 @@ func unit_action(action_data: ActionData, target: SlotData):
 			push_warning("Default value used in unit_data's requires_target")
 			
 	
-	# Enemy
-	if self.slot_data.isEnemyUnit:
-		self.slot_data.turn_over = true
-		EncounterBus.unit_turn_ended.emit(slot_data)
-		return
-	
-	
 	# end turn if AP is gone
-	self.slot_data.unit_data.update_action_points(self.slot_data.unit_data.action_points - action_data.ap_cost)
-	if self.slot_data.unit_data.action_points <= 0:
-		self.slot_data.turn_over = true
-		EncounterBus.unit_turn_ended.emit(slot_data)
+	if !self.slot_data.isEnemyUnit:
+		self.slot_data.unit_data.update_action_points(self.slot_data.unit_data.action_points - action_data.ap_cost)
 	
 	
 	

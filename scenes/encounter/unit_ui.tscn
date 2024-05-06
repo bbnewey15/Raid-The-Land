@@ -135,6 +135,17 @@ _data = {
 
 [sub_resource type="Animation" id="Animation_ypilw"]
 length = 0.001
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("IntentLabelContainer:position:y")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(-25, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
 
 [sub_resource type="Animation" id="Animation_lrntt"]
 resource_name = "fade_in"
@@ -184,7 +195,7 @@ tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
 "handle_modes": PackedInt32Array(0, 0),
-"points": PackedFloat32Array(25, -0.25, 0, 0.25, 0, -2.5, -0.25, 0, 0.25, 0),
+"points": PackedFloat32Array(-2.5, -0.25, 0, 0.25, 0, -30, -0.25, 0, 0.25, 0),
 "times": PackedFloat32Array(0, 0.5)
 }
 
@@ -314,9 +325,9 @@ anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = -17.0
-offset_top = 25.0
+offset_top = -25.0
 offset_right = 17.0
-offset_bottom = 30.0
+offset_bottom = -20.0
 grow_horizontal = 2
 grow_vertical = 2
 pivot_offset = Vector2(7, 2.5)
@@ -328,7 +339,6 @@ theme_override_constants/margin_bottom = 10
 [node name="IntentLabel" type="Label" parent="VBoxContainer/MarginContainer3/UpperUIContainer/EnemyIntent/IntentLabelContainer"]
 unique_name_in_owner = true
 modulate = Color(0.847059, 0.0392157, 0, 1)
-self_modulate = Color(1, 1, 1, 0)
 layout_mode = 2
 theme_override_colors/font_outline_color = Color(0.239216, 0.00392157, 0, 1)
 theme_override_constants/outline_size = 5

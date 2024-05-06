@@ -41,6 +41,9 @@ func update_health(new_health: int):
 	self.health = new_health
 	
 func update_action_points(new_action_points: int):
+	if new_action_points < 0:
+		assert(false)
+		
 	self.action_points = new_action_points
 	
 func set_action_points_to_max():

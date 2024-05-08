@@ -38,3 +38,18 @@ func can_action() -> bool:
 	
 	return will_action
 
+func get_action_amount():
+	var action_amount = null
+	
+	match self.action_data.action_type:
+		GameData.UNIT_ACTIONS.ATTACK:
+			action_amount = self.action_data.action_amount_ratio * self.unit_data.stat_data.getAttribute(GameData.UNIT_DATA_ATTRIBUTES.DAMAGE).value
+		GameData.UNIT_ACTIONS.SUPPORT:
+			action_amount = self.action_data.action_amount_ratio * self.unit_data.stat_data.getAttribute(GameData.UNIT_DATA_ATTRIBUTES.SUPPORT_AMOUNT).value
+		GameData.UNIT_ACTIONS.DEBUFF:
+			action_amount = self.action_data.action_amount_ratio * self.unit_data.stat_data.getAttribute(GameData.UNIT_DATA_ATTRIBUTES.SUPPORT_AMOUNT).value
+		_: 
+			assert(false)
+		
+	return round(action_amount)
+		

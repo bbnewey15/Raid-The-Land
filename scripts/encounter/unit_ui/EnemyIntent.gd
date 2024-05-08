@@ -27,8 +27,7 @@ func on_slot_data_changed():
 	assert(self.slot_data)
 	if self.shouldShow and slot_data.isEnemyUnit and slot_data.action_set:
 		self.update_intent_ui(slot_data.action_data)
-		if(!self.is_visible()):
-			self.display_intent()
+		
 		
 		
 func on_new_round_started(round: int):
@@ -45,10 +44,25 @@ func on_action_completed(slot_data: SlotData):
 		slot_data.intent_ready.emit()
 		
 func update_intent_ui( action_data: ActionData):
-	if action_data.action_type == GameData.UNIT_ACTIONS.ATTACK:
-		intent_label.text = str(self.slot_data.unit_data.stat_data.getAttribute(GameData.UNIT_DATA_ATTRIBUTES.DAMAGE).value)
-	else:
-		intent_label.text = str(self.slot_data.unit_data.stat_data.getAttribute(GameData.UNIT_DATA_ATTRIBUTES.DAMAGE).value)
+	var action_amount = null
+	
+	action_amount = self.slot_data.get_action_amount()
+	
+	match action_data.action_type:
+		GameData.UNIT_ACTIONS.ATTACK:
+			intent_label.text = str(action_amount)
+		GameData.UNIT_ACTIONS.SUPPORT:
+			intent_label.text = "BUFF"
+		GameData.UNIT_ACTIONS.DEBUFF:
+			intent_label.text = "DEBUFF"
+		_: 
+			assert(false)
+			
+	
+	if(!self.is_visible()):
+		self.display_intent()
+		
+	
 
 func display_intent() :
 

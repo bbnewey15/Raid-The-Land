@@ -130,8 +130,7 @@ func unit_action(action_data: ActionData, target: SlotData):
 	if !self.slot_data.isEnemyUnit:
 		self.slot_data.unit_data.update_action_points(self.slot_data.unit_data.action_points - action_data.ap_cost)
 	
-	
-	
+
 
 func attack(defending_slot_data: SlotData, hit_value: GameData.ACTION_SLIDER_HIT):
 	# show animation, sound, update in data
@@ -154,10 +153,10 @@ func receive_attack(attackingUnit : SlotData):
 	tween.tween_property(unit_node, "modulate:v", 1, 0.25).from(15)
 	await tween.finished
 	
-	var damage_done = attackingUnit.unit_data.stat_data.getAttribute(GameData.UNIT_DATA_ATTRIBUTES.DAMAGE).value
+	var damage_done = attackingUnit.get_action_amount()
 	
 	# Check blocking
-	var adj_damage_done = damage_done
+	var adj_damage_done =  damage_done - self.slot_data.unit_data.stat_data.getAttribute(GameData.UNIT_DATA_ATTRIBUTES.DEFEND_RATIO).value 
 #	if self.slot_data.action_data == GameData.UNIT_ACTIONS["DEFEND"]:
 #		adj_damage_done = damage_done - ( damage_done * self.slot_data.unit_data.stat_data.getAttribute(GameData.UNIT_DATA_ATTRIBUTES.DEFEND).value )
 	
